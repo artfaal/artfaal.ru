@@ -109,14 +109,16 @@
 - [x] `<link rel="canonical">`
 - [x] `hreflang` заготовки для будущего en (закомментированы)
 
-### Шаг 8. GitHub Pages
+### Шаг 8. GitHub Pages + деплой ✅ (частично)
 
-Цель: сайт доступен по artfaal.ru.
-
-- [ ] CNAME файл для кастомного домена
-- [ ] Настройка DNS (A-записи / CNAME на GitHub)
-- [ ] Включить GitHub Pages в настройках репозитория
-- [ ] Проверить HTTPS
+- [x] CNAME файл для кастомного домена (коммит `86832e0`)
+- [x] Репозиторий: `artfaal/artfaal.ru`
+- [x] GitHub Pages: master / root
+- [x] Cloudflare DNS: CNAME artfaal.ru → artfaal.github.io
+- [x] Pre-commit hook: авто-перегенерация PDF при изменении content.js
+- [ ] Добавить CNAME www → artfaal.github.io в Cloudflare
+- [ ] Проверить HTTPS (Enforce HTTPS в GitHub Pages)
+- [ ] Проверить работоспособность сайта на artfaal.ru
 - [ ] 404.html (опционально)
 
 ### Шаг 9. Фото для занятий
