@@ -1,8 +1,17 @@
 #!/bin/sh
-# Перегенерирует PDF если content.js изменился
+# Pre-commit: тесты + перегенерация PDF
 
+# Перегенерирует PDF если content.js изменился
 if git diff --cached --name-only | grep -q 'src/js/content.js'; then
   echo "content.js changed — regenerating CV PDF..."
   node generate-cv.js
   git add assets/Solovev_Maksim_CV.pdf
+fi
+
+# Тесты
+echo "Running tests..."
+node test.js
+if [ $? -ne 0 ]; then
+  echo "Tests failed — commit aborted."
+  exit 1
 fi

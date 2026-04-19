@@ -1,0 +1,142 @@
+#!/usr/bin/env node
+// ============================================================
+// Тесты — валидация контента, PDF генерации, структуры
+// Использование: node test.js
+// ============================================================
+
+const fs = require('fs');
+const path = require('path');
+const { execSync } = require('child_process');
+
+const ROOT = __dirname;
+let passed = 0;
+let failed = 0;
+
+function ok(name) { console.log('  \x1b[32m✓\x1b[0m ' + name); passed++; }
+function fail(name, reason) { console.log('  \x1b[31m✗\x1b[0m ' + name + ' — ' + reason); failed++; }
+
+function assert(name, condition, reason) {
+  if (condition) ok(name);
+  else fail(name, reason || 'assertion failed');
+}
+
+// ── Загружаем контент ──
+eval(fs.readFileSync(path.join(ROOT, 'src/js/content.js'), 'utf8'));
+const c = CONTENT.ru;
+
+// ════════════════════════════════════════
+console.log('\n\x1b[1mContent validation\x1b[0m');
+// ════════════════════════════════════════
+
+// Meta
+assert('meta.handle', c.meta.handle === 'artfaal');
+assert('meta.host', !!c.meta.host);
+assert('meta.birth', !!c.meta.birth && !isNaN(Date.parse(c.meta.birth)));
+assert('meta.start_it', !!c.meta.start_it && !isNaN(Date.parse(c.meta.start_it)));
+assert('meta.start_devops', !!c.meta.start_devops && !isNaN(Date.parse(c.meta.start_devops)));
+
+// Hero
+assert('hero.name', !!c.hero.name);
+assert('hero.role', !!c.hero.role);
+assert('hero.tagline', !!c.hero.tagline);
+assert('hero.prompt_lines', Array.isArray(c.hero.prompt_lines) && c.hero.prompt_lines.length >= 2);
+assert('hero.cta_primary.href', !!c.hero.cta_primary.href);
+
+// Contacts
+assert('contacts.links >= 3', c.contacts.links.length >= 3);
+c.contacts.links.forEach(function(l) {
+  assert('contact.' + l.icon + ' has href', !!l.href);
+});
+
+// Personal page sections
+var p = c.personal;
+assert('personal.about.body', Array.isArray(p.about.body) && p.about.body.length > 0);
+assert('personal.value.items >= 3', p.value.items.length >= 3);
+assert('personal.principles.items >= 3', p.principles.items.length >= 3);
+assert('personal.human.cards >= 3', p.human.cards.length >= 3);
+assert('personal.exploring.items >= 1', p.exploring.items.length >= 1);
+
+// Human cards — images exist
+p.human.cards.forEach(function(card) {
+  var imgPath = path.join(ROOT, card.img);
+  assert('image: ' + card.img, fs.existsSync(imgPath), 'file not found');
+});
+
+// CV page sections
+var cv = c.cv;
+assert('cv.about.body', Array.isArray(cv.about.body) && cv.about.body.length > 0);
+assert('cv.experience.items >= 2', cv.experience.items.length >= 2);
+assert('cv.cases.items >= 3', cv.cases.items.length >= 3);
+assert('cv.skills.groups >= 2', cv.skills.groups.length >= 2);
+assert('cv.education.items >= 2', cv.education.items.length >= 2);
+
+// Experience items have required fields
+cv.experience.items.forEach(function(exp) {
+  assert('exp "' + exp.title + '" has groups', Array.isArray(exp.groups) && exp.groups.length > 0);
+});
+
+// Cases items have required fields
+cv.cases.items.forEach(function(cs) {
+  assert('case "' + cs.num + '" has all fields', !!cs.task && !!cs.did && !!cs.result && !!cs.lesson);
+});
+
+// ════════════════════════════════════════
+console.log('\n\x1b[1mFile structure\x1b[0m');
+// ════════════════════════════════════════
+
+var requiredFiles = [
+  'index.html',
+  'cv.html',
+  'robots.txt',
+  'sitemap.xml',
+  'CNAME',
+  'src/js/content.js',
+  'src/js/shared.js',
+  'src/js/icons.js',
+  'src/js/page-personal.js',
+  'src/js/page-cv.js',
+  'src/styles/base.css',
+  'src/styles/layout.css',
+  'src/styles/components.css',
+  'assets/avatar.webp',
+  'assets/photo.webp',
+  'generate-cv.js',
+];
+requiredFiles.forEach(function(f) {
+  assert(f, fs.existsSync(path.join(ROOT, f)), 'file missing');
+});
+
+// ════════════════════════════════════════
+console.log('\n\x1b[1mPDF generation\x1b[0m');
+// ════════════════════════════════════════
+
+try {
+  execSync('node generate-cv.js', { cwd: ROOT, stdio: 'pipe', timeout: 30000 });
+  var pdfPath = path.join(ROOT, 'assets', 'Solovev_Maksim_CV.pdf');
+  assert('PDF generated', fs.existsSync(pdfPath));
+  var pdfSize = fs.statSync(pdfPath).size;
+  assert('PDF size > 10KB', pdfSize > 10000, 'only ' + pdfSize + ' bytes');
+} catch (e) {
+  fail('PDF generation', e.message);
+}
+
+// ════════════════════════════════════════
+console.log('\n\x1b[1mHTML validation\x1b[0m');
+// ════════════════════════════════════════
+
+['index.html', 'cv.html'].forEach(function(file) {
+  var html = fs.readFileSync(path.join(ROOT, file), 'utf8');
+  assert(file + ' has lang="ru"', html.includes('lang="ru"'));
+  assert(file + ' has meta description', html.includes('meta name="description"'));
+  assert(file + ' has og:title', html.includes('og:title'));
+  assert(file + ' has canonical', html.includes('rel="canonical"'));
+  assert(file + ' has JSON-LD', html.includes('application/ld+json'));
+});
+
+// ════════════════════════════════════════
+// Summary
+// ════════════════════════════════════════
+console.log('\n' + (failed === 0 ? '\x1b[32m' : '\x1b[31m')
+  + 'Result: ' + passed + ' passed, ' + failed + ' failed\x1b[0m\n');
+
+process.exit(failed > 0 ? 1 : 0);
