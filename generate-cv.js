@@ -121,7 +121,7 @@ function buildHTML() {
       ${contacts.links.map(l => `<li><a href="${l.href}">${l.label}: ${l.handle}</a></li>`).join('\n      ')}
     </ul>
   </div>
-  <img class="header-photo" src="file://${path.join(__dirname, 'assets', 'photo.jpg')}">
+  <img class="header-photo" src="file://${path.join(__dirname, 'assets', 'photo.webp')}">
 </div>
 
 <!-- About -->

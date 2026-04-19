@@ -1,2 +1,8 @@
 .cv-tmp.html
 .DS_Store
+
+# Оригиналы фото (в репе только оптимизированные .webp)
+assets/*.jpg
+assets/*.jpeg
+assets/*.png
+assets/*.PNG
