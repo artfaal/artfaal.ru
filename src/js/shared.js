@@ -92,6 +92,7 @@ function renderNav(el, c, currentPage) {
     +     '<span class="seg-sep">|</span>'
     +     '<button class="seg-btn" id="lang-en" disabled title="coming soon">en</button>'
     +   '</div>'
+    +   '<a href="/assets/Solovev_Maksim_CV.pdf" download class="seg-btn seg-cv">' + icon('download', 12) + ' CV</a>'
     + '</div>';
 }
 

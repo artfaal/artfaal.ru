@@ -33,6 +33,19 @@
 .seg-btn:hover { color: var(--fg-2); }
 .seg-btn.is-on { color: var(--bg); background: var(--accent); }
 .seg-sep { color: var(--muted-2); }
+.seg-cv {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--accent-2);
+  color: var(--bg);
+  padding: 3px 8px;
+  border-radius: 4px;
+  margin-left: 6px;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+.seg-cv:hover { background: color-mix(in oklab, var(--accent-2) 85%, white); }
 
 /* ───────── Терминал ───────── */
 .terminal-head {
