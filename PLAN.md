@@ -94,20 +94,20 @@
   - 🚀 working (будни 10:00–18:30)
   - 🏖️ chilling (выходные)
   - 🟢 online (остальное)
-- [ ] **Фото при наведении на аватар:**
-  - По умолчанию: avatar.jpg
-  - Hover: плавный переход на photo.jpg
+- [x] **Фото при наведении на аватар** (коммит `afd1af0`):
+  - Crossfade 1.2s avatar.jpg → photo.jpg
+  - Фото добавлено в PDF шапку
 
-### Шаг 7. SEO и мета-данные
+### Шаг 7. SEO и мета-данные ✅
 
-Цель: страницы хорошо индексируются и показываются в поиске / LLM.
+Коммит: текущий
 
-- [ ] Open Graph мета-теги (title, description, image, url)
-- [ ] `<meta name="description">` — уникальный для каждой страницы
-- [ ] Structured data (JSON-LD): Person schema
-- [ ] `robots.txt`, `sitemap.xml`
-- [ ] `<link rel="canonical">`
-- [ ] `lang="ru"` + `hreflang` заготовки для будущего en
+- [x] `<meta name="description">` — уникальный для каждой страницы
+- [x] Open Graph мета-теги (title, description, image, url, locale, site_name)
+- [x] JSON-LD Person schema (имя, должность, ссылки, компетенции, worksFor)
+- [x] `robots.txt` + `sitemap.xml`
+- [x] `<link rel="canonical">`
+- [x] `hreflang` заготовки для будущего en (закомментированы)
 
 ### Шаг 8. GitHub Pages
 
