@@ -48,7 +48,9 @@ function buildHTML() {
   }
 
   /* Header */
-  .header { margin-bottom: 14px; padding-bottom: 10px; border-bottom: 2px solid #111; }
+  .header { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 2px solid #111; }
+  .header-left { flex: 1; }
+  .header-photo { width: 180px; height: 180px; border-radius: 8px; object-fit: cover; }
   .name { font-size: 24pt; font-weight: 700; letter-spacing: -0.5px; }
   .role { font-size: 11pt; color: #444; margin-bottom: 6px; }
   .age { font-size: 9pt; color: #555; margin-bottom: 6px; }
@@ -111,12 +113,15 @@ function buildHTML() {
 
 <!-- Header -->
 <div class="header">
-  <div class="name">${hero.name}</div>
-  <div class="role">${hero.role}, ${calcAge(c.meta.birth)} лет</div>
-  <div class="age">${calcYears(c.meta.start_it)}+ лет в IT, ${calcYears(c.meta.start_devops)}+ лет в DevOps</div>
-  <ul class="contacts-list">
-    ${contacts.links.map(l => `<li><a href="${l.href}">${l.label}: ${l.handle}</a></li>`).join('\n    ')}
-  </ul>
+  <div class="header-left">
+    <div class="name">${hero.name}</div>
+    <div class="role">${hero.role}, ${calcAge(c.meta.birth)} лет</div>
+    <div class="age">${calcYears(c.meta.start_it)}+ лет в IT, ${calcYears(c.meta.start_devops)}+ лет в DevOps</div>
+    <ul class="contacts-list">
+      ${contacts.links.map(l => `<li><a href="${l.href}">${l.label}: ${l.handle}</a></li>`).join('\n      ')}
+    </ul>
+  </div>
+  <img class="header-photo" src="file://${path.join(__dirname, 'assets', 'photo.jpg')}">
 </div>
 
 <!-- About -->
