@@ -26,21 +26,11 @@ function sectionAbout(d) {
     return '<p class="para">' + p + '</p>';
   }).join('');
 
-  var stats = d.stats.map(function(s) {
-    return '<div class="stat">'
-      + '<div class="stat-v">' + s.v + '</div>'
-      + '<div class="stat-k">' + s.k + '</div>'
-      + '</div>';
-  }).join('');
-
   return '<section class="sect sect-about" id="about">'
     + asciiRuleHTML(d.head, d.n)
     + '<div class="sect-grid">'
     +   '<div class="sect-title"><h2>' + d.title + '</h2></div>'
-    +   '<div class="sect-body">'
-    +     body
-    +     '<div class="stat-row">' + stats + '</div>'
-    +   '</div>'
+    +   '<div class="sect-body">' + body + '</div>'
     + '</div>'
     + '</section>';
 }

@@ -27,6 +27,10 @@ function calcAge(dateStr) {
   return age;
 }
 
+function calcYears(dateStr) {
+  return Math.floor((new Date() - new Date(dateStr)) / (365.25 * 24 * 3600 * 1000));
+}
+
 // ── HTML-шаблон CV ──
 function buildHTML() {
   return `<!DOCTYPE html>
@@ -108,8 +112,8 @@ function buildHTML() {
 <!-- Header -->
 <div class="header">
   <div class="name">${hero.name}</div>
-  <div class="role">${hero.role}</div>
-  <div class="age">${calcAge('1989-07-24')} лет</div>
+  <div class="role">${hero.role}, ${calcAge(c.meta.birth)} лет</div>
+  <div class="age">${calcYears(c.meta.start_it)}+ лет в IT, ${calcYears(c.meta.start_devops)}+ лет в DevOps</div>
   <ul class="contacts-list">
     ${contacts.links.map(l => `<li><a href="${l.href}">${l.label}: ${l.handle}</a></li>`).join('\n    ')}
   </ul>

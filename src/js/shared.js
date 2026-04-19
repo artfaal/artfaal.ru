@@ -140,8 +140,10 @@ function renderHero(el, c, pageTitle) {
     +       '</div>'
     +       '<div class="avatar-meta">'
     +         metaRowHTML('user', meta.handle)
-    +         metaRowHTML('age', calcAge('1989-07-24'))
+    +         metaRowHTML('age', calcAge(meta.birth))
     +         metaRowHTML('role', hero.role)
+    +         metaRowHTML('в IT', '<span id="exp-it">...</span>')
+    +         metaRowHTML('в DevOps', '<span id="exp-devops">...</span>')
     +         metaRowHTML('status', '<span class="status-on">\u25CF online</span>')
     +         metaRowHTML('host', meta.host)
     +       '</div>'
@@ -186,6 +188,40 @@ function renderFooter(el, data) {
     +   data.built + ' &middot; ' + year
     +   ' &middot; <a href="mailto:sys.dll@gmail.com">sys.dll@gmail.com</a>'
     + '</span>';
+}
+
+// ── Счётчик опыта (живой) ──
+function formatDuration(startStr) {
+  var start = new Date(startStr);
+  var now = new Date();
+
+  // Календарные годы/месяцы/дни
+  var y = now.getFullYear() - start.getFullYear();
+  var m = now.getMonth() - start.getMonth();
+  var d = now.getDate() - start.getDate();
+  if (d < 0) { m--; d += new Date(now.getFullYear(), now.getMonth(), 0).getDate(); }
+  if (m < 0) { y--; m += 12; }
+
+  // Часы/минуты/секунды из остатка дня
+  var sec = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+  var hr = Math.floor(sec / 3600); sec %= 3600;
+  var min = Math.floor(sec / 60); sec %= 60;
+
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+  return y + ' лет ' + m + ' мес ' + d + ' дн ' + pad(hr) + ':' + pad(min) + ':' + pad(sec);
+}
+
+function initExpCounters(meta) {
+  var elIT = document.getElementById('exp-it');
+  var elDO = document.getElementById('exp-devops');
+  if (!elIT || !elDO) return;
+
+  function tick() {
+    elIT.textContent = formatDuration(meta.start_it);
+    elDO.textContent = formatDuration(meta.start_devops);
+  }
+  tick();
+  setInterval(tick, 1000);
 }
 
 // ── Терминальная анимация набора ──
@@ -355,6 +391,9 @@ function initPage(currentPage) {
 
   // Терминальная анимация
   initTerminalTyping(c.hero.prompt_lines, c.meta.handle, c.meta.host);
+
+  // Живые счётчики опыта
+  initExpCounters(c.meta);
 
   return c;
 }
