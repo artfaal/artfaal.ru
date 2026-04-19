@@ -161,7 +161,7 @@ function renderContacts(data) {
     +     '<h2>' + data.title + '</h2>'
     +     '<p class="sect-sub">' + data.sub + '</p>'
     +   '</div>'
-    +   '<ul class="contact-list">' + html + '</ul>'
+    +   '<ul class="contact-list stagger">' + html + '</ul>'
     + '</div>'
     + '</section>';
 }
@@ -385,6 +385,7 @@ function initScrollReveal() {
     });
   }, { threshold: 0.08 });
   document.querySelectorAll('.sect').forEach(function(el) {
+    if (el.querySelector('.stagger')) el.classList.add('has-stagger');
     observer.observe(el);
   });
 }
@@ -432,14 +433,18 @@ function initScrollUI() {
   document.body.appendChild(btn);
 
   // Обновление при скролле
+  var avatar = window.innerWidth >= 900 ? document.querySelector('.avatar-wrap') : null;
   var ticking = false;
   function onScroll() {
     if (!ticking) {
       requestAnimationFrame(function() {
+        var scrollY = window.scrollY;
         var h = document.documentElement.scrollHeight - window.innerHeight;
-        var pct = h > 0 ? (window.scrollY / h) * 100 : 0;
+        var pct = h > 0 ? (scrollY / h) * 100 : 0;
         bar.style.width = pct + '%';
-        btn.classList.toggle('is-visible', window.scrollY > 400);
+        btn.classList.toggle('is-visible', scrollY > 400);
+        // Parallax на аватаре
+        if (avatar) avatar.style.transform = 'translateY(' + (scrollY * 0.08) + 'px)';
         ticking = false;
       });
       ticking = true;

@@ -80,7 +80,7 @@ function sectionExperience(d) {
     + asciiRuleHTML(d.head, d.n)
     + '<div class="sect-grid">'
     +   '<div class="sect-title"><h2>' + d.title + '</h2></div>'
-    +   '<div class="exp-list">' + items + '</div>'
+    +   '<div class="exp-list stagger">' + items + '</div>'
     + '</div>'
     + '</section>';
 }
@@ -119,7 +119,7 @@ function sectionCases(d) {
     + asciiRuleHTML(d.head, d.n)
     + '<div class="sect-grid">'
     +   '<div class="sect-title"><h2>' + d.title + '</h2></div>'
-    +   '<div class="cases-list">' + items + '</div>'
+    +   '<div class="cases-list stagger">' + items + '</div>'
     + '</div>'
     + '</section>';
 }
@@ -140,7 +140,7 @@ function sectionSkills(d) {
     + asciiRuleHTML(d.head, d.n)
     + '<div class="sect-grid">'
     +   '<div class="sect-title"><h2>' + d.title + '</h2></div>'
-    +   '<div class="skills-grid">' + groups + '</div>'
+    +   '<div class="skills-grid stagger">' + groups + '</div>'
     + '</div>'
     + '</section>';
 }

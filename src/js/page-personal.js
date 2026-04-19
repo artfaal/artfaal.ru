@@ -51,7 +51,7 @@ function sectionValue(d) {
     + asciiRuleHTML(d.head, d.n)
     + '<div class="sect-grid">'
     +   '<div class="sect-title"><h2>' + d.title + '</h2></div>'
-    +   '<ul class="value-list">' + items + '</ul>'
+    +   '<ul class="value-list stagger">' + items + '</ul>'
     + '</div>'
     + '</section>';
 }
@@ -76,7 +76,7 @@ function sectionPrinciples(d) {
     +     '<h2>' + d.title + '</h2>'
     +     '<p class="sect-sub">' + d.sub + '</p>'
     +   '</div>'
-    +   '<div class="principles-grid">' + items + '</div>'
+    +   '<div class="principles-grid stagger">' + items + '</div>'
     + '</div>'
     + '</section>';
 }
@@ -101,7 +101,7 @@ function sectionHuman(d) {
     +     '<h2>' + d.title + '</h2>'
     +     '<p class="sect-sub">' + d.sub + '</p>'
     +   '</div>'
-    +   '<div class="human-grid">' + cards + '</div>'
+    +   '<div class="human-grid stagger">' + cards + '</div>'
     + '</div>'
     + '</section>';
 }
@@ -145,7 +145,7 @@ function sectionExploring(d) {
     +     '<h2>' + d.title + '</h2>'
     +     '<p class="sect-sub">' + d.sub + '</p>'
     +   '</div>'
-    +   '<div class="exploring-list">' + items + '</div>'
+    +   '<div class="exploring-list stagger">' + items + '</div>'
     + '</div>'
     + '</section>';
 }

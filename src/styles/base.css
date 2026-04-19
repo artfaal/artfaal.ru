@@ -90,3 +90,25 @@ body::after {
   opacity: 1;
   transform: none;
 }
+
+/* Секции со stagger: секция появляется мгновенно, дети — каскадом */
+.sect.has-stagger {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+/* ───────── Staggered reveal для дочерних элементов ───────── */
+.stagger > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.in-view .stagger > * { opacity: 1; transform: none; }
+.in-view .stagger > *:nth-child(2) { transition-delay: 0.15s; }
+.in-view .stagger > *:nth-child(3) { transition-delay: 0.30s; }
+.in-view .stagger > *:nth-child(4) { transition-delay: 0.45s; }
+.in-view .stagger > *:nth-child(5) { transition-delay: 0.60s; }
+.in-view .stagger > *:nth-child(6) { transition-delay: 0.75s; }
+.in-view .stagger > *:nth-child(7) { transition-delay: 0.90s; }
+.in-view .stagger > *:nth-child(8) { transition-delay: 1.05s; }
