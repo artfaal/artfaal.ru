@@ -113,12 +113,8 @@ function renderHero(el, c, pageTitle) {
     +       '<span class="tname">' + meta.handle + '@' + meta.host + ' — ' + meta.shell + '</span>'
     +     '</div>'
     +     '<div class="terminal-body" id="terminal-body">'
-    // Статичные prompt-строки (анимация будет в Шаге 2)
-    +       '<div class="tline">' + promptHTML(meta.handle, meta.host, hero.prompt_lines[0]) + '</div>'
-    +       '<div class="tline">' + promptHTML(meta.handle, meta.host, hero.prompt_lines[1]) + '</div>'
-    +       '<div class="tline">' + promptHTML(meta.handle, meta.host, '') + '<span class="cursor"></span></div>'
-    // Hero-контент внутри терминала
-    +       '<div class="hero-body is-on">'
+    +       '<div id="terminal-lines"></div>'
+    +       '<div class="hero-body" id="hero-body">'
     +         '<div class="hero-role">' + hero.role + '</div>'
     +         '<h1 class="hero-name">' + hero.name + '</h1>'
     +         '<p class="hero-tagline">' + hero.tagline + '</p>'
@@ -190,6 +186,143 @@ function renderFooter(el, data) {
     + '</span>';
 }
 
+// ── Терминальная анимация набора ──
+function initTerminalTyping(lines, user, host) {
+  var container = document.getElementById('terminal-lines');
+  var heroBody = document.getElementById('hero-body');
+  var termBody = container.parentNode;
+
+  function makePromptDiv() {
+    var div = document.createElement('div');
+    div.className = 'tline';
+    div.innerHTML = promptHTML(user, host, '') + '<span class="cursor"></span>';
+    container.appendChild(div);
+    return div;
+  }
+
+  // Резервируем высоту terminal-body целиком (prompt-строки + hero-body),
+  // чтобы блок не прыгал при наборе и появлении контента
+  for (var k = 0; k <= lines.length; k++) {
+    var tmp = document.createElement('div');
+    tmp.className = 'tline';
+    tmp.innerHTML = promptHTML(user, host, k < lines.length ? lines[k] : '');
+    container.appendChild(tmp);
+  }
+  heroBody.style.cssText = 'opacity:1;transform:none;transition:none';
+  termBody.style.minHeight = termBody.offsetHeight + 'px';
+  heroBody.style.cssText = 'opacity:0;transform:translateY(10px)';
+  container.innerHTML = '';
+
+  // Набор prompt-строк посимвольно
+  var i = 0, j = 0;
+  var currentDiv = makePromptDiv();
+
+  function typeNext() {
+    if (i >= lines.length) {
+      setTimeout(function() { revealGlitch(heroBody); }, 700);
+      return;
+    }
+    var line = lines[i];
+    if (j <= line.length) {
+      currentDiv.innerHTML = promptHTML(user, host, line.slice(0, j))
+        + '<span class="cursor"></span>';
+      j++;
+      setTimeout(typeNext, 80);
+    } else {
+      currentDiv.innerHTML = promptHTML(user, host, line);
+      i++;
+      j = 0;
+      currentDiv = makePromptDiv();
+      setTimeout(typeNext, i >= lines.length ? 0 : 400);
+    }
+  }
+
+  setTimeout(typeNext, 500);
+}
+
+// ── Глитч-reveal: параллельный набор с декодированием ──
+function revealGlitch(heroBody) {
+  var GLYPHS = '\u2588\u2593\u2592\u2591@#$%&*!?/\\|<>{}[]~^';
+  var TICK = 18;
+  var DECODE_TICKS = 4;
+  var SPEED = [3, 3, 1, 1]; // role и name в 3x медленнее
+
+  function randGlyph() {
+    return GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+  }
+
+  var targets = heroBody.querySelectorAll('.hero-role, .hero-name, .hero-tagline, .hero-sub');
+  var cta = heroBody.querySelector('.hero-cta');
+  var ctaBtns = cta ? cta.querySelectorAll('.btn') : [];
+
+  // Сохраняем текст, очищаем (высота уже зафиксирована)
+  var originals = [];
+  for (var i = 0; i < targets.length; i++) {
+    originals.push(targets[i].textContent);
+    targets[i].textContent = '';
+  }
+
+  // Прячем кнопки до завершения
+  if (cta) cta.style.opacity = '0';
+  for (var b = 0; b < ctaBtns.length; b++) {
+    ctaBtns[b].style.cssText = 'opacity:0;transform:translateY(12px) scale(0.95);'
+      + 'transition:opacity 0.8s ease,transform 0.8s cubic-bezier(0.34,1.56,0.64,1)';
+  }
+
+  // Показываем блок (текст пустой — без моргания)
+  heroBody.style.cssText = 'opacity:1;transform:none;transition:none';
+
+  // Состояние каждого элемента
+  var states = [];
+  for (var i = 0; i < targets.length; i++) {
+    states.push({ pos: 0, chars: [], tick: 0, every: SPEED[i] || 1 });
+  }
+
+  var iv = setInterval(function() {
+    var allDone = true;
+
+    for (var i = 0; i < targets.length; i++) {
+      var st = states[i];
+      var orig = originals[i];
+
+      // Новый символ каждые st.every тиков
+      st.tick++;
+      if (st.tick % st.every === 0 && st.pos < orig.length) {
+        st.chars.push({ real: orig[st.pos], ticks: orig[st.pos] === ' ' ? 0 : DECODE_TICKS });
+        st.pos++;
+      }
+
+      // Рендер: глитч → реальный символ
+      var out = '';
+      var done = st.pos >= orig.length;
+      for (var c = 0; c < st.chars.length; c++) {
+        var ch = st.chars[c];
+        if (ch.ticks > 0) { out += randGlyph(); ch.ticks--; done = false; }
+        else { out += ch.real; }
+      }
+      targets[i].textContent = out;
+      if (!done) allDone = false;
+    }
+
+    if (allDone) {
+      clearInterval(iv);
+      for (var i = 0; i < targets.length; i++) targets[i].textContent = originals[i];
+
+      // Кнопки — bounce-появление
+      if (cta) {
+        setTimeout(function() {
+          cta.style.opacity = '1';
+          for (var b = 0; b < ctaBtns.length; b++) {
+            (function(btn, d) {
+              setTimeout(function() { btn.style.cssText = ''; }, d);
+            })(ctaBtns[b], b * 250);
+          }
+        }, 500);
+      }
+    }
+  }, TICK);
+}
+
 // ── Scroll reveal ──
 function initScrollReveal() {
   var observer = new IntersectionObserver(function(entries) {
@@ -217,6 +350,9 @@ function initPage(currentPage) {
 
   // Футер
   renderFooter(document.getElementById('footer'), c.footer);
+
+  // Терминальная анимация
+  initTerminalTyping(c.hero.prompt_lines, c.meta.handle, c.meta.host);
 
   return c;
 }

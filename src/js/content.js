@@ -15,8 +15,8 @@ var CONTENT = {
 
     // ── Мета ──
     meta: {
-      title_personal: "Соловьёв Максим — DevOps",
-      title_cv: "Соловьёв Максим — CV",
+      title_personal: "Соловьев Максим — DevOps",
+      title_cv: "Соловьев Максим — CV",
       handle: "artfaal",
       host: "solovev.dev",
       shell: "zsh",
@@ -31,14 +31,14 @@ var CONTENT = {
 
     // ── Hero (общий для обеих страниц) ──
     hero: {
-      name: "Соловьёв Максим",
+      name: "Соловьев Максим",
       role: "DevOps-инженер",
       tagline: "Навожу порядок в сложных системах и автоматизирую рутину так, чтобы у людей оставались силы на жизнь.",
       sub: "Сейчас особенно копаю LLM-инструменты — те, что помогают делу, а не плодят новый зоопарк.",
       cta_primary: { label: "написать", href: "https://t.me/artfaal" },
       cta_secondary: { label: "github", href: "https://github.com/artfaal" },
       // Строки для терминальной анимации набора
-      prompt_lines: ["whoami", "cat ~/about.md"],
+      prompt_lines: ["whoami", "cat ~/human.md"],
     },
 
     // ── Контакты (общие) ──

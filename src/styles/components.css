@@ -55,6 +55,7 @@
   padding: 16px 14px 20px;
   font-family: var(--mono);
   font-size: 13px;
+  min-height: 340px;
 }
 .tline { margin-bottom: 6px; color: var(--fg-2); }
 .prompt-line { white-space: pre-wrap; word-break: break-all; }
