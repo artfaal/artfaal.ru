@@ -412,5 +412,39 @@ function initPage(currentPage) {
   initExpCounters(c.meta);
   initStatusUpdater();
 
+  // Scroll progress + кнопка наверх
+  initScrollUI();
+
   return c;
+}
+
+function initScrollUI() {
+  // Progress bar
+  var bar = document.createElement('div');
+  bar.className = 'scroll-progress';
+  document.body.appendChild(bar);
+
+  // Кнопка наверх
+  var btn = document.createElement('button');
+  btn.className = 'btn-top';
+  btn.innerHTML = icon('arrow', 16);
+  btn.onclick = function() { window.scrollTo({ top: 0, behavior: 'smooth' }); };
+  document.body.appendChild(btn);
+
+  // Обновление при скролле
+  var ticking = false;
+  function onScroll() {
+    if (!ticking) {
+      requestAnimationFrame(function() {
+        var h = document.documentElement.scrollHeight - window.innerHeight;
+        var pct = h > 0 ? (window.scrollY / h) * 100 : 0;
+        bar.style.width = pct + '%';
+        btn.classList.toggle('is-visible', window.scrollY > 400);
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
 }
