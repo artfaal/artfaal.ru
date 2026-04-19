@@ -150,7 +150,8 @@ function renderHero(el, c, pageTitle) {
 }
 
 // ── Рендер: Контакты ──
-function renderContacts(data, n) {
+function renderContacts(data) {
+  var n = data.n;
   var html = '';
   data.links.forEach(function(l) {
     html += '<li>'

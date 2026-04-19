@@ -42,8 +42,21 @@ var CONTENT = {
     },
 
     // ── Контакты (общие) ──
+    // ── Блог / заметки ──
+    blog: {
+      head: "// blog",
+      n: "05",
+      title: "Блог",
+      sub: "Живые заметки о технике, жизни и том, что реально зацепило. Дамп сознания, без редактуры «под аудиторию».",
+      links: [
+        { label: "Telegram-канал", handle: "@artfaal_log", href: "https://t.me/artfaal_log", icon: "tg" },
+        { label: "Лонгриды", handle: "log.artfaal.ru", href: "https://log.artfaal.ru/", icon: "blog" },
+      ],
+    },
+
     contacts: {
       head: "// contact",
+      n: "06",
       title: "Связаться",
       sub: "Лучше всего — Telegram. Остальное тоже работает.",
       links: [
@@ -70,7 +83,7 @@ var CONTENT = {
       // -- Короткий портрет --
       about: {
         head: "// about",
-        n: "02",
+        n: "00",
         title: "Короткий портрет",
         body: [
           "13 лет в IT — от единственного сисадмина в маленькой компании до DevOps-эксперта в «Инфосистемы Джет».",
@@ -89,7 +102,7 @@ var CONTENT = {
       // -- Чем полезен --
       value: {
         head: "// value",
-        n: "03",
+        n: "01",
         title: "Чем полезен",
         items: [
           {
@@ -128,7 +141,7 @@ var CONTENT = {
       // -- Принципы --
       principles: {
         head: "// principles",
-        n: "04",
+        n: "02",
         title: "Принципы",
         sub: "Несколько правил, по которым я работаю. Не манифест — просто то, что себя окупило.",
         items: [
@@ -168,7 +181,7 @@ var CONTENT = {
       // -- Человеческий блок --
       human: {
         head: "// human",
-        n: "05",
+        n: "03",
         title: "По-человечески",
         sub: "Не «хобби», а то, что объясняет характер.",
         cards: [
@@ -208,7 +221,7 @@ var CONTENT = {
       // -- Сейчас копаю --
       exploring: {
         head: "// exploring",
-        n: "06",
+        n: "04",
         title: "Сейчас копаю",
         sub: "Что интересует прямо сейчас.",
         items: [
@@ -236,7 +249,7 @@ var CONTENT = {
       // -- About (расширенный, для работодателей) --
       about: {
         head: "// about",
-        n: "02",
+        n: "00",
         title: "Обо мне",
         body: [
           "DevOps Expert Engineer, 13 лет в IT. DevOps на антифрод-платформе Jet Detective («Инфосистемы Джет»). Построил с нуля CI/CD, мониторинг и систему управления 160+ ВМ.",
@@ -247,7 +260,7 @@ var CONTENT = {
       // -- Опыт работы --
       experience: {
         head: "// experience",
-        n: "03",
+        n: "01",
         title: "Опыт работы",
         items: [
           {
@@ -352,7 +365,7 @@ var CONTENT = {
       // -- Кейсы --
       cases: {
         head: "// cases",
-        n: "04",
+        n: "02",
         title: "Избранные кейсы",
         items: [
           {
@@ -401,7 +414,7 @@ var CONTENT = {
       // -- Навыки / стек --
       skills: {
         head: "// skills",
-        n: "05",
+        n: "03",
         title: "Навыки",
         groups: [
           {
@@ -422,7 +435,7 @@ var CONTENT = {
       // -- Образование --
       education: {
         head: "// education",
-        n: "06",
+        n: "04",
         title: "Образование и сертификаты",
         items: [
           {

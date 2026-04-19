@@ -13,7 +13,8 @@ document.addEventListener('DOMContentLoaded', function() {
     sectionPrinciples(p.principles),
     sectionHuman(p.human),
     sectionExploring(p.exploring),
-    renderContacts(c.contacts, '07'),
+    sectionBlog(c.blog),
+    renderContacts(c.contacts),
   ].join('');
 
   initScrollReveal();
@@ -111,6 +112,29 @@ function sectionHuman(d) {
     +     '<p class="sect-sub">' + d.sub + '</p>'
     +   '</div>'
     +   '<div class="human-grid">' + cards + '</div>'
+    + '</div>'
+    + '</section>';
+}
+
+// ── Blog ──
+function sectionBlog(d) {
+  var links = d.links.map(function(l) {
+    return '<a class="blog-link" href="' + l.href + '" target="_blank" rel="noopener">'
+      + '<span class="cr-icon">' + icon(l.icon, 18) + '</span>'
+      + '<span class="blog-link-label">' + l.label + '</span>'
+      + '<span class="blog-link-handle">' + l.handle + '</span>'
+      + '<span class="cr-ext">' + icon('ext', 14) + '</span>'
+      + '</a>';
+  }).join('');
+
+  return '<section class="sect sect-blog" id="blog">'
+    + asciiRuleHTML(d.head, d.n)
+    + '<div class="sect-grid">'
+    +   '<div class="sect-title">'
+    +     '<h2>' + d.title + '</h2>'
+    +     '<p class="sect-sub">' + d.sub + '</p>'
+    +   '</div>'
+    +   '<div class="blog-links">' + links + '</div>'
     + '</div>'
     + '</section>';
 }

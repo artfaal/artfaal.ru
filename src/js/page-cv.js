@@ -13,11 +13,31 @@ document.addEventListener('DOMContentLoaded', function() {
     sectionCases(cv.cases),
     sectionSkills(cv.skills),
     sectionEducation(cv.education),
-    renderContacts(c.contacts, '07'),
+    renderContacts(c.contacts),
   ].join('');
 
   initScrollReveal();
+  initCaseAccordion();
 });
+
+function initCaseAccordion() {
+  document.querySelectorAll('.case-header').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var item = btn.parentNode;
+      var isOpen = item.classList.contains('is-open');
+      // Закрыть все
+      document.querySelectorAll('.case-item.is-open').forEach(function(el) {
+        el.classList.remove('is-open');
+        el.querySelector('.case-header').setAttribute('aria-expanded', 'false');
+      });
+      // Открыть текущий (если был закрыт)
+      if (!isOpen) {
+        item.classList.add('is-open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+}
 
 // ── About (CV) ──
 function sectionCvAbout(d) {
@@ -65,27 +85,32 @@ function sectionExperience(d) {
     + '</section>';
 }
 
-// ── Cases ──
+// ── Cases (accordion) ──
 function sectionCases(d) {
   var items = d.items.map(function(c) {
     return '<article class="case-item">'
-      + '<div class="case-num">' + c.num + '</div>'
-      + '<h3 class="case-title">' + c.title + '</h3>'
-      + '<div class="case-block">'
-      +   '<div class="case-label">Задача</div>'
-      +   '<p class="case-text">' + c.task + '</p>'
-      + '</div>'
-      + '<div class="case-block">'
-      +   '<div class="case-label">Что сделал</div>'
-      +   '<p class="case-text">' + c.did + '</p>'
-      + '</div>'
-      + '<div class="case-block">'
-      +   '<div class="case-label">Результат</div>'
-      +   '<p class="case-text">' + c.result + '</p>'
-      + '</div>'
-      + '<div class="case-block">'
-      +   '<div class="case-label">Урок</div>'
-      +   '<p class="case-text">' + c.lesson + '</p>'
+      + '<button class="case-header" aria-expanded="false">'
+      +   '<div class="case-num">' + c.num + '</div>'
+      +   '<h3 class="case-title">' + c.title + '</h3>'
+      +   '<span class="case-chevron">' + icon('arrow', 14) + '</span>'
+      + '</button>'
+      + '<div class="case-body">'
+      +   '<div class="case-block">'
+      +     '<div class="case-label">Задача</div>'
+      +     '<p class="case-text">' + c.task + '</p>'
+      +   '</div>'
+      +   '<div class="case-block">'
+      +     '<div class="case-label">Что сделал</div>'
+      +     '<p class="case-text">' + c.did + '</p>'
+      +   '</div>'
+      +   '<div class="case-block">'
+      +     '<div class="case-label">Результат</div>'
+      +     '<p class="case-text">' + c.result + '</p>'
+      +   '</div>'
+      +   '<div class="case-block">'
+      +     '<div class="case-label">Урок</div>'
+      +     '<p class="case-text">' + c.lesson + '</p>'
+      +   '</div>'
       + '</div>'
       + '</article>';
   }).join('');
