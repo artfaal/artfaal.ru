@@ -155,7 +155,10 @@
   opacity: 0.6;
 }
 .avatar-meta { font-family: var(--mono); font-size: 12px; color: var(--muted); }
-.status-on { color: oklch(0.78 0.14 145); }
+.status-on    { color: oklch(0.78 0.14 145); } /* зелёный */
+.status-work  { color: var(--accent); }        /* amber — работает */
+.status-chill { color: var(--accent-2); }      /* cyan — отдыхает */
+.status-sleep { color: var(--muted-2); }       /* приглушённый — спит */
 
 /* ───────── Meta row ───────── */
 .meta-row {

@@ -144,7 +144,7 @@ function renderHero(el, c, pageTitle) {
     +         metaRowHTML('role', hero.role)
     +         metaRowHTML('в IT', '<span id="exp-it">...</span>')
     +         metaRowHTML('в DevOps', '<span id="exp-devops">...</span>')
-    +         metaRowHTML('status', '<span class="status-on">\u25CF online</span>')
+    +         metaRowHTML('status', '<span id="live-status" class="status-on">\u25CF online</span>')
     +         metaRowHTML('host', meta.host)
     +       '</div>'
     +     '</div>'
@@ -188,6 +188,35 @@ function renderFooter(el, data) {
     +   data.built + ' &middot; ' + year
     +   ' &middot; <a href="mailto:sys.dll@gmail.com">sys.dll@gmail.com</a>'
     + '</span>';
+}
+
+// ── Динамический статус по MSK ──
+function getMskStatus() {
+  var msk = new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/Moscow' }));
+  var day = msk.getDay(); // 0=вс, 6=сб
+  var h = msk.getHours();
+  var m = msk.getMinutes();
+  var t = h * 60 + m; // минуты от полуночи
+
+  var isWeekend = day === 0 || day === 6;
+  // 00:30–08:30 → sleeping
+  if (t >= 30 && t < 510)    return { text: 'sleeping', icon: '\u{1F319}', cls: 'status-sleep' }; // 00:30–08:30
+  if (isWeekend)             return { text: 'chilling', icon: '\u{1F3D6}\uFE0F', cls: 'status-chill' };
+  if (t >= 600 && t < 1110)  return { text: 'working', icon: '\u{1F680}', cls: 'status-work' };  // 10:00–18:30
+  return { text: 'online', icon: '\u{1F7E2}', cls: 'status-on' };
+}
+
+function initStatusUpdater() {
+  var el = document.getElementById('live-status');
+  if (!el) return;
+
+  function update() {
+    var s = getMskStatus();
+    el.className = s.cls;
+    el.textContent = s.icon + ' ' + s.text;
+  }
+  update();
+  setInterval(update, 60000); // проверяем раз в минуту
 }
 
 // ── Счётчик опыта (живой) ──
@@ -392,8 +421,9 @@ function initPage(currentPage) {
   // Терминальная анимация
   initTerminalTyping(c.hero.prompt_lines, c.meta.handle, c.meta.host);
 
-  // Живые счётчики опыта
+  // Живые фичи
   initExpCounters(c.meta);
+  initStatusUpdater();
 
   return c;
 }
