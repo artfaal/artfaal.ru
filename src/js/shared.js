@@ -57,20 +57,6 @@ function asciiRuleHTML(label, n) {
     + '</div>';
 }
 
-// ── Stripe placeholder (заглушка для изображений) ──
-function stripePlaceholderHTML(label, idx) {
-  var isAccent = idx % 2 === 0;
-  var bg = isAccent ? 'var(--accent)' : 'var(--panel-2)';
-  var fg = isAccent ? 'var(--bg)' : 'var(--fg-2)';
-  return '<div class="stripe-ph" style="aspect-ratio:4/3;'
-    + 'background:repeating-linear-gradient(135deg,' + bg + ' 0 14px,color-mix(in oklab,' + bg + ' 85%,black) 14px 28px);'
-    + 'color:' + fg + '">'
-    + '<div class="stripe-ph-inner">'
-    + '<span class="stripe-ph-dot"></span>'
-    + '<span class="stripe-ph-label">' + label + '</span>'
-    + '</div></div>';
-}
-
 // ── Рендер: Навигация ──
 function renderNav(el, c, currentPage) {
   var isPersonal = currentPage === 'personal';

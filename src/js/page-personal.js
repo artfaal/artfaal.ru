@@ -83,9 +83,9 @@ function sectionPrinciples(d) {
 
 // ── Human ──
 function sectionHuman(d) {
-  var cards = d.cards.map(function(c, i) {
+  var cards = d.cards.map(function(c) {
     return '<article class="human-card">'
-      + stripePlaceholderHTML(c.img, i)
+      + '<div class="hc-img"><img src="' + c.img + '" alt="' + c.t + '" loading="lazy"></div>'
       + '<div class="hc-body">'
       +   '<div class="hc-tag">' + c.tag + '</div>'
       +   '<div class="hc-t">' + c.t + '</div>'

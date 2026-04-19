@@ -335,23 +335,16 @@
   transform: translateY(-3px);
   border-color: var(--accent);
 }
-.stripe-ph { width: 100%; position: relative; }
-.stripe-ph-inner {
-  position: absolute; inset: 12px;
-  display: flex; align-items: flex-end; gap: 8px;
-  font-family: var(--mono); font-size: 11px;
-  text-transform: uppercase; letter-spacing: 0.1em;
+.hc-img {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
 }
-.stripe-ph-dot {
-  width: 10px; height: 10px;
-  background: currentColor;
-  border-radius: 2px;
+.hc-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
 }
-.stripe-ph-label {
-  padding: 2px 6px;
-  background: color-mix(in oklab, black 35%, transparent);
-  color: inherit;
-}
+.human-card:hover .hc-img img { transform: scale(1.05); }
 .hc-body { padding: 18px 20px 22px; }
 .hc-tag {
   font-family: var(--mono);
