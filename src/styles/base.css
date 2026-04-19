@@ -1,0 +1,92 @@
+/* ───────── Токены ───────── */
+:root {
+  --bg:      #111110;
+  --bg-2:    #1a1917;
+  --panel:   #1d1c1a;
+  --panel-2: #24231f;
+  --line:    #2e2c27;
+  --line-2:  #3a3832;
+  --fg:      #f0ead8;
+  --fg-2:    #d9d2bd;
+  --muted:   #8d887a;
+  --muted-2: #6a665b;
+  --accent:   oklch(0.82 0.17 85);
+  --accent-2: oklch(0.82 0.14 205);
+  --danger:  oklch(0.7 0.18 28);
+
+  --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  --sans: 'Inter Tight', 'Inter', system-ui, -apple-system, sans-serif;
+
+  --maxw: 1200px;
+  --pad-x: clamp(20px, 4vw, 56px);
+  --gap: 24px;
+  --radius: 6px;
+  --radius-lg: 10px;
+
+  color-scheme: dark;
+}
+
+/* ───────── Ресет ───────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--sans);
+  font-feature-settings: "ss01", "ss02", "cv11";
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+ul, ol { list-style: none; }
+img { display: block; max-width: 100%; }
+
+/* ───────── Фоновые эффекты (CRT) ───────── */
+body::before {
+  content: "";
+  position: fixed; inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 10%, color-mix(in oklab, var(--accent) 10%, transparent), transparent 40%),
+    radial-gradient(circle at 90% 80%, color-mix(in oklab, var(--accent-2) 8%, transparent), transparent 45%);
+  pointer-events: none;
+  z-index: 0;
+}
+body::after {
+  content: "";
+  position: fixed; inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0 2px,
+    color-mix(in oklab, var(--fg) 4%, transparent) 2px 3px
+  );
+  mix-blend-mode: overlay;
+  opacity: 0.25;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.page-wrap { position: relative; z-index: 2; }
+
+/* ───────── Анимации ───────── */
+@keyframes blink { 50% { opacity: 0; } }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes scan {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(120%); }
+}
+
+/* ───────── Scroll reveal ───────── */
+.sect {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.sect.in-view {
+  opacity: 1;
+  transform: none;
+}

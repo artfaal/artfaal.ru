@@ -1,0 +1,76 @@
+/* ───────── Контейнер ───────── */
+.hero {
+  padding: 48px var(--pad-x) 40px;
+  max-width: var(--maxw);
+  margin: 0 auto;
+}
+.sect {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 48px var(--pad-x);
+}
+
+/* ───────── Hero-сетка ───────── */
+.hero-grid {
+  display: grid;
+  gap: 40px;
+  align-items: start;
+}
+
+/* ───────── Секция-сетка ───────── */
+.sect-grid {
+  display: grid;
+  gap: 20px;
+  align-items: start;
+}
+
+/* ───────── Principles / Human сетки ───────── */
+.principles-grid {
+  display: grid;
+  gap: 2px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.human-grid {
+  display: grid;
+  gap: 18px;
+}
+
+/* ───────── Experience timeline ───────── */
+.exp-list {
+  display: grid;
+  gap: 40px;
+}
+
+/* ───────── Cases ───────── */
+.cases-list {
+  display: grid;
+  gap: 32px;
+}
+
+/* ───────── Skills grid ───────── */
+.skills-grid {
+  display: grid;
+  gap: 24px;
+}
+
+/* ───────── Responsive (mobile-first) ───────── */
+@media (min-width: 700px) {
+  .principles-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .human-grid      { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (min-width: 820px) {
+  .sect-grid {
+    grid-template-columns: 220px minmax(0, 1fr);
+    gap: 40px;
+  }
+}
+
+@media (min-width: 900px) {
+  .hero-grid {
+    grid-template-columns: minmax(0, 1fr) 320px;
+  }
+}

@@ -1,0 +1,222 @@
+// ============================================================
+// Общие утилиты — используются обеими страницами
+// ============================================================
+
+// ── Возраст ──
+function calcAge(dateStr) {
+  var birth = new Date(dateStr);
+  var today = new Date();
+  var age = today.getFullYear() - birth.getFullYear();
+  var m = today.getMonth() - birth.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) age--;
+  return age;
+}
+
+// ── Язык ──
+function getLang() {
+  return localStorage.getItem('lang') || 'ru';
+}
+function setLang(lang) {
+  localStorage.setItem('lang', lang);
+  location.reload();
+}
+
+// ── Prompt строка (ZSH-стиль) ──
+function promptHTML(user, host, text) {
+  return '<span class="prompt-line">'
+    + '<span style="color:var(--accent)">' + user + '</span>'
+    + '<span style="color:var(--muted)">@</span>'
+    + '<span style="color:var(--fg-2)">' + host + '</span>'
+    + '<span style="color:var(--muted)">:</span>'
+    + '<span style="color:var(--accent-2)">~</span>'
+    + '<span style="color:var(--muted)">$ </span>'
+    + '<span>' + (text || '') + '</span>'
+    + '</span>';
+}
+
+// ── Meta row (key...value) ──
+function metaRowHTML(k, v) {
+  var dots = '';
+  for (var i = 0; i < 60; i++) dots += '.';
+  return '<div class="meta-row">'
+    + '<span class="meta-k">' + k + '</span>'
+    + '<span class="meta-dot" aria-hidden="true">' + dots + '</span>'
+    + '<span class="meta-v">' + v + '</span>'
+    + '</div>';
+}
+
+// ── ASCII rule (секционный разделитель) ──
+function asciiRuleHTML(label, n) {
+  return '<div class="ascii-rule" aria-hidden="true">'
+    + '<span class="ar-left">\u251C\u2500\u2500</span>'
+    + '<span class="ar-label">'
+    + (n ? '<span class="ar-n">' + n + '</span>' : '')
+    + '<span>' + label + '</span>'
+    + '</span>'
+    + '<span class="ar-right"></span>'
+    + '</div>';
+}
+
+// ── Stripe placeholder (заглушка для изображений) ──
+function stripePlaceholderHTML(label, idx) {
+  var isAccent = idx % 2 === 0;
+  var bg = isAccent ? 'var(--accent)' : 'var(--panel-2)';
+  var fg = isAccent ? 'var(--bg)' : 'var(--fg-2)';
+  return '<div class="stripe-ph" style="aspect-ratio:4/3;'
+    + 'background:repeating-linear-gradient(135deg,' + bg + ' 0 14px,color-mix(in oklab,' + bg + ' 85%,black) 14px 28px);'
+    + 'color:' + fg + '">'
+    + '<div class="stripe-ph-inner">'
+    + '<span class="stripe-ph-dot"></span>'
+    + '<span class="stripe-ph-label">' + label + '</span>'
+    + '</div></div>';
+}
+
+// ── Рендер: Навигация ──
+function renderNav(el, c, currentPage) {
+  var isPersonal = currentPage === 'personal';
+  el.innerHTML = ''
+    + '<a class="tb-brand" href="/">'
+    +   '<span class="tb-dot"></span>'
+    +   '<span class="tb-name">' + c.meta.host + '</span>'
+    + '</a>'
+    + '<div class="tb-right">'
+    +   '<div class="seg" role="navigation">'
+    +     '<span class="seg-label">--page=</span>'
+    +     '<a href="/" class="seg-btn ' + (isPersonal ? 'is-on' : '') + '">' + c.nav.personal + '</a>'
+    +     '<span class="seg-sep">|</span>'
+    +     '<a href="/cv.html" class="seg-btn ' + (!isPersonal ? 'is-on' : '') + '">' + c.nav.cv + '</a>'
+    +   '</div>'
+    +   '<div class="seg" role="group" aria-label="lang">'
+    +     '<span class="seg-label">--lang=</span>'
+    +     '<button class="seg-btn is-on" id="lang-ru">ru</button>'
+    +     '<span class="seg-sep">|</span>'
+    +     '<button class="seg-btn" id="lang-en" disabled title="coming soon">en</button>'
+    +   '</div>'
+    + '</div>';
+}
+
+// ── Рендер: Hero ──
+function renderHero(el, c, pageTitle) {
+  var hero = c.hero;
+  var meta = c.meta;
+
+  document.title = pageTitle;
+
+  el.innerHTML = ''
+    + '<div class="hero-grid">'
+    +   '<div class="hero-left">'
+    // Терминал
+    +     '<div class="terminal-head">'
+    +       '<span class="tdot" style="background:#ff5f56"></span>'
+    +       '<span class="tdot" style="background:#ffbd2e"></span>'
+    +       '<span class="tdot" style="background:#27c93f"></span>'
+    +       '<span class="tname">' + meta.handle + '@' + meta.host + ' — ' + meta.shell + '</span>'
+    +     '</div>'
+    +     '<div class="terminal-body" id="terminal-body">'
+    // Статичные prompt-строки (анимация будет в Шаге 2)
+    +       '<div class="tline">' + promptHTML(meta.handle, meta.host, hero.prompt_lines[0]) + '</div>'
+    +       '<div class="tline">' + promptHTML(meta.handle, meta.host, hero.prompt_lines[1]) + '</div>'
+    +       '<div class="tline">' + promptHTML(meta.handle, meta.host, '') + '<span class="cursor"></span></div>'
+    // Hero-контент внутри терминала
+    +       '<div class="hero-body is-on">'
+    +         '<div class="hero-role">' + hero.role + '</div>'
+    +         '<h1 class="hero-name">' + hero.name + '</h1>'
+    +         '<p class="hero-tagline">' + hero.tagline + '</p>'
+    +         '<p class="hero-sub">' + hero.sub + '</p>'
+    +         '<div class="hero-cta">'
+    +           '<a class="btn btn-primary" href="' + hero.cta_primary.href + '">'
+    +             icon('tg', 16) + ' ' + hero.cta_primary.label + ' ' + icon('arrow', 14)
+    +           '</a>'
+    +           '<a class="btn btn-ghost" href="' + hero.cta_secondary.href + '">'
+    +             icon('gh', 16) + ' ' + hero.cta_secondary.label
+    +           '</a>'
+    +         '</div>'
+    +       '</div>'
+    +     '</div>'
+    +   '</div>'
+    // Аватар (правая колонка)
+    +   '<aside class="hero-right">'
+    +     '<div class="avatar-wrap">'
+    +       '<div class="avatar-frame">'
+    +         '<img src="assets/avatar.jpg" alt="' + hero.name + '" loading="lazy">'
+    +         '<div class="avatar-scan" aria-hidden="true"></div>'
+    +       '</div>'
+    +       '<div class="avatar-meta">'
+    +         metaRowHTML('user', meta.handle)
+    +         metaRowHTML('age', calcAge('1989-07-24'))
+    +         metaRowHTML('role', hero.role)
+    +         metaRowHTML('status', '<span class="status-on">\u25CF online</span>')
+    +         metaRowHTML('host', meta.host)
+    +       '</div>'
+    +     '</div>'
+    +   '</aside>'
+    + '</div>';
+}
+
+// ── Рендер: Контакты ──
+function renderContacts(data, n) {
+  var html = '';
+  data.links.forEach(function(l) {
+    html += '<li>'
+      + '<a class="contact-row" href="' + l.href + '" target="_blank" rel="noopener">'
+      +   '<span class="cr-icon">' + icon(l.icon, 18) + '</span>'
+      +   '<span class="cr-label">' + l.label + '</span>'
+      +   '<span class="cr-dots" aria-hidden="true">' + '.'.repeat(80) + '</span>'
+      +   '<span class="cr-handle">' + l.handle + '</span>'
+      +   '<span class="cr-ext">' + icon('ext', 14) + '</span>'
+      + '</a></li>';
+  });
+
+  return '<section class="sect sect-contact" id="contact">'
+    + asciiRuleHTML(data.head, n)
+    + '<div class="sect-grid">'
+    +   '<div class="sect-title">'
+    +     '<h2>' + data.title + '</h2>'
+    +     '<p class="sect-sub">' + data.sub + '</p>'
+    +   '</div>'
+    +   '<ul class="contact-list">' + html + '</ul>'
+    + '</div>'
+    + '</section>';
+}
+
+// ── Рендер: Футер ──
+function renderFooter(el, data) {
+  var year = new Date().getFullYear();
+  el.innerHTML = ''
+    + '<span>' + data.sig + '</span>'
+    + '<span>'
+    +   data.built + ' &middot; ' + year
+    +   ' &middot; <a href="mailto:sys.dll@gmail.com">sys.dll@gmail.com</a>'
+    + '</span>';
+}
+
+// ── Scroll reveal ──
+function initScrollReveal() {
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) e.target.classList.add('in-view');
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.sect').forEach(function(el) {
+    observer.observe(el);
+  });
+}
+
+// ── Инициализация (вызывается из page-*.js) ──
+function initPage(currentPage) {
+  var lang = getLang();
+  var c = CONTENT[lang];
+  if (!c) c = CONTENT.ru; // fallback
+
+  // Навигация
+  renderNav(document.getElementById('topbar'), c, currentPage);
+
+  // Hero
+  var titleKey = currentPage === 'personal' ? 'title_personal' : 'title_cv';
+  renderHero(document.getElementById('hero'), c, c.meta[titleKey]);
+
+  // Футер
+  renderFooter(document.getElementById('footer'), c.footer);
+
+  return c;
+}
