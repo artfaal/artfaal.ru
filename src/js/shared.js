@@ -182,9 +182,31 @@ function renderFooter(el, data, contacts) {
   el.innerHTML = ''
     + `<span>${data.sig}</span>`
     + `<span>`
-    +   `${data.built} &middot; ${year}`
+    +   `<span class="foot-built" title="или нет?">${data.built}</span> &middot; ${year}`
     +   (email ? ` &middot; <a href="${escapeHTML(email.href)}">${escapeHTML(email.handle)}</a>` : '')
     + `</span>`;
+
+  // Пасхалка
+  const builtEl = el.querySelector('.foot-built');
+  const secret = 'собрано Claude под чутким руководством \u{1F916}';
+  const glyphs = '\u2588\u2593\u2592\u2591@#$%&*!?';
+
+  builtEl.style.cursor = 'pointer';
+  builtEl.addEventListener('click', function() {
+    builtEl.style.cursor = 'default';
+    let pos = 0;
+    const iv = setInterval(function() {
+      if (pos > secret.length) { clearInterval(iv); builtEl.textContent = secret; return; }
+      let out = '';
+      for (let i = 0; i < secret.length; i++) {
+        if (secret[i] === ' ') out += ' ';
+        else if (i < pos) out += secret[i];
+        else out += glyphs[Math.floor(Math.random() * glyphs.length)];
+      }
+      builtEl.textContent = out;
+      pos++;
+    }, 25);
+  }, { once: true });
 }
 
 // ── Динамический статус по MSK ──
