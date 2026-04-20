@@ -18,7 +18,7 @@ var CONTENT = {
       title_personal: "Соловьев Максим — DevOps",
       title_cv: "Соловьев Максим — CV",
       handle: "artfaal",
-      host: "solovev.dev",
+      host: "artfaal.ru",
       shell: "zsh",
       birth: "1989-07-24",
       // Даты для живых счётчиков опыта

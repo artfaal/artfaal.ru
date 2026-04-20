@@ -409,6 +409,15 @@ function initPage(currentPage) {
   // Терминальная анимация
   initTerminalTyping(c.hero.prompt_lines, c.meta.handle, c.meta.host);
 
+  // Консольное приветствие
+  console.log('\n%cСоловьев Максим Сергеевич %c(Artfaal)',
+    'color:#f0ead8;font-size:16px;font-weight:bold',
+    'color:#d4a017;font-size:16px'
+  );
+  console.log('%cDevOps-инженер', 'color:#d4a017;font-size:11px');
+  console.log('%cgithub.com/artfaal  ·  t.me/artfaal', 'color:#6a665b;font-size:11px');
+  console.log('%cА что ты тут рассчитывал увидеть? >_>\n', 'color:#8d887a;font-size:10px');
+
   // Живые фичи
   initExpCounters(c.meta);
   initStatusUpdater();
