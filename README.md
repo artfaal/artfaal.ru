@@ -40,7 +40,7 @@ Only `.webp` files are tracked in git. Raw formats (jpg/png) are gitignored.
 ## Git hooks
 
 Hooks live in `.githooks/` and run automatically:
-- **Pre-commit:** runs 166 tests, regenerates PDFs if content changed, updates sitemap lastmod
+- **Pre-commit:** runs tests, regenerates PDFs if content changed, updates sitemap lastmod
 - Setup: `git config --local core.hooksPath .githooks`
 
 ## Deploy
