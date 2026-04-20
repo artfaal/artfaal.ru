@@ -110,7 +110,11 @@ requiredFiles.forEach(function(f) {
 console.log('\n\x1b[1mPDF generation\x1b[0m');
 // ════════════════════════════════════════
 
-try {
+if (process.env.SKIP_PDF_GEN === '1') {
+  var pdfPath = path.join(ROOT, 'assets', 'Solovev_Maksim_CV.pdf');
+  assert('PDF exists (skip regen)', fs.existsSync(pdfPath));
+  assert('PDF size > 10KB', fs.statSync(pdfPath).size > 10000);
+} else try {
   execSync('node generate-cv.js', { cwd: ROOT, stdio: 'pipe', timeout: 30000 });
   var pdfPath = path.join(ROOT, 'assets', 'Solovev_Maksim_CV.pdf');
   assert('PDF generated', fs.existsSync(pdfPath));

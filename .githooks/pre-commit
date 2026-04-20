@@ -1,21 +1,21 @@
 #!/bin/sh
 # Pre-commit: тесты + авто-включение PDF в коммит
 
-# Запоминаем, нужно ли обновить PDF
+# Проверяем, нужно ли обновить PDF
 REGEN=0
-if git diff --cached --name-only | grep -q 'src/js/content.js'; then
+if git diff --cached --name-only | grep -qE 'src/js/content\.js|generate-cv\.js'; then
   REGEN=1
 fi
 
-# Тесты (test.js сам генерирует PDF как часть проверки)
+# Тесты
 echo "Running tests..."
-node test.js
+SKIP_PDF_GEN=$( [ $REGEN -eq 0 ] && echo 1 || echo 0 ) node test.js
 if [ $? -ne 0 ]; then
   echo "Tests failed — commit aborted."
   exit 1
 fi
 
-# Добавляем PDF в коммит ПОСЛЕ тестов (чтобы версия была финальной)
+# Добавляем PDF в коммит
 if [ $REGEN -eq 1 ]; then
   echo "Adding regenerated PDF to commit..."
   git add assets/Solovev_Maksim_CV.pdf
