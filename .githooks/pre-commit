@@ -25,6 +25,18 @@ TODAY=$(date +%Y-%m-%d)
 sed -i '' "s|<lastmod>[^<]*</lastmod>|<lastmod>${TODAY}</lastmod>|g" sitemap.xml
 git add sitemap.xml
 
+# Cache-busting: обновляем ?v=<hash> для CSS/JS в HTML
+for f in src/styles/base.css src/styles/layout.css src/styles/components.css \
+         src/js/utils.js src/js/content.js src/js/icons.js src/js/shared.js \
+         src/js/page-personal.js src/js/page-cv.js; do
+  hash=$(md5 -q "$f" | cut -c1-8)
+  base=$(basename "$f")
+  for html in index.html cv/index.html; do
+    sed -i '' "s|${base}\(\?v=[a-f0-9]*\)\{0,1\}\"|${base}?v=${hash}\"|g" "$html"
+  done
+done
+git add index.html cv/index.html
+
 # Генерируем и добавляем оба PDF
 if [ "$REGEN" -eq 1 ]; then
   echo "Regenerating PDFs (ru + en)..."
