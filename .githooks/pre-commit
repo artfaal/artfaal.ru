@@ -1,5 +1,5 @@
 #!/bin/sh
-# Pre-commit: тесты + авто-включение PDF в коммит
+# Pre-commit: тесты, sitemap lastmod, cache-busting CSS/JS, авто-перегенерация PDF
 
 # Проверяем, нужно ли обновить PDF
 REGEN=0
