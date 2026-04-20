@@ -202,6 +202,13 @@
 - [x] Timeline для опыта работы на CV (вертикальная линия + точки)
 - [x] Пульсирующий индикатор перед hero-sub ("Сейчас копаю...")
 
+### Шаг 25. Устранение дублирования и устаревания
+
+- [x] Общий utils.js для calcAge/calcYears (один источник для browser + Node)
+- [x] meta.last_updated + отображение в footer + тест-напоминалка (3 мес)
+- [x] sitemap.xml: lastmod обновляется через pre-commit
+- [x] Динамические meta/OG/JSON-LD из content.js (generic fallback в HTML)
+
 ---
 
 ## Даты

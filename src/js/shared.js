@@ -15,14 +15,48 @@ function escapeHTML(str) {
     .replace(/"/g, '&quot;');
 }
 
-// ── Возраст ──
-function calcAge(dateStr) {
-  const birth = new Date(dateStr);
-  const today = new Date();
-  let age = today.getFullYear() - birth.getFullYear();
-  const m = today.getMonth() - birth.getMonth();
-  if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) age--;
-  return age;
+// calcAge, calcYears — из utils.js
+
+// ── Динамические meta/OG/JSON-LD ──
+function updateMeta(c, currentPage) {
+  const meta = c.meta;
+  const hero = c.hero;
+  const isCV = currentPage === 'cv';
+  const base = 'https://' + meta.host;
+  const url = base + (isCV ? '/cv/' : '/');
+  const title = isCV ? meta.title_cv : meta.title_personal;
+  const desc = isCV
+    ? hero.role + '. ' + calcYears(meta.start_it) + '+ лет в IT, ' + calcYears(meta.start_devops) + '+ лет в DevOps.'
+    : hero.role + '. ' + hero.tagline;
+  const image = base + '/assets/photo.webp';
+
+  // Meta + OG
+  document.title = title;
+  const set = (sel, val) => { const el = document.querySelector(sel); if (el) el.setAttribute('content', val); };
+  set('meta[name="description"]', desc);
+  set('meta[property="og:title"]', title);
+  set('meta[property="og:description"]', desc);
+  set('meta[property="og:image"]', image);
+  set('meta[property="og:site_name"]', meta.host);
+
+  // JSON-LD
+  const email = c.contacts.links.find(l => l.icon === 'mail');
+  const sameAs = c.contacts.links.filter(l => l.href.startsWith('http')).map(l => l.href);
+  const jsonld = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: hero.name,
+    alternateName: meta.handle,
+    jobTitle: hero.role,
+    url, image, sameAs,
+    email: email ? email.handle : undefined,
+    knowsAbout: isCV ? c.cv.skills.groups.flatMap(g => g.items).slice(0, 15) : meta.knowsAbout,
+  };
+  if (isCV && c.cv.experience.items.length > 0) {
+    jsonld.worksFor = { '@type': 'Organization', name: c.cv.experience.items[0].company };
+  }
+  const el = document.getElementById('jsonld');
+  if (el) el.textContent = JSON.stringify(jsonld);
 }
 
 // ── Язык ──
@@ -176,14 +210,16 @@ function renderContacts(data) {
 }
 
 // ── Рендер: Футер ──
-function renderFooter(el, data, contacts) {
+function renderFooter(el, data, contacts, meta) {
   const year = new Date().getFullYear();
   const email = contacts.links.find(l => l.icon === 'mail');
+  const updated = meta.last_updated ? new Date(meta.last_updated).toLocaleDateString('ru-RU', { month: 'long', year: 'numeric' }) : '';
   el.innerHTML = ''
     + `<span>${data.sig}</span>`
     + `<span>`
     +   `<span class="foot-built" title="или нет?">${data.built}</span> &middot; ${year}`
     +   (email ? ` &middot; <a href="${escapeHTML(email.href)}">${escapeHTML(email.handle)}</a>` : '')
+    +   (updated ? ` &middot; обновлено: ${updated}` : '')
     + `</span>`;
 
   // Пасхалка
@@ -429,7 +465,10 @@ function initPage(currentPage) {
   renderHero(document.getElementById('hero'), c, c.meta[titleKey]);
 
   // Футер
-  renderFooter(document.getElementById('footer'), c.footer, c.contacts);
+  renderFooter(document.getElementById('footer'), c.footer, c.contacts, c.meta);
+
+  // Динамические meta/OG/JSON-LD
+  updateMeta(c, currentPage);
 
   // Терминальная анимация
   initTerminalTyping(c.hero.prompt_lines, c.meta.handle, c.meta.host);

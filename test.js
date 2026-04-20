@@ -34,6 +34,12 @@ assert('meta.host', !!c.meta.host);
 assert('meta.birth', !!c.meta.birth && !isNaN(Date.parse(c.meta.birth)));
 assert('meta.start_it', !!c.meta.start_it && !isNaN(Date.parse(c.meta.start_it)));
 assert('meta.start_devops', !!c.meta.start_devops && !isNaN(Date.parse(c.meta.start_devops)));
+assert('meta.last_updated', !!c.meta.last_updated && !isNaN(Date.parse(c.meta.last_updated)));
+
+// Напоминалка: контент не старше 3 месяцев
+const lastUpdated = new Date(c.meta.last_updated);
+const monthsAgo = (Date.now() - lastUpdated) / (1000 * 60 * 60 * 24 * 30);
+assert('content freshness (< 3 months)', monthsAgo < 3, 'last_updated ' + c.meta.last_updated + ' — обнови контент!');
 
 // Hero
 assert('hero.name', !!c.hero.name);
@@ -183,6 +189,7 @@ const requiredFiles = [
   'sitemap.xml',
   'CNAME',
   'src/js/content.js',
+  'src/js/utils.js',
   'src/js/shared.js',
   'src/js/icons.js',
   'src/js/page-personal.js',

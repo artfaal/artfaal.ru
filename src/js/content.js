@@ -25,6 +25,10 @@ const CONTENT = {
       // Даты для живых счётчиков опыта
       start_it: "2013-03-01",
       start_devops: "2019-12-01",
+      // Для JSON-LD (личная страница)
+      knowsAbout: ["DevOps", "CI/CD", "Infrastructure", "Monitoring", "LLM tooling"],
+      // Дата последнего обновления контента (тест напомнит обновить через 3 мес)
+      last_updated: "2026-04-20",
     },
 
     // ── Навигация ──

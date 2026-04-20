@@ -10,26 +10,13 @@ const fs = require('fs');
 const { execSync } = require('child_process');
 const path = require('path');
 
-// ── Загружаем контент ──
+// ── Загружаем контент и утилиты ──
+const { calcAge, calcYears } = require('./src/js/utils.js');
 const CONTENT = require('./src/js/content.js');
 const c = CONTENT.ru;
 const hero = c.hero;
 const cv = c.cv;
 const contacts = c.contacts;
-
-// Дублирует shared.js — скрипт standalone, не загружает браузерный код
-function calcAge(dateStr) {
-  const birth = new Date(dateStr);
-  const today = new Date();
-  let age = today.getFullYear() - birth.getFullYear();
-  const m = today.getMonth() - birth.getMonth();
-  if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) age--;
-  return age;
-}
-
-function calcYears(dateStr) {
-  return Math.floor((new Date() - new Date(dateStr)) / (365.25 * 24 * 3600 * 1000));
-}
 
 // ── HTML-шаблон CV ──
 function buildHTML() {

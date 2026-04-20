@@ -20,6 +20,11 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
+# Обновляем lastmod в sitemap.xml
+TODAY=$(date +%Y-%m-%d)
+sed -i '' "s|<lastmod>[^<]*</lastmod>|<lastmod>${TODAY}</lastmod>|g" sitemap.xml
+git add sitemap.xml
+
 # Добавляем PDF в коммит
 if [ "$REGEN" -eq 1 ]; then
   echo "Adding regenerated PDF to commit..."
