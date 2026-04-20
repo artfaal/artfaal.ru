@@ -176,7 +176,6 @@ function renderHero(el, c, pageTitle) {
     +       `<div class="avatar-frame">`
     +         `<img class="avatar-img" src="/assets/avatar.webp" alt="${escapeHTML(hero.name)}" loading="lazy">`
     +         `<img class="avatar-photo" src="/assets/photo.webp" alt="${escapeHTML(hero.name)}" loading="lazy">`
-    +         `<div class="avatar-scan" aria-hidden="true"></div>`
     +       `</div>`
     +       `<div class="avatar-meta">`
     +         metaRowHTML('user', meta.handle)
@@ -494,6 +493,107 @@ function typeReveal(el) {
   }, 30);
 }
 
+// ── Глитч: polygon из горизонтальных полос-сдвигов ──
+function glitchPoly(intensity) {
+  const count = 6 + Math.floor(Math.random() * 8);
+  const slices = [];
+  for (let i = 0; i < count; i++) {
+    const y = Math.random() * 100;
+    const h = 0.4 + Math.random() * 1.8;
+    const dx = (Math.random() - 0.5) * 20 * intensity;
+    slices.push({ y, h, dx });
+  }
+  slices.sort((a, b) => a.y - b.y);
+
+  let poly = '0% 0%,100% 0%';
+  for (const s of slices) {
+    poly += `,100% ${s.y}%,${100 + s.dx}% ${s.y}%,${100 + s.dx}% ${s.y + s.h}%,100% ${s.y + s.h}%`;
+  }
+  poly += ',100% 100%,0% 100%';
+  for (const s of [...slices].reverse()) {
+    poly += `,0% ${s.y + s.h}%,${s.dx}% ${s.y + s.h}%,${s.dx}% ${s.y}%,0% ${s.y}%`;
+  }
+  return `polygon(${poly})`;
+}
+
+// ── Глитч-переход аватар ↔ фото по клику ──
+function initAvatarToggle() {
+  const frame = document.querySelector('.avatar-frame');
+  if (!frame) return;
+
+  // Создаём RGB-слои для хроматической аберрации
+  const layerR = document.createElement('div');
+  const layerB = document.createElement('div');
+  layerR.className = 'avatar-rgb avatar-rgb-r';
+  layerB.className = 'avatar-rgb avatar-rgb-b';
+  frame.appendChild(layerR);
+  frame.appendChild(layerB);
+
+  const DURATION = 600;
+  const TICK = 16;
+  let busy = false;
+
+  frame.addEventListener('click', () => {
+    if (busy) return;
+    busy = true;
+    frame.classList.add('glitching');
+
+    const isPhoto = frame.classList.contains('show-photo');
+    const srcImg = frame.querySelector(isPhoto ? '.avatar-photo' : '.avatar-img');
+    layerR.style.backgroundImage = `url(${srcImg.src})`;
+    layerB.style.backgroundImage = `url(${srcImg.src})`;
+
+    const steps = Math.floor(DURATION / TICK);
+    const flipAt = Math.floor(steps * 0.45);
+    let step = 0;
+
+    const iv = setInterval(() => {
+      if (step === flipAt) {
+        frame.classList.toggle('show-photo');
+        const newImg = frame.querySelector(frame.classList.contains('show-photo') ? '.avatar-photo' : '.avatar-img');
+        layerR.style.backgroundImage = `url(${newImg.src})`;
+        layerB.style.backgroundImage = `url(${newImg.src})`;
+      }
+
+      const t = step / steps;
+      const intensity = t < 0.45 ? t / 0.45 : 1 - (t - 0.45) / 0.55;
+      const i2 = intensity * intensity;
+
+      // RGB-сдвиг — чёткий, только горизонтальный
+      const rgbShift = i2 * 12;
+      layerR.style.transform = `translateX(${rgbShift}px)`;
+      layerB.style.transform = `translateX(${-rgbShift}px)`;
+      layerR.style.opacity = i2 * 0.8;
+      layerB.style.opacity = i2 * 0.8;
+
+      // Полосы — резкие, чёткие сдвиги
+      frame.style.clipPath = i2 > 0.2 ? glitchPoly(i2) : '';
+
+      // Сдвиг фрейма — минимальный, чёткий
+      frame.style.transform = i2 > 0.2
+        ? `translateX(${(Math.random() - 0.5) * 8 * i2}px)`
+        : '';
+
+      // Фильтр — только hue-rotate, без перебора
+      frame.style.filter = i2 > 0.15
+        ? `hue-rotate(${(Math.random() - 0.5) * 50 * i2}deg) saturate(${1 + i2 * 0.8})`
+        : '';
+
+      step++;
+      if (step >= steps) {
+        clearInterval(iv);
+        frame.style.clipPath = '';
+        frame.style.transform = '';
+        frame.style.filter = '';
+        layerR.style.opacity = '0';
+        layerB.style.opacity = '0';
+        frame.classList.remove('glitching');
+        busy = false;
+      }
+    }, TICK);
+  });
+}
+
 // ── Инициализация (вызывается из page-*.js) ──
 function initPage(currentPage) {
   _lang = getLang();
@@ -529,6 +629,7 @@ function initPage(currentPage) {
   // Живые фичи
   initExpCounters(c.meta);
   initStatusUpdater();
+  initAvatarToggle();
 
   // Scroll progress + кнопка наверх
   initScrollUI();

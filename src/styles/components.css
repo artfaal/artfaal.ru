@@ -205,28 +205,34 @@
   border-radius: var(--radius-lg);
   overflow: hidden;
   background: var(--panel);
+  cursor: pointer;
 }
 .avatar-frame img {
   width: 100%; height: 100%; object-fit: cover;
   filter: contrast(1.02) saturate(1.05);
-  transition: opacity 1.2s ease;
+  transition: opacity 0.3s ease;
 }
 .avatar-photo {
   position: absolute;
   inset: 0;
   opacity: 0;
 }
-.avatar-frame:hover .avatar-img { opacity: 0; }
-.avatar-frame:hover .avatar-photo { opacity: 1; }
-.avatar-scan {
-  position: absolute; inset: 0;
-  background: linear-gradient(to bottom, transparent, color-mix(in oklab, var(--accent) 25%, transparent), transparent);
-  height: 40%;
-  animation: scan 4.5s linear infinite;
-  pointer-events: none;
-  mix-blend-mode: screen;
-  opacity: 0.6;
+.avatar-frame.show-photo .avatar-img { opacity: 0; }
+.avatar-frame.show-photo .avatar-photo { opacity: 1; }
+.avatar-frame.glitching img {
+  transition: none;
 }
+.avatar-rgb {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  pointer-events: none;
+  opacity: 0;
+  mix-blend-mode: screen;
+}
+.avatar-rgb-r { background-blend-mode: screen; background-color: var(--accent); }
+.avatar-rgb-b { background-blend-mode: screen; background-color: var(--accent-2); }
 .avatar-meta { font-family: var(--mono); font-size: 12px; color: var(--muted); }
 .status-on    { color: oklch(0.78 0.14 145); } /* зелёный */
 .status-work  { color: var(--accent); }        /* amber — работает */
