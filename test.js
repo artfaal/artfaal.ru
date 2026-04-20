@@ -80,6 +80,81 @@ cv.cases.items.forEach(cs => {
   assert('case "' + cs.num + '" has all fields', !!cs.task && !!cs.did && !!cs.result && !!cs.lesson);
 });
 
+// ── Доступные иконки ──
+const ICONS = ['arrow', 'tg', 'mail', 'gh', 'in', 'blog', 'ext', 'download'];
+
+// ── Контакты: все поля + иконки существуют ──
+c.contacts.links.forEach(l => {
+  assert('contact.' + l.icon + ' has label', !!l.label);
+  assert('contact.' + l.icon + ' has handle', !!l.handle);
+  assert('contact.' + l.icon + ' icon exists', ICONS.includes(l.icon), 'unknown icon: ' + l.icon);
+  assert('contact.' + l.icon + ' href format', l.href.startsWith('http') || l.href.startsWith('mailto:'), 'bad href: ' + l.href);
+});
+
+// ── Blog: все поля + иконки ──
+assert('blog.title', !!c.blog.title);
+assert('blog.links >= 1', c.blog.links.length >= 1);
+c.blog.links.forEach(l => {
+  assert('blog.' + l.icon + ' icon exists', ICONS.includes(l.icon), 'unknown icon: ' + l.icon);
+  assert('blog.' + l.icon + ' has href', !!l.href);
+});
+
+// ── Value items: все поля ──
+p.value.items.forEach(it => {
+  assert('value "' + it.k + '" has t+d', !!it.t && !!it.d);
+});
+
+// ── Principles items: все поля ──
+p.principles.items.forEach(pr => {
+  assert('principle "' + pr.n + '" has t+d', !!pr.t && !!pr.d);
+});
+
+// ── Exploring items: все поля ──
+p.exploring.items.forEach(it => {
+  assert('exploring "' + it.t + '" has d', !!it.d);
+});
+
+// ── Human cards: все поля ──
+p.human.cards.forEach(card => {
+  assert('card "' + card.t + '" has d+tag+img', !!card.d && !!card.tag && !!card.img);
+});
+
+// ── Languages: все поля ──
+assert('cv.languages.items >= 1', cv.languages.items.length >= 1);
+cv.languages.items.forEach(l => {
+  assert('lang "' + l.name + '" has level', !!l.level);
+});
+
+// ── Education: все поля ──
+cv.education.items.forEach(e => {
+  assert('edu "' + e.title + '" has detail+year', !!e.detail && !!e.year);
+});
+
+// ── Experience: все обязательные поля ──
+cv.experience.items.forEach(exp => {
+  assert('exp "' + exp.title + '" has company', !!exp.company);
+  assert('exp "' + exp.title + '" has period', !!exp.period);
+  assert('exp "' + exp.title + '" has project', !!exp.project);
+  exp.groups.forEach(g => {
+    assert('exp group "' + g.title + '" has items', Array.isArray(g.items) && g.items.length > 0);
+  });
+});
+
+// ── Skills: не пустые группы ──
+cv.skills.groups.forEach(g => {
+  assert('skill group "' + g.title + '" has items', g.items.length > 0);
+});
+
+// ── Даты: логическая консистентность ──
+const birthDate = new Date(c.meta.birth);
+const startIT = new Date(c.meta.start_it);
+const startDevOps = new Date(c.meta.start_devops);
+const now = new Date();
+assert('birth < start_it', birthDate < startIT, 'birth should be before IT career');
+assert('start_it < start_devops', startIT < startDevOps, 'IT should start before DevOps');
+assert('start_devops < now', startDevOps < now, 'DevOps start should be in the past');
+assert('birth > 1950', birthDate.getFullYear() > 1950, 'birth year sanity check');
+
 // ════════════════════════════════════════
 console.log('\n\x1b[1mSection numbering\x1b[0m');
 // ════════════════════════════════════════
