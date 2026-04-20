@@ -86,7 +86,7 @@ console.log('\n\x1b[1mFile structure\x1b[0m');
 
 var requiredFiles = [
   'index.html',
-  'cv.html',
+  'cv/index.html',
   'robots.txt',
   'sitemap.xml',
   'CNAME',
@@ -105,6 +105,9 @@ var requiredFiles = [
 requiredFiles.forEach(function(f) {
   assert(f, fs.existsSync(path.join(ROOT, f)), 'file missing');
 });
+
+// Убедиться что cv.html в корне НЕ существует (чистые URL)
+assert('no root cv.html', !fs.existsSync(path.join(ROOT, 'cv.html')), 'cv.html should not exist in root');
 
 // ════════════════════════════════════════
 console.log('\n\x1b[1mPDF generation\x1b[0m');
@@ -128,7 +131,7 @@ assert('PDF size > 10KB', fs.existsSync(pdfPath) && fs.statSync(pdfPath).size > 
 console.log('\n\x1b[1mHTML validation\x1b[0m');
 // ════════════════════════════════════════
 
-['index.html', 'cv.html'].forEach(function(file) {
+['index.html', 'cv/index.html'].forEach(function(file) {
   var html = fs.readFileSync(path.join(ROOT, file), 'utf8');
   assert(file + ' has lang="ru"', html.includes('lang="ru"'));
   assert(file + ' has meta description', html.includes('meta name="description"'));
