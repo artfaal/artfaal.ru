@@ -232,15 +232,9 @@
 - [ ] 21 апреля: проверить что индексация прошла (Google, Яндекс)
 - [ ] Проверить отображение в поисковой выдаче (сниппеты, OG)
 
-### Шаг 18. Оптимизация размера сайта
+### ~~Шаг 18. Minify~~ — убран
 
-- [ ] Minify CSS (cssnano / clean-css)
-- [ ] Minify JS (terser / uglify)
-- [ ] Minify HTML
-- [ ] Gzip / Brotli сжатие (Cloudflare настройка)
-- [ ] Critical CSS inline
-- [ ] Аудит размера бандла — убрать неиспользуемый CSS/JS
-- [ ] Lighthouse Performance score > 95
+84KB CSS+JS, Cloudflare Brotli сжимает до ~20KB. Minify не оправдан.
 
 ### Шаг 20. Фикс: "Образование и сертификаты" не влезает в боковое меню ✅
 
