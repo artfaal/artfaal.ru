@@ -21,7 +21,7 @@ function assert(name, condition, reason) {
 }
 
 // ── Загружаем контент ──
-eval(fs.readFileSync(path.join(ROOT, 'src/js/content.js'), 'utf8'));
+const CONTENT = require('./src/js/content.js');
 const c = CONTENT.ru;
 
 // ════════════════════════════════════════
@@ -44,12 +44,12 @@ assert('hero.cta_primary.href', !!c.hero.cta_primary.href);
 
 // Contacts
 assert('contacts.links >= 3', c.contacts.links.length >= 3);
-c.contacts.links.forEach(function(l) {
+c.contacts.links.forEach(l => {
   assert('contact.' + l.icon + ' has href', !!l.href);
 });
 
 // Personal page sections
-var p = c.personal;
+const p = c.personal;
 assert('personal.about.body', Array.isArray(p.about.body) && p.about.body.length > 0);
 assert('personal.value.items >= 3', p.value.items.length >= 3);
 assert('personal.principles.items >= 3', p.principles.items.length >= 3);
@@ -57,13 +57,13 @@ assert('personal.human.cards >= 3', p.human.cards.length >= 3);
 assert('personal.exploring.items >= 1', p.exploring.items.length >= 1);
 
 // Human cards — images exist
-p.human.cards.forEach(function(card) {
-  var imgPath = path.join(ROOT, card.img);
+p.human.cards.forEach(card => {
+  const imgPath = path.join(ROOT, card.img);
   assert('image: ' + card.img, fs.existsSync(imgPath), 'file not found');
 });
 
 // CV page sections
-var cv = c.cv;
+const cv = c.cv;
 assert('cv.about.body', Array.isArray(cv.about.body) && cv.about.body.length > 0);
 assert('cv.experience.items >= 2', cv.experience.items.length >= 2);
 assert('cv.cases.items >= 3', cv.cases.items.length >= 3);
@@ -71,12 +71,12 @@ assert('cv.skills.groups >= 2', cv.skills.groups.length >= 2);
 assert('cv.education.items >= 2', cv.education.items.length >= 2);
 
 // Experience items have required fields
-cv.experience.items.forEach(function(exp) {
+cv.experience.items.forEach(exp => {
   assert('exp "' + exp.title + '" has groups', Array.isArray(exp.groups) && exp.groups.length > 0);
 });
 
 // Cases items have required fields
-cv.cases.items.forEach(function(cs) {
+cv.cases.items.forEach(cs => {
   assert('case "' + cs.num + '" has all fields', !!cs.task && !!cs.did && !!cs.result && !!cs.lesson);
 });
 
@@ -85,14 +85,13 @@ console.log('\n\x1b[1mSection numbering\x1b[0m');
 // ════════════════════════════════════════
 
 function checkNumbering(pageName, sections) {
-  var nums = sections.map(function(s) { return parseInt(s.n, 10); });
-  for (var i = 0; i < nums.length; i++) {
+  const nums = sections.map(s => parseInt(s.n, 10));
+  for (let i = 0; i < nums.length; i++) {
     assert(pageName + ' section ' + i + ' has n="' + String(nums[i]).padStart(2, '0') + '"',
       nums[i] === i, 'expected ' + i + ', got ' + nums[i]);
   }
-  // Нет дубликатов
-  var unique = nums.filter(function(v, i, a) { return a.indexOf(v) === i; });
-  assert(pageName + ' no duplicate n', unique.length === nums.length, 'duplicate section numbers');
+  const unique = new Set(nums);
+  assert(pageName + ' no duplicate n', unique.size === nums.length, 'duplicate section numbers');
 }
 
 checkNumbering('personal', [p.about, p.value, p.principles, p.human, p.exploring, c.blog, c.contacts]);
@@ -102,7 +101,7 @@ checkNumbering('cv', [cv.about, cv.experience, cv.cases, cv.skills, cv.languages
 console.log('\n\x1b[1mFile structure\x1b[0m');
 // ════════════════════════════════════════
 
-var requiredFiles = [
+const requiredFiles = [
   'index.html',
   'cv/index.html',
   'robots.txt',
@@ -120,7 +119,7 @@ var requiredFiles = [
   'assets/photo.webp',
   'generate-cv.js',
 ];
-requiredFiles.forEach(function(f) {
+requiredFiles.forEach(f => {
   assert(f, fs.existsSync(path.join(ROOT, f)), 'file missing');
 });
 
@@ -131,7 +130,7 @@ assert('no root cv.html', !fs.existsSync(path.join(ROOT, 'cv.html')), 'cv.html s
 console.log('\n\x1b[1mPDF generation\x1b[0m');
 // ════════════════════════════════════════
 
-var pdfPath = path.join(ROOT, 'assets', 'Solovev_Maksim_CV.pdf');
+const pdfPath = path.join(ROOT, 'assets', 'Solovev_Maksim_CV.pdf');
 
 if (process.env.SKIP_PDF_GEN === '1') {
   assert('PDF exists (skip regen)', fs.existsSync(pdfPath));
@@ -149,8 +148,8 @@ assert('PDF size > 10KB', fs.existsSync(pdfPath) && fs.statSync(pdfPath).size > 
 console.log('\n\x1b[1mHTML validation\x1b[0m');
 // ════════════════════════════════════════
 
-['index.html', 'cv/index.html'].forEach(function(file) {
-  var html = fs.readFileSync(path.join(ROOT, file), 'utf8');
+['index.html', 'cv/index.html'].forEach(file => {
+  const html = fs.readFileSync(path.join(ROOT, file), 'utf8');
   assert(file + ' has lang="ru"', html.includes('lang="ru"'));
   assert(file + ' has meta description', html.includes('meta name="description"'));
   assert(file + ' has og:title', html.includes('og:title'));

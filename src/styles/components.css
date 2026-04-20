@@ -101,6 +101,9 @@
   color: var(--muted);
 }
 .tdot { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
+.tdot:nth-child(1) { background: #ff5f56; }
+.tdot:nth-child(2) { background: #ffbd2e; }
+.tdot:nth-child(3) { background: #27c93f; }
 .tname { margin-left: 10px; }
 .terminal-body {
   background: var(--panel);
@@ -113,6 +116,10 @@
 }
 .tline { margin-bottom: 6px; color: var(--fg-2); }
 .prompt-line { white-space: pre-wrap; word-break: break-all; }
+.prompt-user  { color: var(--accent); }
+.prompt-sep   { color: var(--muted); }
+.prompt-host  { color: var(--fg-2); }
+.prompt-tilde { color: var(--accent-2); }
 
 /* Cursor */
 .cursor {
@@ -715,10 +722,6 @@
   .hero-right { display: flex; justify-content: center; }
   .avatar-wrap { max-width: 160px; }
   .avatar-meta { font-size: 11px; }
-
-  /* Stats */
-  .stat-row { gap: 20px; }
-  .stat-v { font-size: 26px; }
 
   /* Value */
   .value-item { grid-template-columns: 40px minmax(0, 1fr); gap: 12px; padding: 16px 4px; }

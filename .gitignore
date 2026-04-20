@@ -6,3 +6,10 @@ assets/*.jpg
 assets/*.jpeg
 assets/*.png
 assets/*.PNG
+
+node_modules/
+.env
+.vscode/
+.idea/
+*.swp
+*.swo

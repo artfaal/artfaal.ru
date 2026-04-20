@@ -11,7 +11,7 @@ const { execSync } = require('child_process');
 const path = require('path');
 
 // ── Загружаем контент ──
-eval(fs.readFileSync(path.join(__dirname, 'src/js/content.js'), 'utf8'));
+const CONTENT = require('./src/js/content.js');
 const c = CONTENT.ru;
 const hero = c.hero;
 const cv = c.cv;
@@ -19,10 +19,10 @@ const contacts = c.contacts;
 
 // Дублирует shared.js — скрипт standalone, не загружает браузерный код
 function calcAge(dateStr) {
-  var birth = new Date(dateStr);
-  var today = new Date();
-  var age = today.getFullYear() - birth.getFullYear();
-  var m = today.getMonth() - birth.getMonth();
+  const birth = new Date(dateStr);
+  const today = new Date();
+  let age = today.getFullYear() - birth.getFullYear();
+  const m = today.getMonth() - birth.getMonth();
   if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) age--;
   return age;
 }
@@ -205,7 +205,7 @@ function buildHTML() {
 
 // ── Поиск Chrome ──
 function findChrome() {
-  var paths = [
+  const paths = [
     '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
     '/Applications/Chromium.app/Contents/MacOS/Chromium',
     '/usr/bin/google-chrome-stable',
@@ -213,21 +213,23 @@ function findChrome() {
     '/usr/bin/chromium-browser',
     '/usr/bin/chromium',
   ];
-  for (var i = 0; i < paths.length; i++) {
-    if (fs.existsSync(paths[i])) return paths[i];
+  // Windows
+  const winDirs = [process.env.PROGRAMFILES, process.env['PROGRAMFILES(X86)'], process.env.LOCALAPPDATA];
+  for (const dir of winDirs) {
+    if (dir) paths.push(path.join(dir, 'Google', 'Chrome', 'Application', 'chrome.exe'));
   }
-  return null;
+  return paths.find(p => fs.existsSync(p)) || null;
 }
 
 // ── Main ──
-var chrome = findChrome();
+const chrome = findChrome();
 if (!chrome) {
   console.error('Chrome/Chromium не найден. Установите Google Chrome.');
   process.exit(1);
 }
 
-var tmpFile = path.join(__dirname, '.cv-tmp.html');
-var outFile = path.join(__dirname, 'assets', 'Solovev_Maksim_CV.pdf');
+const tmpFile = path.join(__dirname, '.cv-tmp.html');
+const outFile = path.join(__dirname, 'assets', 'Solovev_Maksim_CV.pdf');
 
 fs.writeFileSync(tmpFile, buildHTML());
 

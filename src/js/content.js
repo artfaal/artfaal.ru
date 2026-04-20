@@ -10,7 +10,7 @@
 // CV использует:     meta, nav, hero, cv.*, contacts, footer
 // ============================================================
 
-var CONTENT = {
+const CONTENT = {
   ru: {
 
     // ── Мета ──
@@ -468,3 +468,5 @@ var CONTENT = {
 
   // en: { ... } — будет добавлено позже
 };
+
+if (typeof module !== 'undefined') module.exports = CONTENT;

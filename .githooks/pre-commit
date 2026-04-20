@@ -7,16 +7,21 @@ if git diff --cached --name-only | grep -qE 'src/js/content\.js|generate-cv\.js'
   REGEN=1
 fi
 
-# Тесты
+# Тесты (пропускаем генерацию PDF если контент не менялся)
 echo "Running tests..."
-SKIP_PDF_GEN=$( [ $REGEN -eq 0 ] && echo 1 || echo 0 ) node test.js
+if [ "$REGEN" -eq 1 ]; then
+  node test.js
+else
+  SKIP_PDF_GEN=1 node test.js
+fi
+
 if [ $? -ne 0 ]; then
   echo "Tests failed — commit aborted."
   exit 1
 fi
 
 # Добавляем PDF в коммит
-if [ $REGEN -eq 1 ]; then
+if [ "$REGEN" -eq 1 ]; then
   echo "Adding regenerated PDF to commit..."
   git add assets/Solovev_Maksim_CV.pdf
 fi
