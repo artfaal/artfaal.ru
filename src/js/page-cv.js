@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     sectionExperience(cv.experience),
     sectionCases(cv.cases),
     sectionSkills(cv.skills),
+    sectionLanguages(cv.languages),
     sectionEducation(cv.education),
     renderContacts(c.contacts),
   ].join('');
@@ -141,6 +142,24 @@ function sectionSkills(d) {
     + '<div class="sect-grid">'
     +   '<div class="sect-title"><h2>' + d.title + '</h2></div>'
     +   '<div class="skills-grid stagger">' + groups + '</div>'
+    + '</div>'
+    + '</section>';
+}
+
+// ── Languages ──
+function sectionLanguages(d) {
+  var items = d.items.map(function(l) {
+    return '<div class="lang-item">'
+      + '<span class="lang-name">' + l.name + '</span>'
+      + '<span class="lang-level">' + l.level + '</span>'
+      + '</div>';
+  }).join('');
+
+  return '<section class="sect sect-languages" id="languages">'
+    + asciiRuleHTML(d.head, d.n)
+    + '<div class="sect-grid">'
+    +   '<div class="sect-title"><h2>' + d.title + '</h2></div>'
+    +   '<div class="lang-list">' + items + '</div>'
     + '</div>'
     + '</section>';
 }

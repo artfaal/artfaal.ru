@@ -167,13 +167,14 @@ function renderContacts(data) {
 }
 
 // ── Рендер: Футер ──
-function renderFooter(el, data) {
+function renderFooter(el, data, contacts) {
   var year = new Date().getFullYear();
+  var email = contacts.links.filter(function(l) { return l.icon === 'mail'; })[0];
   el.innerHTML = ''
     + '<span>' + data.sig + '</span>'
     + '<span>'
     +   data.built + ' &middot; ' + year
-    +   ' &middot; <a href="mailto:sys.dll@gmail.com">sys.dll@gmail.com</a>'
+    +   (email ? ' &middot; <a href="' + email.href + '">' + email.handle + '</a>' : '')
     + '</span>';
 }
 
@@ -404,18 +405,18 @@ function initPage(currentPage) {
   renderHero(document.getElementById('hero'), c, c.meta[titleKey]);
 
   // Футер
-  renderFooter(document.getElementById('footer'), c.footer);
+  renderFooter(document.getElementById('footer'), c.footer, c.contacts);
 
   // Терминальная анимация
   initTerminalTyping(c.hero.prompt_lines, c.meta.handle, c.meta.host);
 
   // Консольное приветствие
-  console.log('\n%cСоловьев Максим Сергеевич %c(Artfaal)',
+  console.log('\n%c' + c.hero.name + ' %c(' + c.meta.handle + ')',
     'color:#f0ead8;font-size:16px;font-weight:bold',
     'color:#d4a017;font-size:16px'
   );
-  console.log('%cDevOps-инженер', 'color:#d4a017;font-size:11px');
-  console.log('%cgithub.com/artfaal  ·  t.me/artfaal', 'color:#6a665b;font-size:11px');
+  console.log('%c' + c.hero.role, 'color:#d4a017;font-size:11px');
+  console.log('%c' + c.meta.host, 'color:#6a665b;font-size:11px');
   console.log('%cА что ты тут рассчитывал увидеть? >_>\n', 'color:#8d887a;font-size:10px');
 
   // Живые фичи

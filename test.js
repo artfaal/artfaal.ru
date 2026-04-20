@@ -81,6 +81,24 @@ cv.cases.items.forEach(function(cs) {
 });
 
 // ════════════════════════════════════════
+console.log('\n\x1b[1mSection numbering\x1b[0m');
+// ════════════════════════════════════════
+
+function checkNumbering(pageName, sections) {
+  var nums = sections.map(function(s) { return parseInt(s.n, 10); });
+  for (var i = 0; i < nums.length; i++) {
+    assert(pageName + ' section ' + i + ' has n="' + String(nums[i]).padStart(2, '0') + '"',
+      nums[i] === i, 'expected ' + i + ', got ' + nums[i]);
+  }
+  // Нет дубликатов
+  var unique = nums.filter(function(v, i, a) { return a.indexOf(v) === i; });
+  assert(pageName + ' no duplicate n', unique.length === nums.length, 'duplicate section numbers');
+}
+
+checkNumbering('personal', [p.about, p.value, p.principles, p.human, p.exploring, c.blog, c.contacts]);
+checkNumbering('cv', [cv.about, cv.experience, cv.cases, cv.skills, cv.languages, cv.education, c.contacts]);
+
+// ════════════════════════════════════════
 console.log('\n\x1b[1mFile structure\x1b[0m');
 // ════════════════════════════════════════
 

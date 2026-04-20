@@ -91,6 +91,8 @@ function buildHTML() {
   .case-title { font-size: 9.5pt; font-weight: 600; margin-bottom: 4px; }
   .case-row { margin-bottom: 2px; }
   .case-label { font-weight: 600; font-size: 8.5pt; color: #555; }
+  .case-lesson .case-label { font-style: italic; }
+  .case-lesson .case-text { font-style: italic; color: #555; }
   .case-text { font-size: 9pt; }
 
   /* Skills */
@@ -103,6 +105,13 @@ function buildHTML() {
   .edu-title { font-weight: 600; font-size: 9.5pt; }
   .edu-detail { font-size: 9pt; color: #333; }
   .edu-year { font-size: 8.5pt; color: #666; }
+
+  /* Languages */
+  .lang-line { font-size: 9pt; margin-bottom: 2px; }
+  .lang-name { font-weight: 600; }
+
+  /* Footer */
+  .pdf-footer { text-align: center; font-size: 8pt; color: #999; margin-top: 20px; padding-top: 8px; border-top: 1px solid #eee; }
 
   /* Page breaks */
   .exp { page-break-inside: avoid; }
@@ -126,13 +135,13 @@ function buildHTML() {
 
 <!-- About -->
 <div class="section">
-  <div class="section-title">Обо мне</div>
+  <div class="section-title">${cv.about.title}</div>
   ${cv.about.body.map(p => `<p class="about">${p}</p>`).join('\n  ')}
 </div>
 
 <!-- Experience -->
 <div class="section">
-  <div class="section-title">Опыт работы</div>
+  <div class="section-title">${cv.experience.title}</div>
   ${cv.experience.items.map(exp => `
   <div class="exp">
     <div class="exp-head">
@@ -149,20 +158,20 @@ function buildHTML() {
 
 <!-- Cases -->
 <div class="section">
-  <div class="section-title">Избранные кейсы</div>
+  <div class="section-title">${cv.cases.title}</div>
   ${cv.cases.items.map(cs => `
   <div class="case">
     <div class="case-title">${cs.num}. ${cs.title}</div>
     <div class="case-row"><span class="case-label">Задача:</span> <span class="case-text">${cs.task}</span></div>
     <div class="case-row"><span class="case-label">Решение:</span> <span class="case-text">${cs.did}</span></div>
     <div class="case-row"><span class="case-label">Результат:</span> <span class="case-text">${cs.result}</span></div>
-    <div class="case-row"><span class="case-label">Урок:</span> <span class="case-text">${cs.lesson}</span></div>
+    <div class="case-row case-lesson"><span class="case-label">Урок:</span> <span class="case-text">${cs.lesson}</span></div>
   </div>`).join('')}
 </div>
 
 <!-- Skills -->
 <div class="section">
-  <div class="section-title">Навыки</div>
+  <div class="section-title">${cv.skills.title}</div>
   ${cv.skills.groups.map(g => `
   <div class="skill-line">
     <span class="skill-label">${g.title}:</span>
@@ -170,9 +179,16 @@ function buildHTML() {
   </div>`).join('')}
 </div>
 
+<!-- Languages -->
+<div class="section">
+  <div class="section-title">${cv.languages.title}</div>
+  ${cv.languages.items.map(l => `
+  <div class="lang-line"><span class="lang-name">${l.name}:</span> ${l.level}</div>`).join('')}
+</div>
+
 <!-- Education -->
 <div class="section">
-  <div class="section-title">Образование и сертификаты</div>
+  <div class="section-title">${cv.education.title}</div>
   ${cv.education.items.map(e => `
   <div class="edu">
     <span class="edu-title">${e.title}</span> —
@@ -180,6 +196,8 @@ function buildHTML() {
     <span class="edu-year">(${e.year})</span>
   </div>`).join('')}
 </div>
+
+<div class="pdf-footer">${hero.name} · ${c.meta.host} · ${new Date().getFullYear()}</div>
 
 </body>
 </html>`;
