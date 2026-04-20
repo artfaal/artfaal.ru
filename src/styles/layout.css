@@ -41,7 +41,6 @@
 /* ───────── Experience timeline ───────── */
 .exp-list {
   display: grid;
-  gap: 40px;
 }
 
 /* ───────── Cases ───────── */
