@@ -515,7 +515,7 @@ const CONTENT = {
       head: "// blog",
       n: "05",
       title: "Blog",
-      sub: "Live notes on tech, life, and things that actually stuck. A consciousness dump.",
+      sub: "Live notes on tech, life, and things that really hit home. A brain dump.",
       links: [
         { label: "Telegram channel", handle: "@artfaal_log", href: "https://t.me/artfaal_log", icon: "tg" },
         { label: "Long reads", handle: "log.artfaal.ru", href: "https://log.artfaal.ru/", icon: "blog" },
@@ -590,12 +590,12 @@ const CONTENT = {
           {
             k: "05",
             t: "Bridge: infra ↔ AI tooling",
-            d: "Actively studying LLM agents and how they apply to engineering workflows. Helping teams integrate them without the pain.",
+            d: "Deep into LLM agents and how they fit into engineering workflows. Helping teams plug them in painlessly.",
           },
           {
             k: "06",
             t: "Infrastructure without a \"keeper of secret knowledge\"",
-            d: "I build so the system doesn't depend on one specific person. Documentation, transparency, self-documenting processes.",
+            d: "I build things so the system doesn't depend on any single person. Documentation, transparency, self-documenting processes.",
           },
         ],
       },
@@ -619,8 +619,8 @@ const CONTENT = {
           },
           {
             n: "03",
-            t: "A tool simplifies life, not starts a new religion",
-            d: "If a tool needs a half-time position to maintain — it's not a tool, it's a project.",
+            t: "A tool should simplify life, not start a new religion",
+            d: "If a tool takes a half-time hire to maintain — it's not a tool, it's a project.",
           },
           {
             n: "04",
@@ -635,7 +635,7 @@ const CONTENT = {
           {
             n: "06",
             t: "set -e, no skips",
-            d: "If something fails — fix it, don't work around it.",
+            d: "If something fails — dig into it, don't work around it.",
           },
         ],
       },
@@ -649,7 +649,7 @@ const CONTENT = {
         cards: [
           {
             t: "Books",
-            d: "Brandon Sanderson is love! What fascinates me isn't so much the magic, but how the author builds world rules and sticks to them.",
+            d: "Brandon Sanderson all the way! It's less about the magic and more about how he builds the rules of his worlds — and sticks to them.",
             tag: "books",
             img: "/assets/cosmere.webp",
           },
@@ -667,7 +667,7 @@ const CONTENT = {
           },
           {
             t: "3D printer",
-            d: "I design small practical projects for the home. A custom stand for an e-reader? Why not.",
+            d: "I design small practical things for around the house. A custom stand for an e-reader? Why not.",
             tag: "3D / CAD",
             img: "/assets/printer.webp",
           },
@@ -679,7 +679,7 @@ const CONTENT = {
           },
           {
             t: "Anime, games",
-            d: "Anime as a way to switch off. Less and less time for games, but I keep up and try not to drop them entirely.",
+            d: "Anime as a way to unwind. Less and less time for games, but I keep up and try not to drop them entirely.",
             tag: "life",
             img: "/assets/life.webp",
           },
@@ -699,7 +699,7 @@ const CONTENT = {
           },
           {
             t: "Integrating LLM tools into workflows",
-            d: "How to take experience from personal experiments into production DevOps.",
+            d: "Bringing what I've learned from personal experiments into production DevOps.",
           },
           {
             t: "Reducing cognitive load",
@@ -720,7 +720,7 @@ const CONTENT = {
         n: "00",
         title: "About me",
         body: [
-          "DevOps Expert Engineer. DevOps on the Jet Detective anti-fraud platform (Jet Infosystems). Built CI/CD, monitoring, and a management system for 160+ VMs from scratch.",
+          "DevOps Expert Engineer. Running DevOps for the Jet Detective anti-fraud platform (Jet Infosystems). Built CI/CD, monitoring, and a management system for 160+ VMs from scratch.",
           "Experience leading a team of 7, shipping releases to production on large government projects, and adapting services for Kubernetes.",
         ],
       },
@@ -874,7 +874,7 @@ const CONTENT = {
             task: "Figure out whether LLM agents can genuinely reduce cognitive load in day-to-day engineering work.",
             did: "299 hours over six weeks. 16 agents on two Mac minis. Tried OpenClaw, Claude Code, Codex, Gemini, Hermes, local models, memory systems.",
             result: "Kept 3 tools: Claude Code (code), Kloya / OpenClaw (personal agent with memory), Hermes (deep analysis). Dropped the rest.",
-            lesson: "The main LLM trap — \"when all you have is a hammer, everything looks like a nail\". 16 agents gave endorphins but not results. The path from complexity to simplicity.",
+            lesson: "The main LLM trap — \"when all you have is a hammer, everything looks like a nail\". 16 agents gave endorphins but not results. The real journey: from overcomplicating to simplifying.",
           },
         ],
       },
