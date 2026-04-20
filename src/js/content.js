@@ -476,7 +476,465 @@ const CONTENT = {
     },
   },
 
-  // en: { ... } — будет добавлено позже
+  en: {
+
+    // ── Meta ──
+    meta: {
+      title_personal: "Maksim Solovev — DevOps",
+      title_cv: "Maksim Solovev — DevOps CV",
+      handle: "artfaal",
+      host: "artfaal.ru",
+      location: "Russia, Moscow",
+      shell: "zsh",
+      birth: "1989-07-24",
+      start_it: "2013-03-01",
+      start_devops: "2019-12-01",
+      knowsAbout: ["DevOps", "CI/CD", "Infrastructure", "Monitoring", "LLM tooling"],
+      last_updated: "2026-04-20",
+    },
+
+    // ── Navigation ──
+    nav: {
+      personal: "personal",
+      cv: "career",
+    },
+
+    // ── Hero (shared across both pages) ──
+    hero: {
+      name: "Maksim Solovev",
+      role: "DevOps Engineer",
+      tagline: "I bring order to complex systems and automate the grind so people have energy left for life.",
+      sub: "Currently digging into LLM tooling — the kind that actually helps, not the kind that breeds another zoo.",
+      cta_primary: { label: "message me", href: "https://t.me/artfaal" },
+      cta_secondary: { label: "github", href: "https://github.com/artfaal" },
+      prompt_lines: ["whoami", "cat ~/human.md"],
+    },
+
+    // ── Blog / notes ──
+    blog: {
+      head: "// blog",
+      n: "05",
+      title: "Blog",
+      sub: "Live notes on tech, life, and things that actually stuck. A consciousness dump.",
+      links: [
+        { label: "Telegram channel", handle: "@artfaal_log", href: "https://t.me/artfaal_log", icon: "tg" },
+        { label: "Long reads", handle: "log.artfaal.ru", href: "https://log.artfaal.ru/", icon: "blog" },
+      ],
+    },
+
+    // ── Contacts (shared) ──
+    contacts: {
+      head: "// contact",
+      n: "06",
+      title: "Get in touch",
+      sub: "Telegram works best. Everything else works too.",
+      links: [
+        { label: "Telegram",  handle: "@artfaal",         href: "https://t.me/artfaal",                       icon: "tg" },
+        { label: "Blog",      handle: "@artfaal_log",     href: "https://t.me/artfaal_log",                   icon: "blog" },
+        { label: "Email",     handle: "sys.dll@gmail.com", href: "mailto:sys.dll@gmail.com",                  icon: "mail" },
+        { label: "GitHub",    handle: "artfaal",           href: "https://github.com/artfaal",                icon: "gh" },
+        { label: "LinkedIn",  handle: "maksim-solovev",    href: "https://www.linkedin.com/in/maksim-solovev/", icon: "in" },
+      ],
+    },
+
+    // ── Footer ──
+    footer: {
+      built: "hand-assembled",
+      sig: "// end of file",
+    },
+
+    // ================================================================
+    // PERSONAL PAGE (index.html)
+    // ================================================================
+    personal: {
+
+      // -- Short portrait --
+      about: {
+        head: "// about",
+        n: "00",
+        title: "Short portrait",
+        body: [
+          "Over a decade in IT — from being the sole sysadmin at a small company to DevOps Expert at Jet Infosystems.",
+          "For the past several years I've been building infrastructure for enterprise products. Currently a DevOps Engineer on the Jet Detective project — an anti-fraud platform for banks and retail. I own everything: CI/CD, monitoring, managing 160+ virtual machines.",
+          "Went from team lead to expert — deliberately. I can manage a team, but I value deep engineering work more: figure it out, fix it, automate it, document it.",
+          "I like clear systems, honest trade-offs, and practical solutions. I don't romanticize the \"magic platform\" — I separate core from lab.",
+        ],
+      },
+
+      // -- What I bring to the table --
+      value: {
+        head: "// value",
+        n: "01",
+        title: "What I bring to the table",
+        items: [
+          {
+            k: "01",
+            t: "Turning chaos into structure",
+            d: "I take messy processes and shape them into something clear and reproducible. No cosmetics — substance only.",
+          },
+          {
+            k: "02",
+            t: "Automation without cargo cults",
+            d: "Not \"because it's trendy\" but because busywork eats attention. Over-engineering is just as much of an enemy as manual labor.",
+          },
+          {
+            k: "03",
+            t: "Handling complexity solo",
+            d: "Infrastructure, debugging, orchestration. I can navigate complex technical contexts on my own — from diagnosis to production fix.",
+          },
+          {
+            k: "04",
+            t: "Telling a tool from a demo",
+            d: "I quickly spot where the real value is and where it's just a shiny wrapper. I don't let the AI-tool zoo grow unchecked.",
+          },
+          {
+            k: "05",
+            t: "Bridge: infra ↔ AI tooling",
+            d: "Actively studying LLM agents and how they apply to engineering workflows. Helping teams integrate them without the pain.",
+          },
+          {
+            k: "06",
+            t: "Infrastructure without a \"keeper of secret knowledge\"",
+            d: "I build so the system doesn't depend on one specific person. Documentation, transparency, self-documenting processes.",
+          },
+        ],
+      },
+
+      // -- Principles --
+      principles: {
+        head: "// principles",
+        n: "02",
+        title: "Principles",
+        sub: "A few rules I work and live by. Not a manifesto — just things that have paid off.",
+        items: [
+          {
+            n: "01",
+            t: "Order first, automation second",
+            d: "Automating chaos just gives you automated chaos. First make the process clear.",
+          },
+          {
+            n: "02",
+            t: "Backup before risky changes",
+            d: "Always. No exceptions. Even when \"nothing can possibly break\".",
+          },
+          {
+            n: "03",
+            t: "A tool simplifies life, not starts a new religion",
+            d: "If a tool needs a half-time position to maintain — it's not a tool, it's a project.",
+          },
+          {
+            n: "04",
+            t: "Working beats sterile",
+            d: "A running system with a bit of tech debt beats a perfect architecture that nobody could ship to production.",
+          },
+          {
+            n: "05",
+            t: "Documentation is part of the job",
+            d: "If it's not written down — it doesn't exist. Six months from now you won't remember why you did it that way.",
+          },
+          {
+            n: "06",
+            t: "set -e, no skips",
+            d: "If something fails — fix it, don't work around it.",
+          },
+        ],
+      },
+
+      // -- Human side --
+      human: {
+        head: "// human",
+        n: "03",
+        title: "The human side",
+        sub: "Not \"hobbies\" — things that explain who I am.",
+        cards: [
+          {
+            t: "Books",
+            d: "Brandon Sanderson is love! What fascinates me isn't so much the magic, but how the author builds world rules and sticks to them.",
+            tag: "books",
+            img: "/assets/cosmere.webp",
+          },
+          {
+            t: "Motorcycle",
+            d: "A way to clear my head and switch gears.",
+            tag: "motorcycle",
+            img: "/assets/moto.webp",
+          },
+          {
+            t: "Personal assistant",
+            d: "In my spare time I'm building \"Kloya\" — a personal assistant based on OpenClaw. The goal was to free up time for other things, but so far I'm mostly debugging :D",
+            tag: "AI",
+            img: "/assets/kloya.webp",
+          },
+          {
+            t: "3D printer",
+            d: "I design small practical projects for the home. A custom stand for an e-reader? Why not.",
+            tag: "3D / CAD",
+            img: "/assets/printer.webp",
+          },
+          {
+            t: "Gym",
+            d: "Earned a Class II ranking in bench press at a competition. Hoping to reach Master of Sport someday =)",
+            tag: "sport",
+            img: "/assets/gym.webp",
+          },
+          {
+            t: "Anime, games",
+            d: "Anime as a way to switch off. Less and less time for games, but I keep up and try not to drop them entirely.",
+            tag: "life",
+            img: "/assets/life.webp",
+          },
+        ],
+      },
+
+      // -- Currently exploring --
+      exploring: {
+        head: "// exploring",
+        n: "04",
+        title: "Currently exploring",
+        sub: "What I'm digging into right now.",
+        items: [
+          {
+            t: "LLM and agent orchestration",
+            d: "~300 hours over six weeks experimenting with agent frameworks and LLM orchestration. Looking for ways to genuinely reduce cognitive load in engineering workflows.",
+          },
+          {
+            t: "Integrating LLM tools into workflows",
+            d: "How to take experience from personal experiments into production DevOps.",
+          },
+          {
+            t: "Reducing cognitive load",
+            d: "Automating not just routine tasks, but decision-making itself.",
+          },
+        ],
+      },
+    },
+
+    // ================================================================
+    // CV PAGE (cv/index.html)
+    // ================================================================
+    cv: {
+
+      // -- About (extended, for employers) --
+      about: {
+        head: "// about",
+        n: "00",
+        title: "About me",
+        body: [
+          "DevOps Expert Engineer. DevOps on the Jet Detective anti-fraud platform (Jet Infosystems). Built CI/CD, monitoring, and a management system for 160+ VMs from scratch.",
+          "Experience leading a team of 7, shipping releases to production on large government projects, and adapting services for Kubernetes.",
+        ],
+      },
+
+      // -- Work experience --
+      experience: {
+        head: "// experience",
+        n: "01",
+        title: "Work experience",
+        items: [
+          {
+            title: "DevOps Expert Engineer",
+            company: "Jet Infosystems",
+            period: "Oct 2023 – present",
+            project: "Jet Detective — a fraud prevention and financial monitoring platform (anti-fraud for banks, retail, and industry). Responsible for all product infrastructure.",
+            groups: [
+              {
+                title: "Infrastructure & automation",
+                items: [
+                  "Developed JD-Gateway (Python) — a single source of truth for 160+ VMs in vSphere: lifecycle management, TTL, REST API, dynamic inventory for Ansible and Prometheus, Web UI",
+                  "Created an automated product installer supporting CentOS, RedOS, and Astra Linux",
+                  "Automated VM provisioning via Packer (4 OSes) and Ansible (10+ roles)",
+                ],
+              },
+              {
+                title: "CI/CD",
+                items: [
+                  "Designed and maintain complex Jenkins pipelines for build and deploy",
+                  "Implemented parallel builds and dynamic worker creation in vSphere",
+                  "Integrated auto-tests into PR pipelines and introduced OWASP Dependency Check",
+                  "Migrated repositories from Bitbucket to GitLab while preserving CI/CD integrations",
+                ],
+              },
+              {
+                title: "Monitoring & logging",
+                items: [
+                  "Built the monitoring stack from scratch: Telegraf + Prometheus + Grafana + Thanos",
+                  "Set up alerting, created dashboards, implemented a flexible notification system",
+                  "Deployed OpenSearch + Loki + Promtail + Logstash for logs",
+                ],
+              },
+              {
+                title: "Security",
+                items: [
+                  "Implemented HashiCorp Vault (GitOps) for secrets management",
+                  "Developed an SSH CA with Web UI and LDAP authentication",
+                  "Addressed security audit findings for a banking client",
+                ],
+              },
+              {
+                title: "Custom tooling",
+                items: [
+                  "Telegram bot for infrastructure management with LDAP and audit logging",
+                  "Comprehensive backup system (PostgreSQL, Jenkins, OpenSearch, Kafka) to MinIO S3",
+                  "GitLab webhook server for MR automation",
+                  "Apache Superset for embedded BI dashboards in the product",
+                  "Documentation platform based on MkDocs with drift-detection",
+                ],
+              },
+            ],
+          },
+          {
+            title: "Team Lead DevOps",
+            company: "Jet Infosystems",
+            period: "Dec 2019 – Oct 2023",
+            project: "Projects: EGRN, Atlant (Testing Automation Platform). Led a DevOps team of 7.",
+            groups: [
+              {
+                title: "EGRN project",
+                items: [
+                  "Managed test environment infrastructure (6+ environments, 1000+ VMs)",
+                  "Shipped releases to production — debugging under fire, log analysis",
+                  "Production MongoDB upgrade — playbooks, production-like environment, data migration",
+                ],
+              },
+              {
+                title: "Atlant / TAP project",
+                items: [
+                  "System architect: design, implementation, and support of a test automation platform",
+                  "Adapted services for Kubernetes, deployed k8s clusters",
+                  "CI/CD consulting for internal projects, pre-sales for banking clients",
+                ],
+              },
+            ],
+          },
+          {
+            title: "System Administrator / Web Developer",
+            company: "SaunaMaster → EOS Premium Spa Technologies",
+            period: "Mar 2013 – Oct 2019",
+            project: "Started as the sole IT specialist in the company, grew from sysadmin to web developer.",
+            groups: [
+              {
+                title: "Sysadmin (2013–2015)",
+                items: [
+                  "Designed small-business IT infrastructure from scratch: LAN, servers, IP telephony, CCTV",
+                ],
+              },
+              {
+                title: "Web development (2015–2019)",
+                items: [
+                  "Commercial website development: DigitalOcean, Nginx, Python, Flask, MongoDB",
+                  "Built promotional sites for marketing campaigns",
+                ],
+              },
+            ],
+          },
+        ],
+      },
+
+      // -- Cases --
+      cases: {
+        head: "// cases",
+        n: "02",
+        title: "Selected cases",
+        items: [
+          {
+            num: "01",
+            title: "JD-Gateway — single source of truth for 160+ VMs",
+            task: "160+ virtual machines across environments. Information scattered across Confluence, engineers' heads, and vSphere consoles.",
+            did: "Developed JD-Gateway in Python — a web app with REST API, vSphere integration, dynamic inventory for Ansible and Prometheus, TTL system, and Web UI.",
+            result: "Instead of manual VM creation — an API call. Instead of \"ask Maks\" — self-service. TTL prevents environments from turning into zombies.",
+            lesson: "\"Single source of truth\" is not an architectural pattern — it's a cultural decision. The technical part is 30%; the rest is persuasion and convenience.",
+          },
+          {
+            num: "02",
+            title: "Monitoring from scratch for an anti-fraud platform",
+            task: "A product with zero monitoring. Issues were discovered when someone complained or an environment went down.",
+            did: "Built the full stack: Prometheus, Grafana, Thanos for long-term storage. Alerting with a flexible notification system. OpenSearch + Logstash for logs.",
+            result: "Problems are visible before anyone complains. Dashboards became the primary diagnostic tool.",
+            lesson: "Monitoring isn't \"install Prometheus\". It's a dashboard that a specific person opens every morning. If it can't answer \"is everything OK?\" in 5 seconds — it's useless.",
+          },
+          {
+            num: "03",
+            title: "Jenkins as the CI/CD backbone for an enterprise project",
+            task: "A complex product with many components, multiple OSes, lots of environments. Needed reliable and fast CI/CD.",
+            did: "Complex pipelines for the full cycle. Parallel builds, dynamic workers in vSphere. Active Choice UI. Auto-tests in PRs. OWASP Dependency Check.",
+            result: "The team deploys on their own. PRs don't merge without tests. Dependencies are automatically checked for vulnerabilities.",
+            lesson: "Jenkins is powerful but dangerous. Without discipline, pipelines turn into unreadable Groovy scripts.",
+          },
+          {
+            num: "04",
+            title: "Production MongoDB upgrade (EGRN)",
+            task: "Upgrade MongoDB in production on one of the largest government IT projects. Downtime is critical, data loss is unacceptable.",
+            did: "Ansible playbooks for the upgrade. A production-like environment for full dry runs. Debugging until fully reproducible.",
+            result: "Successful migration with zero data loss and minimal downtime.",
+            lesson: "In production there's no \"let's try\". Every step is verified on a staging environment. Playbooks are documentation that also executes.",
+          },
+          {
+            num: "05",
+            title: "Six weeks in the LLM zoo",
+            task: "Figure out whether LLM agents can genuinely reduce cognitive load in day-to-day engineering work.",
+            did: "299 hours over six weeks. 16 agents on two Mac minis. Tried OpenClaw, Claude Code, Codex, Gemini, Hermes, local models, memory systems.",
+            result: "Kept 3 tools: Claude Code (code), Kloya / OpenClaw (personal agent with memory), Hermes (deep analysis). Dropped the rest.",
+            lesson: "The main LLM trap — \"when all you have is a hammer, everything looks like a nail\". 16 agents gave endorphins but not results. The path from complexity to simplicity.",
+          },
+        ],
+      },
+
+      // -- Skills / stack --
+      skills: {
+        head: "// skills",
+        n: "03",
+        title: "Skills",
+        groups: [
+          {
+            title: "Core",
+            items: ["Jenkins", "GitLab CI/CD", "Ansible", "Docker", "Prometheus", "Grafana", "HashiCorp Vault", "VMware vSphere", "Linux", "PostgreSQL"],
+          },
+          {
+            title: "Extended",
+            items: ["Thanos", "Packer", "OpenSearch", "Loki", "Promtail", "Logstash", "Telegraf", "Kafka", "Keycloak", "Nginx", "Kubernetes", "Terraform", "Go", "Python", "Bash", "Groovy", "MinIO/S3", "Apache Superset", "Git"],
+          },
+          {
+            title: "Previously",
+            items: ["Flask", "MongoDB", "HTML/JS/CSS", "DigitalOcean", "Ruby", "Java", "SonarQube"],
+          },
+        ],
+      },
+
+      // -- Languages --
+      languages: {
+        head: "// languages",
+        n: "04",
+        title: "Languages",
+        items: [
+          { name: "Russian", level: "native" },
+          { name: "English", level: "advanced (reading, listening; working on speaking)" },
+        ],
+      },
+
+      education: {
+        head: "// education",
+        n: "05",
+        title: "Education",
+        items: [
+          {
+            title: "Yandex Practicum",
+            detail: "DevOps for Operations and Development (including Kubernetes)",
+            year: "2022–2023",
+          },
+          {
+            title: "Coursera",
+            detail: "An Introduction to Interactive Programming in Python",
+            year: "2014",
+          },
+          {
+            title: "Pedagogical College No. 1 (K.D. Ushinsky)",
+            detail: "Social Pedagogy",
+            year: "2006–2009",
+          },
+        ],
+      },
+    },
+  },
 };
 
 if (typeof module !== 'undefined') module.exports = CONTENT;

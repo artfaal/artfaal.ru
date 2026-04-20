@@ -13,7 +13,8 @@ const path = require('path');
 // ── Загружаем контент и утилиты ──
 const { calcAge, calcYears } = require('./src/js/utils.js');
 const CONTENT = require('./src/js/content.js');
-const c = CONTENT.ru;
+const lang = process.argv.includes('--en') ? 'en' : 'ru';
+const c = CONTENT[lang];
 const hero = c.hero;
 const cv = c.cv;
 const contacts = c.contacts;
@@ -21,7 +22,7 @@ const contacts = c.contacts;
 // ── HTML-шаблон CV ──
 function buildHTML() {
   return `<!DOCTYPE html>
-<html lang="ru">
+<html lang="${lang}">
 <head>
 <meta charset="utf-8">
 <style>
@@ -111,8 +112,8 @@ function buildHTML() {
 <div class="header">
   <div class="header-left">
     <div class="name">${hero.name}</div>
-    <div class="role">${hero.role}, ${calcAge(c.meta.birth)} лет</div>
-    <div class="age">${calcYears(c.meta.start_it)}+ лет в IT, ${calcYears(c.meta.start_devops)}+ лет в DevOps · ${c.meta.location}</div>
+    <div class="role">${hero.role}, ${calcAge(c.meta.birth)} ${lang === 'en' ? 'y.o.' : 'лет'}</div>
+    <div class="age">${calcYears(c.meta.start_it)}+ ${lang === 'en' ? 'years in IT, ' : 'лет в IT, '}${calcYears(c.meta.start_devops)}+ ${lang === 'en' ? 'years in DevOps' : 'лет в DevOps'} · ${c.meta.location}</div>
     <ul class="contacts-list">
       ${contacts.links.filter(l => l.icon !== 'blog').map(l => `<li><a href="${l.href}">${l.label}: ${l.handle}</a></li>`).join('\n      ')}
     </ul>
@@ -149,10 +150,10 @@ function buildHTML() {
   ${cv.cases.items.map(cs => `
   <div class="case">
     <div class="case-title">${cs.num}. ${cs.title}</div>
-    <div class="case-row"><span class="case-label">Задача:</span> <span class="case-text">${cs.task}</span></div>
-    <div class="case-row"><span class="case-label">Решение:</span> <span class="case-text">${cs.did}</span></div>
-    <div class="case-row"><span class="case-label">Результат:</span> <span class="case-text">${cs.result}</span></div>
-    <div class="case-row case-lesson"><span class="case-label">Урок:</span> <span class="case-text">${cs.lesson}</span></div>
+    <div class="case-row"><span class="case-label">${lang === 'en' ? 'Challenge:' : 'Задача:'}</span> <span class="case-text">${cs.task}</span></div>
+    <div class="case-row"><span class="case-label">${lang === 'en' ? 'Solution:' : 'Решение:'}</span> <span class="case-text">${cs.did}</span></div>
+    <div class="case-row"><span class="case-label">${lang === 'en' ? 'Result:' : 'Результат:'}</span> <span class="case-text">${cs.result}</span></div>
+    <div class="case-row case-lesson"><span class="case-label">${lang === 'en' ? 'Lesson:' : 'Урок:'}</span> <span class="case-text">${cs.lesson}</span></div>
   </div>`).join('')}
 </div>
 
@@ -216,7 +217,8 @@ if (!chrome) {
 }
 
 const tmpFile = path.join(__dirname, '.cv-tmp.html');
-const outFile = path.join(__dirname, 'assets', 'Solovev_Maksim_CV.pdf');
+const pdfName = lang === 'en' ? 'Solovev_Maksim_CV_en.pdf' : 'Solovev_Maksim_CV.pdf';
+const outFile = path.join(__dirname, 'assets', pdfName);
 
 fs.writeFileSync(tmpFile, buildHTML());
 

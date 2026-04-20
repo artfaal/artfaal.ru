@@ -100,19 +100,19 @@ function sectionCases(d) {
     + `</button>`
     + `<div class="case-body">`
     +   `<div class="case-block">`
-    +     `<div class="case-label">Задача</div>`
+    +     `<div class="case-label">${_lang === 'en' ? 'Challenge' : 'Задача'}</div>`
     +     `<p class="case-text">${c.task}</p>`
     +   `</div>`
     +   `<div class="case-block">`
-    +     `<div class="case-label">Что сделал</div>`
+    +     `<div class="case-label">${_lang === 'en' ? 'Solution' : 'Что сделал'}</div>`
     +     `<p class="case-text">${c.did}</p>`
     +   `</div>`
     +   `<div class="case-block">`
-    +     `<div class="case-label">Результат</div>`
+    +     `<div class="case-label">${_lang === 'en' ? 'Result' : 'Результат'}</div>`
     +     `<p class="case-text">${c.result}</p>`
     +   `</div>`
     +   `<div class="case-block">`
-    +     `<div class="case-label">Урок</div>`
+    +     `<div class="case-label">${_lang === 'en' ? 'Lesson' : 'Урок'}</div>`
     +     `<p class="case-text">${c.lesson}</p>`
     +   `</div>`
     + `</div>`

@@ -2,9 +2,10 @@
 // Общие утилиты — используются обеими страницами
 // ============================================================
 
-// Хранилище таймеров и наблюдателей для очистки
+// Хранилище состояния
 const _timers = [];
 let _scrollObserver = null;
+let _lang = 'ru';
 
 // ── Безопасная вставка текста в HTML-атрибуты ──
 function escapeHTML(str) {
@@ -19,6 +20,7 @@ function escapeHTML(str) {
 
 // ── Динамические meta/OG/JSON-LD ──
 function updateMeta(c, currentPage) {
+  const lang = _lang;
   const meta = c.meta;
   const hero = c.hero;
   const isCV = currentPage === 'cv';
@@ -26,9 +28,12 @@ function updateMeta(c, currentPage) {
   const url = base + (isCV ? '/cv/' : '/');
   const title = isCV ? meta.title_cv : meta.title_personal;
   const desc = isCV
-    ? hero.role + '. ' + calcYears(meta.start_it) + '+ лет в IT, ' + calcYears(meta.start_devops) + '+ лет в DevOps.'
+    ? hero.role + '. ' + calcYears(meta.start_it) + '+ ' + (lang === 'en' ? 'years in IT, ' : 'лет в IT, ') + calcYears(meta.start_devops) + '+ ' + (lang === 'en' ? 'years in DevOps.' : 'лет в DevOps.')
     : hero.role + '. ' + hero.tagline;
   const image = base + '/assets/photo.webp';
+
+  // HTML lang
+  document.documentElement.lang = lang;
 
   // Meta + OG
   document.title = title;
@@ -38,6 +43,7 @@ function updateMeta(c, currentPage) {
   set('meta[property="og:description"]', desc);
   set('meta[property="og:image"]', image);
   set('meta[property="og:site_name"]', meta.host);
+  set('meta[property="og:locale"]', lang === 'en' ? 'en_US' : 'ru_RU');
 
   // JSON-LD
   const email = c.contacts.links.find(l => l.icon === 'mail');
@@ -104,6 +110,7 @@ function asciiRuleHTML(label, n) {
 
 // ── Рендер: Навигация ──
 function renderNav(el, c, currentPage) {
+  const lang = _lang;
   const isPersonal = currentPage === 'personal';
   el.innerHTML = ''
     + `<a class="tb-brand" href="/">`
@@ -119,16 +126,17 @@ function renderNav(el, c, currentPage) {
     +   `</div>`
     +   `<div class="seg" role="group" aria-label="lang">`
     +     `<span class="seg-label">--lang=</span>`
-    +     `<button class="seg-btn is-on" id="lang-ru">ru</button>`
+    +     `<button class="seg-btn ${lang === 'ru' ? 'is-on' : ''}" onclick="setLang('ru')">ru</button>`
     +     `<span class="seg-sep">|</span>`
-    +     `<button class="seg-btn" id="lang-en" disabled title="coming soon">en</button>`
+    +     `<button class="seg-btn ${lang === 'en' ? 'is-on' : ''}" onclick="setLang('en')">en</button>`
     +   `</div>`
-    +   `<a href="/assets/Solovev_Maksim_CV.pdf" download class="seg-btn seg-cv">${icon('download', 12)} CV</a>`
+    +   `<a href="/assets/Solovev_Maksim_CV${lang === 'en' ? '_en' : ''}.pdf" download class="seg-btn seg-cv">${icon('download', 12)} CV</a>`
     + `</div>`;
 }
 
 // ── Рендер: Hero ──
 function renderHero(el, c, pageTitle) {
+  const lang = _lang;
   const hero = c.hero;
   const meta = c.meta;
 
@@ -175,8 +183,8 @@ function renderHero(el, c, pageTitle) {
     +         metaRowHTML('age', calcAge(meta.birth))
     +         metaRowHTML('role', hero.role)
     +         metaRowHTML('location', meta.location)
-    +         metaRowHTML('в IT', '<span id="exp-it">...</span>')
-    +         metaRowHTML('в DevOps', '<span id="exp-devops">...</span>')
+    +         metaRowHTML(lang === 'en' ? 'in IT' : 'в IT', '<span id="exp-it">...</span>')
+    +         metaRowHTML(lang === 'en' ? 'in DevOps' : 'в DevOps', '<span id="exp-devops">...</span>')
     +         metaRowHTML('status', '<span id="live-status" class="status-on">\u25CF online</span>')
     +       `</div>`
     +     `</div>`
@@ -211,20 +219,24 @@ function renderContacts(data) {
 
 // ── Рендер: Футер ──
 function renderFooter(el, data, contacts, meta) {
+  const lang = _lang;
   const year = new Date().getFullYear();
   const email = contacts.links.find(l => l.icon === 'mail');
-  const updated = meta.last_updated ? new Date(meta.last_updated).toLocaleDateString('ru-RU', { month: 'long', year: 'numeric' }) : '';
+  const locale = lang === 'en' ? 'en-US' : 'ru-RU';
+  const updated = meta.last_updated ? new Date(meta.last_updated).toLocaleDateString(locale, { month: 'long', year: 'numeric' }) : '';
   el.innerHTML = ''
     + `<span>${data.sig}</span>`
     + `<span>`
-    +   `<span class="foot-built" title="или нет?">${data.built}</span> &middot; ${year}`
+    +   `<span class="foot-built" title="${lang === 'en' ? 'or is it?' : 'или нет?'}">${data.built}</span> &middot; ${year}`
     +   (email ? ` &middot; <a href="${escapeHTML(email.href)}">${escapeHTML(email.handle)}</a>` : '')
-    +   (updated ? ` &middot; обновлено: ${updated}` : '')
+    +   (updated ? ` &middot; ${lang === 'en' ? 'updated: ' : 'обновлено: '}${updated}` : '')
     + `</span>`;
 
   // Пасхалка
   const builtEl = el.querySelector('.foot-built');
-  const secret = 'собрано Claude под чутким руководством \u{1F916}';
+  const secret = lang === 'en'
+    ? 'assembled by Claude under careful supervision \u{1F916}'
+    : 'собрано Claude под чутким руководством \u{1F916}';
   const glyphs = '\u2588\u2593\u2592\u2591@#$%&*!?';
 
   builtEl.style.cursor = 'pointer';
@@ -288,6 +300,7 @@ function formatDuration(startStr) {
   const min = Math.floor(sec / 60); sec %= 60;
 
   const pad = n => String(n).padStart(2, '0');
+  if (_lang === 'en') return `${y}y ${m}m ${d}d ${pad(hr)}:${pad(min)}:${pad(sec)}`;
   return `${y} лет ${m} мес ${d} дн ${pad(hr)}:${pad(min)}:${pad(sec)}`;
 }
 
@@ -454,7 +467,8 @@ function initScrollReveal() {
 
 // ── Инициализация (вызывается из page-*.js) ──
 function initPage(currentPage) {
-  const lang = getLang();
+  _lang = getLang();
+  const lang = _lang;
   const c = CONTENT[lang] || CONTENT.ru;
 
   // Навигация
@@ -481,7 +495,7 @@ function initPage(currentPage) {
   );
   console.log('%c' + c.hero.role, 'color:#d4a017;font-size:11px');
   console.log('%c' + c.meta.host, 'color:#6a665b;font-size:11px');
-  console.log('%cА что ты тут рассчитывал увидеть? >_>\n', 'color:#8d887a;font-size:10px');
+  console.log('%c' + (lang === 'en' ? 'What did you expect to find here? >_>' : 'А что ты тут рассчитывал увидеть? >_>') + '\n', 'color:#8d887a;font-size:10px');
 
   // Живые фичи
   initExpCounters(c.meta);
@@ -502,7 +516,7 @@ function initScrollUI() {
   // Кнопка наверх
   const btn = document.createElement('button');
   btn.className = 'btn-top';
-  btn.setAttribute('aria-label', 'Наверх');
+  btn.setAttribute('aria-label', _lang === 'en' ? 'Back to top' : 'Наверх');
   btn.innerHTML = icon('arrow', 16);
   btn.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
   document.body.appendChild(btn);
