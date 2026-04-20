@@ -522,7 +522,9 @@ function initScrollUI() {
   document.body.appendChild(btn);
 
   // Обновление при скролле
-  const avatar = window.innerWidth >= 900 ? document.querySelector('.avatar-wrap') : null;
+  const isDesktop = window.innerWidth >= 900;
+  const avatar = isDesktop ? document.querySelector('.avatar-wrap') : null;
+  const terminal = isDesktop ? document.querySelector('.hero-left') : null;
   let ticking = false;
   const onScroll = () => {
     if (!ticking) {
@@ -533,6 +535,7 @@ function initScrollUI() {
         bar.style.width = pct + '%';
         btn.classList.toggle('is-visible', scrollY > 400);
         if (avatar) avatar.style.transform = `translateY(${scrollY * 0.08}px)`;
+        if (terminal) terminal.style.transform = `translateY(${scrollY * -0.03}px)`;
         ticking = false;
       });
       ticking = true;
