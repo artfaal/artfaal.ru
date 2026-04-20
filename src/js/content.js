@@ -434,7 +434,7 @@ var CONTENT = {
       education: {
         head: "// education",
         n: "04",
-        title: "Образование и сертификаты",
+        title: "Образование",
         items: [
           {
             title: "Яндекс.Практикум",
@@ -442,14 +442,14 @@ var CONTENT = {
             year: "2022–2023",
           },
           {
-            title: "ГБОУ СПО Педагогический колледж №1 им. К.Д. Ушинского",
-            detail: "Социальная педагогика",
-            year: "2006–2009",
-          },
-          {
             title: "Coursera",
             detail: "An Introduction to Interactive Programming in Python",
             year: "2014",
+          },
+          {
+            title: "ГБОУ СПО Педагогический колледж №1 им. К.Д. Ушинского",
+            detail: "Социальная педагогика",
+            year: "2006–2009",
           },
         ],
       },
