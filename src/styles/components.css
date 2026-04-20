@@ -718,10 +718,12 @@
   .hero-tagline { font-size: 16px; }
   .hero-sub { font-size: 12px; }
 
-  /* Avatar — компактный на мобильном */
-  .hero-right { display: flex; justify-content: center; }
-  .avatar-wrap { max-width: 160px; }
+  /* Avatar: скрываем картинку, мета аккуратно без точек */
+  .avatar-frame { display: none; }
+  .avatar-wrap { max-width: none; }
   .avatar-meta { font-size: 11px; }
+  .avatar-meta .meta-dot { display: none; }
+  .avatar-meta .meta-row { justify-content: space-between; }
 
   /* Value */
   .value-item { grid-template-columns: 40px minmax(0, 1fr); gap: 12px; padding: 16px 4px; }
