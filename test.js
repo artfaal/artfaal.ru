@@ -110,19 +110,19 @@ requiredFiles.forEach(function(f) {
 console.log('\n\x1b[1mPDF generation\x1b[0m');
 // ════════════════════════════════════════
 
+var pdfPath = path.join(ROOT, 'assets', 'Solovev_Maksim_CV.pdf');
+
 if (process.env.SKIP_PDF_GEN === '1') {
-  var pdfPath = path.join(ROOT, 'assets', 'Solovev_Maksim_CV.pdf');
   assert('PDF exists (skip regen)', fs.existsSync(pdfPath));
-  assert('PDF size > 10KB', fs.statSync(pdfPath).size > 10000);
-} else try {
-  execSync('node generate-cv.js', { cwd: ROOT, stdio: 'pipe', timeout: 30000 });
-  var pdfPath = path.join(ROOT, 'assets', 'Solovev_Maksim_CV.pdf');
-  assert('PDF generated', fs.existsSync(pdfPath));
-  var pdfSize = fs.statSync(pdfPath).size;
-  assert('PDF size > 10KB', pdfSize > 10000, 'only ' + pdfSize + ' bytes');
-} catch (e) {
-  fail('PDF generation', e.message);
+} else {
+  try {
+    execSync('node generate-cv.js', { cwd: ROOT, stdio: 'pipe', timeout: 30000 });
+    assert('PDF generated', fs.existsSync(pdfPath));
+  } catch (e) {
+    fail('PDF generation', e.message);
+  }
 }
+assert('PDF size > 10KB', fs.existsSync(pdfPath) && fs.statSync(pdfPath).size > 10000);
 
 // ════════════════════════════════════════
 console.log('\n\x1b[1mHTML validation\x1b[0m');
