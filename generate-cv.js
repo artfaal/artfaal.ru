@@ -127,7 +127,7 @@ function buildHTML() {
     <div class="role">${hero.role}, ${calcAge(c.meta.birth)} лет</div>
     <div class="age">${calcYears(c.meta.start_it)}+ лет в IT, ${calcYears(c.meta.start_devops)}+ лет в DevOps</div>
     <ul class="contacts-list">
-      ${contacts.links.map(l => `<li><a href="${l.href}">${l.label}: ${l.handle}</a></li>`).join('\n      ')}
+      ${contacts.links.filter(l => l.icon !== 'blog').map(l => `<li><a href="${l.href}">${l.label}: ${l.handle}</a></li>`).join('\n      ')}
     </ul>
   </div>
   <img class="header-photo" src="file://${path.join(__dirname, 'assets', 'photo.webp')}">
