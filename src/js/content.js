@@ -16,7 +16,7 @@ const CONTENT = {
     // ── Мета ──
     meta: {
       title_personal: "Соловьев Максим — DevOps",
-      title_cv: "Соловьев Максим — CV",
+      title_cv: "Соловьев Максим — DevOps CV",
       handle: "artfaal",
       host: "artfaal.ru",
       shell: "zsh",
