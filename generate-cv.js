@@ -125,7 +125,7 @@ function buildHTML() {
   <div class="header-left">
     <div class="name">${hero.name}</div>
     <div class="role">${hero.role}, ${calcAge(c.meta.birth)} лет</div>
-    <div class="age">${calcYears(c.meta.start_it)}+ лет в IT, ${calcYears(c.meta.start_devops)}+ лет в DevOps</div>
+    <div class="age">${calcYears(c.meta.start_it)}+ лет в IT, ${calcYears(c.meta.start_devops)}+ лет в DevOps · ${c.meta.location}</div>
     <ul class="contacts-list">
       ${contacts.links.filter(l => l.icon !== 'blog').map(l => `<li><a href="${l.href}">${l.label}: ${l.handle}</a></li>`).join('\n      ')}
     </ul>

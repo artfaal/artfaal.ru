@@ -140,10 +140,10 @@ function renderHero(el, c, pageTitle) {
     +         metaRowHTML('user', meta.handle)
     +         metaRowHTML('age', calcAge(meta.birth))
     +         metaRowHTML('role', hero.role)
+    +         metaRowHTML('location', meta.location)
     +         metaRowHTML('в IT', '<span id="exp-it">...</span>')
     +         metaRowHTML('в DevOps', '<span id="exp-devops">...</span>')
     +         metaRowHTML('status', '<span id="live-status" class="status-on">\u25CF online</span>')
-    +         metaRowHTML('host', meta.host)
     +       `</div>`
     +     `</div>`
     +   `</aside>`

@@ -19,6 +19,7 @@ const CONTENT = {
       title_cv: "Соловьев Максим — DevOps CV",
       handle: "artfaal",
       host: "artfaal.ru",
+      location: "Russia, Moscow",
       shell: "zsh",
       birth: "1989-07-24",
       // Даты для живых счётчиков опыта
