@@ -456,13 +456,42 @@ function revealGlitch(heroBody) {
 function initScrollReveal() {
   _scrollObserver = new IntersectionObserver(entries => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) entry.target.classList.add('in-view');
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        const sub = entry.target.querySelector('.sect-sub');
+        if (sub && !sub.dataset.typed) typeReveal(sub);
+      }
     });
   }, { threshold: 0.08 });
   document.querySelectorAll('.sect').forEach(el => {
     if (el.querySelector('.stagger')) el.classList.add('has-stagger');
     _scrollObserver.observe(el);
   });
+}
+
+// ── Typing reveal для sect-sub ──
+function typeReveal(el) {
+  el.dataset.typed = '1';
+  const text = el.textContent;
+  el.textContent = '';
+  el.style.visibility = 'visible';
+
+  const cursor = document.createElement('span');
+  cursor.className = 'cursor cursor-sub';
+  el.appendChild(cursor);
+
+  let i = 0;
+  const iv = setInterval(() => {
+    if (i >= text.length) {
+      clearInterval(iv);
+      cursor.style.transition = 'opacity 0.6s ease';
+      setTimeout(() => { cursor.style.opacity = '0'; }, 1500);
+      setTimeout(() => cursor.remove(), 2100);
+      return;
+    }
+    el.insertBefore(document.createTextNode(text[i]), cursor);
+    i++;
+  }, 30);
 }
 
 // ── Инициализация (вызывается из page-*.js) ──
