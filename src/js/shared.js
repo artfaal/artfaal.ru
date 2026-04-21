@@ -543,6 +543,10 @@ function initAvatarToggle() {
     layerR.style.backgroundImage = `url(${srcImg.src})`;
     layerB.style.backgroundImage = `url(${srcImg.src})`;
 
+    // На узком экране frame — круг (border-radius: 50%), polygon clip-path сломал бы круг.
+    // RGB-shift + filter остаются, только polygon подавлен.
+    const isNarrow = window.matchMedia('(max-width: 899px)').matches;
+
     const steps = Math.floor(DURATION / TICK);
     const flipAt = Math.floor(steps * 0.45);
     let step = 0;
@@ -559,15 +563,18 @@ function initAvatarToggle() {
       const intensity = t < 0.45 ? t / 0.45 : 1 - (t - 0.45) / 0.55;
       const i2 = intensity * intensity;
 
-      // RGB-сдвиг — чёткий, только горизонтальный
-      const rgbShift = i2 * 12;
+      // RGB-сдвиг — чёткий, только горизонтальный.
+      // На узком экране frame круглый — уменьшаем сдвиг и opacity, чтобы
+      // amber/cyan кайма не выглядела как вторая рамка по бокам круга.
+      const rgbShift = i2 * (isNarrow ? 3 : 12);
+      const rgbOpacity = isNarrow ? 0.5 : 0.8;
       layerR.style.transform = `translateX(${rgbShift}px)`;
       layerB.style.transform = `translateX(${-rgbShift}px)`;
-      layerR.style.opacity = i2 * 0.8;
-      layerB.style.opacity = i2 * 0.8;
+      layerR.style.opacity = i2 * rgbOpacity;
+      layerB.style.opacity = i2 * rgbOpacity;
 
-      // Полосы — резкие, чёткие сдвиги
-      frame.style.clipPath = i2 > 0.2 ? glitchPoly(i2) : '';
+      // Полосы — резкие, чёткие сдвиги (на узком экране круг не ломаем)
+      frame.style.clipPath = (!isNarrow && i2 > 0.2) ? glitchPoly(i2) : '';
 
       // Сдвиг фрейма — минимальный, чёткий
       frame.style.transform = i2 > 0.2

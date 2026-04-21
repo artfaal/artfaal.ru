@@ -743,6 +743,31 @@
   display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px;
 }
 
+/* ───────── Tablet + Mobile: hero-аватар круг 120×120 над терминалом ───────── */
+/* Порог 899px совпадает с desktop grid-threshold (min-width: 900px в layout.css) */
+@media (max-width: 899px) {
+  /* display: contents распускает обёртки — .avatar-frame и .avatar-meta становятся grid-items .hero-grid */
+  .hero-right { display: contents; }
+  .avatar-wrap { display: contents; }
+  .hero-grid { gap: 20px; }
+
+  .avatar-frame {
+    display: block;
+    width: 120px; height: 120px;
+    max-width: none;
+    margin: 0 auto;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    box-shadow: 0 0 0 4px color-mix(in oklab, var(--accent) 20%, transparent),
+                0 0 30px color-mix(in oklab, var(--accent) 35%, transparent);
+    order: -1;
+  }
+  .hero-left { order: 0; }
+  .avatar-meta { order: 1; margin-top: 4px; }
+  .avatar-meta .meta-dot { display: none; }
+  .avatar-meta .meta-row { justify-content: space-between; }
+}
+
 /* ───────── Mobile (small screens) ───────── */
 @media (max-width: 600px) {
   /* Topbar: убираем лейблы, компактнее */
@@ -755,12 +780,8 @@
   .hero-tagline { font-size: 16px; }
   .hero-sub { font-size: 12px; }
 
-  /* Avatar: скрываем картинку, мета аккуратно без точек */
-  .avatar-frame { display: none; }
-  .avatar-wrap { max-width: none; }
+  /* Avatar meta: узкий экран — ужать */
   .avatar-meta { font-size: 11px; }
-  .avatar-meta .meta-dot { display: none; }
-  .avatar-meta .meta-row { justify-content: space-between; }
 
   /* Value */
   .value-item { grid-template-columns: 40px minmax(0, 1fr); gap: 12px; padding: 16px 4px; }
