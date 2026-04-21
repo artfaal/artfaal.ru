@@ -150,11 +150,11 @@
   margin-bottom: 10px;
 }
 .hero-name {
-  font-family: var(--sans);
-  font-weight: 600;
+  font-family: var(--display);
+  font-weight: 700;
   font-size: clamp(32px, 6vw, 68px);
   line-height: 1.02;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.05em;
   margin: 0 0 18px;
   color: var(--fg);
 }
@@ -297,11 +297,11 @@
 
 /* ───────── Секции: общее ───────── */
 .sect-title h2 {
-  font-family: var(--sans);
+  font-family: var(--display);
   font-size: clamp(28px, 3.2vw, 40px);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.05em;
   margin: 0 0 10px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--fg);
 }
 .sect-sub {
@@ -477,11 +477,11 @@
   margin-bottom: 8px;
 }
 .exp-title {
-  font-family: var(--sans);
+  font-family: var(--display);
   font-size: 22px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--fg);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.03em;
 }
 .exp-period {
   font-family: var(--mono);

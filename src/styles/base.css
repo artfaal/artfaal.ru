@@ -14,8 +14,9 @@
   --accent-2: oklch(0.82 0.14 205);
   --danger:  oklch(0.7 0.18 28);
 
-  --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
-  --sans: 'Inter Tight', 'Inter', system-ui, -apple-system, sans-serif;
+  --mono:    'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  --sans:    'Inter Tight', 'Inter', system-ui, -apple-system, sans-serif;
+  --display: 'IBM Plex Mono', 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 
   --maxw: 1200px;
   --pad-x: clamp(20px, 4vw, 56px);
