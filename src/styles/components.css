@@ -1011,3 +1011,16 @@
   .terminal-body { padding: 22px 26px 30px; font-size: 14px; min-height: 340px; }
   .avatar-wrap { position: sticky; top: 80px; }
 }
+
+/* Ультра-узкий: прячем brand целиком, чтобы топбар умещался в 1 строку.
+   Бренд остаётся виден в hero-промпте (`artfaal@artfaal.ru:~$`).
+   Layout: nav (жизнь|работа) слева, lang+PDF группой справа — через
+   width:100% на .tb-right и margin-left:auto на lang-сегменте. */
+@media (max-width: 499px) {
+  .tb-brand { display: none; }
+  .tb-right {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  .tb-right > [aria-label="lang"] { margin-left: auto; }
+}

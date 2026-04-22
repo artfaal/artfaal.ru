@@ -34,8 +34,8 @@ const CONTENT = {
     // ── Навигация ──
     // --page= ссылки между страницами, --lang= переключатель языка
     nav: {
-      personal: "по-человечески",
-      cv: "по работе",
+      personal: "жизнь",
+      cv: "работа",
     },
 
     // ── Hero (общий для обеих страниц) ──
@@ -493,8 +493,8 @@ const CONTENT = {
 
     // ── Navigation ──
     nav: {
-      personal: "personal",
-      cv: "career",
+      personal: "life",
+      cv: "job",
     },
 
     // ── Hero (shared across both pages) ──
