@@ -92,8 +92,8 @@ const CONTENT = {
         title: "Короткий портрет",
         body: [
           "Больше десяти лет в IT — от единственного сисадмина в маленькой компании до DevOps-эксперта в «Инфосистемы Джет».",
-          "Несколько лет строю инфраструктуру для enterprise-продуктов. Сейчас — DevOps-инженер на проекте Jet Detective, антифрод-платформе для банков и ритейла. Отвечаю за всё: от CI/CD и мониторинга до управления 160+ виртуальными машинами.",
-          "С позиции тимлида сознательно ушёл обратно в инженеры. Командой рулить умею, но больше люблю копаться в сложном сам — разобраться, починить, автоматизировать, задокументировать.",
+          "Несколько лет строю инфраструктуру для enterprise-продуктов. Сейчас — DevOps-инженер на проекте Jet Detective, антифрод-платформе для банков и ритейла. На мне всё: от CI/CD и мониторинга до 160+ виртуалок.",
+          "Из тимлидов сознательно ушёл обратно в инженеры. Командой рулить умею, но больше люблю копаться в сложном сам — разобраться, починить, автоматизировать, задокументировать.",
           "Люблю понятные системы, честные компромиссы и практичные решения. Не ведусь на «магические платформы» — отделяю то, что реально работает, от красивых слайдов.",
         ],
       },
@@ -116,7 +116,7 @@ const CONTENT = {
           {
             k: "03",
             t: "Держу сложное в одиночку",
-            d: "Инфраструктура, дебаг, оркестрация. Разруливаю сложные техконтексты в одного — от диагностики до production fix.",
+            d: "Инфраструктура, дебаг, оркестрация. Беру сложную задачу и веду её в одного — от диагностики до production fix.",
           },
           {
             k: "04",
@@ -131,7 +131,7 @@ const CONTENT = {
           {
             k: "06",
             t: "Инфраструктура без «хранителя тайного знания»",
-            d: "Строю так, чтобы система не требовала одного конкретного человека. Документация, прозрачность, самодокументируемые процессы.",
+            d: "Строю так, чтобы ничего не висело на одном человеке. Документация, прозрачность, самодокументируемые процессы.",
           },
         ],
       },
@@ -198,7 +198,7 @@ const CONTENT = {
           },
           {
             t: "3D-принтер",
-            d: "Проектирую маленькие прикладные проекты для дома. Кастомная подставка для электронной книги? Почему бы и нет.",
+            d: "Печатаю всякую мелочь для быта. Кастомная подставка для электронной книги? А почему бы и нет =)",
             img: "/assets/printer.webp",
           },
           {
@@ -283,21 +283,21 @@ const CONTENT = {
       exploring: {
         head: "// exploring",
         title: "Сейчас копаю",
-        sub: "Что интересует прямо сейчас.",
+        sub: "Темы, в которые сейчас реально затянуло.",
         // status: hot — активно погружён; active — регулярно занимаюсь; exploring — в процессе изучения
         items: [
           {
             t: "LLM и оркестрация агентов",
-            d: "~300 часов за полтора месяца на эксперименты с агентными фреймворками и оркестрацией LLM. Ищу способы реально снять когнитивную нагрузку с инженерных процессов.",
+            d: "~300 часов за полтора месяца на эксперименты с агентными фреймворками и оркестрацией LLM. Ищу, как по-настоящему разгрузить голову в инженерной рутине.",
             status: "hot",
           },
           {
-            t: "Встраивание LLM-инструментов в рабочие процессы",
+            t: "LLM-инструменты в реальной работе",
             d: "Как перетащить наработки из домашней песочницы в боевой DevOps — без культа и без боли.",
             status: "active",
           },
           {
-            t: "Снижение когнитивной нагрузки",
+            t: "Разгрузить голову",
             d: "Не только рутина — ещё и шаблонные решения. Если я всё равно выбираю по инструкции, пусть это делает скрипт.",
             status: "exploring",
           },
@@ -602,8 +602,8 @@ const CONTENT = {
         title: "Short portrait",
         body: [
           "Over a decade in IT — from being the sole sysadmin at a small company to DevOps Expert at Jet Infosystems.",
-          "For the past several years I've been building infrastructure for enterprise products. Currently a DevOps Engineer on the Jet Detective project — an anti-fraud platform for banks and retail. I own everything: CI/CD, monitoring, managing 160+ virtual machines.",
-          "Stepped back from team lead into hands-on engineering — by choice. I can lead a team, but I'd rather dig into hard problems myself: figure it out, fix it, automate, document.",
+          "For the past several years I've been building infrastructure for enterprise products. Currently a DevOps Engineer on the Jet Detective project — an anti-fraud platform for banks and retail. Everything's on me: CI/CD, monitoring, 160+ VMs.",
+          "Stepped down from team lead back to hands-on engineering — by choice. I can lead a team, but I'd rather dig into hard problems myself: figure it out, fix it, automate, document.",
           "I like clear systems, honest trade-offs, and practical solutions. I don't buy into \"magic platforms\" — I can tell what actually works from what just looks good on slides.",
         ],
       },
@@ -626,7 +626,7 @@ const CONTENT = {
           {
             k: "03",
             t: "Handling complexity solo",
-            d: "Infrastructure, debugging, orchestration. I work through complex technical contexts solo — from diagnosis to production fix.",
+            d: "Infrastructure, debugging, orchestration. I take a hard problem and carry it end-to-end on my own — from diagnosis to production fix.",
           },
           {
             k: "04",
@@ -641,7 +641,7 @@ const CONTENT = {
           {
             k: "06",
             t: "Infrastructure without a \"keeper of secret knowledge\"",
-            d: "I build things so the system doesn't depend on any single person. Documentation, transparency, self-documenting processes.",
+            d: "I build things so nothing hangs on a single person. Documentation, transparency, self-documenting processes.",
           },
         ],
       },
@@ -708,7 +708,7 @@ const CONTENT = {
           },
           {
             t: "3D printer",
-            d: "I design small practical things for around the house. A custom stand for an e-reader? Why not.",
+            d: "I print all kinds of small bits and bobs for around the house. A custom stand for an e-reader? Why not =)",
             img: "/assets/printer.webp",
           },
           {
@@ -793,20 +793,20 @@ const CONTENT = {
       exploring: {
         head: "// exploring",
         title: "Currently exploring",
-        sub: "What I'm digging into right now.",
+        sub: "Stuff I'm genuinely hooked on right now.",
         items: [
           {
             t: "LLM and agent orchestration",
-            d: "~300 hours over six weeks experimenting with agent frameworks and LLM orchestration. Looking for ways to genuinely reduce cognitive load in engineering workflows.",
+            d: "~300 hours over six weeks experimenting with agent frameworks and LLM orchestration. Looking for ways to actually clear the mental overhead in day-to-day engineering.",
             status: "hot",
           },
           {
-            t: "Integrating LLM tools into workflows",
+            t: "LLM tools in real work",
             d: "Porting what works from my home sandbox into production DevOps — no cargo cults, no pain.",
             status: "active",
           },
           {
-            t: "Reducing cognitive load",
+            t: "Clearing the head",
             d: "Not just routine — boilerplate decisions too. If the choice already follows a script, let a script make it.",
             status: "exploring",
           },
