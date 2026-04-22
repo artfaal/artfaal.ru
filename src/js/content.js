@@ -28,7 +28,7 @@ const CONTENT = {
       // Для JSON-LD (личная страница)
       knowsAbout: ["DevOps", "CI/CD", "Infrastructure", "Monitoring", "LLM tooling"],
       // Дата последнего обновления контента (тест напомнит обновить через 3 мес)
-      last_updated: "2026-04-20",
+      last_updated: "2026-04-22",
     },
 
     // ── Навигация ──
@@ -96,8 +96,8 @@ const CONTENT = {
         body: [
           "Больше десяти лет в IT — от единственного сисадмина в маленькой компании до DevOps-эксперта в «Инфосистемы Джет».",
           "Несколько лет строю инфраструктуру для enterprise-продуктов. Сейчас — DevOps-инженер на проекте Jet Detective, антифрод-платформе для банков и ритейла. Отвечаю за всё: от CI/CD и мониторинга до управления 160+ виртуальными машинами.",
-          "Прошёл путь от тимлида до эксперта — сознательно. Руководить командой умею, но больше ценю глубокую инженерную работу: разобраться, починить, автоматизировать, задокументировать.",
-          "Люблю понятные системы, честные компромиссы и практичные решения. Не романтизирую «магическую платформу» — отделяю core от lab.",
+          "С позиции тимлида сознательно ушёл обратно в инженеры. Командой рулить умею, но больше люблю копаться в сложном сам — разобраться, починить, автоматизировать, задокументировать.",
+          "Люблю понятные системы, честные компромиссы и практичные решения. Не ведусь на «магические платформы» — отделяю то, что реально работает, от красивых слайдов.",
         ],
       },
 
@@ -120,7 +120,7 @@ const CONTENT = {
           {
             k: "03",
             t: "Держу сложное в одиночку",
-            d: "Инфраструктура, дебаг, оркестрация. Умею разруливать сложные техконтексты самостоятельно — от диагностики до production fix.",
+            d: "Инфраструктура, дебаг, оркестрация. Разруливаю сложные техконтексты в одного — от диагностики до production fix.",
           },
           {
             k: "04",
@@ -130,7 +130,7 @@ const CONTENT = {
           {
             k: "05",
             t: "Мост infra ↔ AI tooling",
-            d: "Плотно изучаю LLM-агентов и их применение в инженерных процессах. Помогаю командам сшивать это без боли.",
+            d: "Ковыряюсь в LLM-зоопарке изнутри — понимаю, что там реально работает, а что красивая демка. Помогаю командам сшивать это без боли.",
           },
           {
             k: "06",
@@ -190,37 +190,31 @@ const CONTENT = {
           {
             t: "Книги",
             d: "Брендон Сандерсон ван лав! Интересно не столько «магия», сколько то, как автор строит правила мира и держит их.",
-            tag: "книги",
             img: "/assets/cosmere.webp",
           },
           {
             t: "Мотоцикл",
-            d: "Как способ прочистить голову и переключиться.",
-            tag: "мотоцикл",
+            d: "Единственное место, где я ничего не пытаюсь оптимизировать. Просто еду — и этого хватает.",
             img: "/assets/moto.webp",
           },
           {
             t: "Персональный ассистент",
             d: "В свободное время пилю «Клою» — персонального ассистента на базе OpenClaw. Цель была освободить время на другие дела, но пока в основном больше дебажу :D",
-            tag: "AI",
             img: "/assets/kloya.webp",
           },
           {
             t: "3D-принтер",
             d: "Проектирую маленькие прикладные проекты для дома. Кастомная подставка для электронной книги? Почему бы и нет.",
-            tag: "3D / CAD",
             img: "/assets/printer.webp",
           },
           {
             t: "Спортзал",
             d: "Получил второй разряд по жиму лёжа на соревах. Надеюсь дотянуть до мастера спорта =)",
-            tag: "спорт",
             img: "/assets/gym.webp",
           },
           {
             t: "Аниме, игры",
-            d: "Аниме как способ переключиться. На игры всё меньше времени, но продолжаю следить и стараюсь не забрасывать.",
-            tag: "жизнь",
+            d: "Аниме — чтобы выключить рабочий режим. Игры пылятся в Steam, но всё равно слежу — вдруг успею на пенсии :D",
             img: "/assets/life.webp",
           },
         ],
@@ -239,11 +233,11 @@ const CONTENT = {
           },
           {
             t: "Встраивание LLM-инструментов в рабочие процессы",
-            d: "Как перенести опыт из личных экспериментов в production DevOps.",
+            d: "Как перетащить наработки из домашней песочницы в боевой DevOps — без культа и без боли.",
           },
           {
             t: "Снижение когнитивной нагрузки",
-            d: "Автоматизация не только рутины, но и принятия решений.",
+            d: "Не только рутина — ещё и шаблонные решения. Если я всё равно выбираю по инструкции, пусть это делает скрипт.",
           },
         ],
       },
@@ -490,7 +484,7 @@ const CONTENT = {
       start_it: "2013-03-01",
       start_devops: "2019-12-01",
       knowsAbout: ["DevOps", "CI/CD", "Infrastructure", "Monitoring", "LLM tooling"],
-      last_updated: "2026-04-20",
+      last_updated: "2026-04-22",
     },
 
     // ── Navigation ──
@@ -556,8 +550,8 @@ const CONTENT = {
         body: [
           "Over a decade in IT — from being the sole sysadmin at a small company to DevOps Expert at Jet Infosystems.",
           "For the past several years I've been building infrastructure for enterprise products. Currently a DevOps Engineer on the Jet Detective project — an anti-fraud platform for banks and retail. I own everything: CI/CD, monitoring, managing 160+ virtual machines.",
-          "Went from team lead to expert — deliberately. I can manage a team, but I value deep engineering work more: figure it out, fix it, automate it, document it.",
-          "I like clear systems, honest trade-offs, and practical solutions. I don't romanticize the \"magic platform\" — I separate core from lab.",
+          "Stepped back from team lead into hands-on engineering — by choice. I can lead a team, but I'd rather dig into hard problems myself: figure it out, fix it, automate, document.",
+          "I like clear systems, honest trade-offs, and practical solutions. I don't buy into \"magic platforms\" — I can tell what actually works from what just looks good on slides.",
         ],
       },
 
@@ -580,7 +574,7 @@ const CONTENT = {
           {
             k: "03",
             t: "Handling complexity solo",
-            d: "Infrastructure, debugging, orchestration. I can navigate complex technical contexts on my own — from diagnosis to production fix.",
+            d: "Infrastructure, debugging, orchestration. I work through complex technical contexts solo — from diagnosis to production fix.",
           },
           {
             k: "04",
@@ -590,7 +584,7 @@ const CONTENT = {
           {
             k: "05",
             t: "Bridge: infra ↔ AI tooling",
-            d: "Deep into LLM agents and how they fit into engineering workflows. Helping teams plug them in painlessly.",
+            d: "Elbow-deep in the LLM zoo — I know what actually works and what's just a shiny demo. I help teams wire it in painlessly.",
           },
           {
             k: "06",
@@ -650,37 +644,31 @@ const CONTENT = {
           {
             t: "Books",
             d: "Brandon Sanderson all the way! It's less about the magic and more about how he builds the rules of his worlds — and sticks to them.",
-            tag: "books",
             img: "/assets/cosmere.webp",
           },
           {
             t: "Motorcycle",
-            d: "A way to clear my head and switch gears.",
-            tag: "motorcycle",
+            d: "The one place where I'm not trying to optimize anything. I just ride — and that's enough.",
             img: "/assets/moto.webp",
           },
           {
             t: "Personal assistant",
             d: "In my spare time I'm building \"Kloya\" — a personal assistant based on OpenClaw. The goal was to free up time for other things, but so far I'm mostly debugging :D",
-            tag: "AI",
             img: "/assets/kloya.webp",
           },
           {
             t: "3D printer",
             d: "I design small practical things for around the house. A custom stand for an e-reader? Why not.",
-            tag: "3D / CAD",
             img: "/assets/printer.webp",
           },
           {
             t: "Gym",
             d: "Earned a Class II ranking in bench press at a competition. Hoping to reach Master of Sport someday =)",
-            tag: "sport",
             img: "/assets/gym.webp",
           },
           {
             t: "Anime, games",
-            d: "Anime as a way to unwind. Less and less time for games, but I keep up and try not to drop them entirely.",
-            tag: "life",
+            d: "Anime — to turn off work mode. My Steam library is gathering dust, but I still keep an eye on releases — maybe I'll get to them in retirement :D",
             img: "/assets/life.webp",
           },
         ],
@@ -699,11 +687,11 @@ const CONTENT = {
           },
           {
             t: "Integrating LLM tools into workflows",
-            d: "Bringing what I've learned from personal experiments into production DevOps.",
+            d: "Porting what works from my home sandbox into production DevOps — no cargo cults, no pain.",
           },
           {
             t: "Reducing cognitive load",
-            d: "Automating not just routine tasks, but decision-making itself.",
+            d: "Not just routine — boilerplate decisions too. If the choice already follows a script, let a script make it.",
           },
         ],
       },

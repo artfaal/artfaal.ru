@@ -421,14 +421,6 @@
 }
 .human-card:hover .hc-img img { transform: scale(1.05); }
 .hc-body { padding: 18px 20px 22px; }
-.hc-tag {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--accent);
-  text-transform: lowercase;
-  letter-spacing: 0.08em;
-  margin-bottom: 6px;
-}
 .hc-t {
   font-family: var(--sans);
   font-size: 20px;

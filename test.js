@@ -122,7 +122,7 @@ p.exploring.items.forEach(it => {
 
 // ── Human cards: все поля ──
 p.human.cards.forEach(card => {
-  assert('card "' + card.t + '" has d+tag+img', !!card.d && !!card.tag && !!card.img);
+  assert('card "' + card.t + '" has d+img', !!card.d && !!card.img);
 });
 
 // ── Languages: все поля ──

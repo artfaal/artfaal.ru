@@ -85,7 +85,6 @@ function sectionHuman(d) {
     `<article class="human-card">`
     + `<div class="hc-img"><img src="${escapeHTML(c.img)}" alt="${escapeHTML(c.t)}" loading="lazy"></div>`
     + `<div class="hc-body">`
-    +   `<div class="hc-tag">${escapeHTML(c.tag)}</div>`
     +   `<div class="hc-t">${escapeHTML(c.t)}</div>`
     +   `<p class="hc-d">${c.d}</p>`
     + `</div>`
