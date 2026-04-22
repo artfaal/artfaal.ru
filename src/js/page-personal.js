@@ -128,12 +128,16 @@ function sectionBlog(d) {
 
 // ── Exploring (Сейчас копаю) ──
 function sectionExploring(d) {
-  const items = d.items.map(it =>
-    `<div class="exploring-item">`
-    + `<h3 class="p-t">${it.t}</h3>`
-    + `<p class="p-d">${it.d}</p>`
-    + `</div>`
-  ).join('');
+  const items = d.items.map(it => {
+    const badge = it.status
+      ? `<div class="exp-status" data-status="${it.status}"><span class="exp-dot"></span>${it.status}</div>`
+      : '';
+    return `<div class="exploring-item">`
+      + `<h3 class="p-t">${it.t}</h3>`
+      + `<p class="p-d">${it.d}</p>`
+      + badge
+      + `</div>`;
+  }).join('');
 
   return `<section class="sect sect-exploring" id="exploring">`
     + asciiRuleHTML(d.head, d.n)

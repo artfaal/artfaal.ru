@@ -449,8 +449,59 @@
   transition: border-color 0.2s;
 }
 .exploring-item:hover { border-color: var(--accent); }
-.exploring-item .p-t { margin-bottom: 6px; }
-.exploring-item .p-d { margin: 0; }
+.exploring-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto;
+  column-gap: 24px;
+  align-items: start;
+}
+.exploring-item .p-t { grid-column: 1; grid-row: 1; margin-bottom: 6px; }
+.exploring-item .p-d { grid-column: 1; grid-row: 2; margin: 0; }
+
+/* Status-badge: мини prod-monitoring индикатор справа от заголовка */
+.exp-status {
+  grid-column: 2; grid-row: 1 / span 2;
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
+  white-space: nowrap;
+}
+.exp-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  display: inline-block;
+}
+.exp-status[data-status="hot"] { color: var(--accent); }
+.exp-status[data-status="hot"] .exp-dot {
+  background: var(--accent);
+  box-shadow: 0 0 8px color-mix(in oklab, var(--accent) 60%, transparent);
+  animation: exp-pulse 1.8s ease-in-out infinite;
+}
+.exp-status[data-status="active"] { color: oklch(0.78 0.14 145); }
+.exp-status[data-status="active"] .exp-dot {
+  background: oklch(0.78 0.14 145);
+  box-shadow: 0 0 6px color-mix(in oklab, oklch(0.78 0.14 145) 50%, transparent);
+}
+.exp-status[data-status="exploring"] { color: var(--accent-2); }
+.exp-status[data-status="exploring"] .exp-dot { background: var(--accent-2); }
+@keyframes exp-pulse {
+  0%, 100% { opacity: 0.5; }
+  50%      { opacity: 1; }
+}
+
+/* На узком экране — бейдж вниз под карточку */
+@media (max-width: 600px) {
+  .exploring-item {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+  }
+  .exp-status { grid-column: 1; grid-row: 3; margin-top: 8px; justify-self: start; }
+}
 
 /* ───────── Experience (CV) ───────── */
 .exp-item {

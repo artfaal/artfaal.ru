@@ -226,18 +226,22 @@ const CONTENT = {
         n: "04",
         title: "Сейчас копаю",
         sub: "Что интересует прямо сейчас.",
+        // status: hot — активно погружён; active — регулярно занимаюсь; exploring — в процессе изучения
         items: [
           {
             t: "LLM и оркестрация агентов",
             d: "~300 часов за полтора месяца на эксперименты с агентными фреймворками и оркестрацией LLM. Ищу способы реально снять когнитивную нагрузку с инженерных процессов.",
+            status: "hot",
           },
           {
             t: "Встраивание LLM-инструментов в рабочие процессы",
             d: "Как перетащить наработки из домашней песочницы в боевой DevOps — без культа и без боли.",
+            status: "active",
           },
           {
             t: "Снижение когнитивной нагрузки",
             d: "Не только рутина — ещё и шаблонные решения. Если я всё равно выбираю по инструкции, пусть это делает скрипт.",
+            status: "exploring",
           },
         ],
       },
@@ -684,14 +688,17 @@ const CONTENT = {
           {
             t: "LLM and agent orchestration",
             d: "~300 hours over six weeks experimenting with agent frameworks and LLM orchestration. Looking for ways to genuinely reduce cognitive load in engineering workflows.",
+            status: "hot",
           },
           {
             t: "Integrating LLM tools into workflows",
             d: "Porting what works from my home sandbox into production DevOps — no cargo cults, no pain.",
+            status: "active",
           },
           {
             t: "Reducing cognitive load",
             d: "Not just routine — boilerplate decisions too. If the choice already follows a script, let a script make it.",
+            status: "exploring",
           },
         ],
       },
