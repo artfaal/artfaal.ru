@@ -240,6 +240,73 @@ console.log('\n\x1b[1mHTML validation\x1b[0m');
 });
 
 // ════════════════════════════════════════
+console.log('\n\x1b[1mDead code detection\x1b[0m');
+// ════════════════════════════════════════
+// Проверяем что в коде нет орфанов: неиспользуемых CSS-классов,
+// CSS-переменных из base.css и JS-функций. Если найдётся — имя выводится
+// в описании теста, чтобы сразу было понятно что именно зависло.
+
+const cssFiles = ['src/styles/base.css', 'src/styles/layout.css', 'src/styles/components.css'];
+const jsFiles = ['src/js/content.js', 'src/js/utils.js', 'src/js/icons.js',
+                 'src/js/shared.js', 'src/js/page-personal.js', 'src/js/page-cv.js'];
+const htmlFiles = ['index.html', 'cv/index.html'];
+
+const readSafe = f => fs.readFileSync(path.join(ROOT, f), 'utf8');
+// Источники, в которых могут встречаться упоминания классов/функций:
+// HTML, все JS в src, а также test.js и generate-cv.js (для utils.js функций).
+const usageSrc = [
+  ...jsFiles.map(readSafe),
+  ...htmlFiles.map(readSafe),
+  readSafe('test.js'),
+  readSafe('generate-cv.js'),
+].join('\n');
+const allCss = cssFiles.map(readSafe).join('\n');
+
+// ── CSS классы ──
+const cssClasses = new Set();
+for (const f of cssFiles) {
+  const clean = readSafe(f).replace(/\/\*[\s\S]*?\*\//g, '');
+  const re = /\.([a-zA-Z_][-a-zA-Z0-9_]*)/g;
+  let m;
+  while ((m = re.exec(clean))) cssClasses.add(m[1]);
+}
+const unusedClasses = [];
+for (const cls of cssClasses) {
+  const re = new RegExp('[^a-zA-Z0-9_-]' + cls.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '[^a-zA-Z0-9_-]');
+  if (!re.test(usageSrc)) unusedClasses.push(cls);
+}
+assert('CSS classes all used',
+  unusedClasses.length === 0,
+  'unused: .' + unusedClasses.sort().join(', .'));
+
+// ── CSS переменные (--tokens) ──
+const baseCss = readSafe('src/styles/base.css').replace(/\/\*[\s\S]*?\*\//g, '');
+const tokens = Array.from(new Set(baseCss.match(/--[a-zA-Z0-9_-]+(?=\s*:)/g) || []));
+const unusedTokens = tokens.filter(t =>
+  !new RegExp('var\\(\\s*' + t + '\\b').test(allCss));
+assert('CSS tokens all used',
+  unusedTokens.length === 0,
+  'unused: ' + unusedTokens.join(', '));
+
+// ── JS функции ──
+const fnDefs = [];
+for (const f of jsFiles) {
+  const re = /function\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(/g;
+  let m;
+  const js = readSafe(f);
+  while ((m = re.exec(js))) fnDefs.push({ file: f, name: m[1] });
+}
+const haystack = usageSrc + '\n' + allCss;
+const unusedFns = fnDefs.filter(d => {
+  const matches = haystack.match(new RegExp('\\b' + d.name + '\\b', 'g')) || [];
+  // 1 вхождение = только сама декларация.
+  return matches.length <= 1;
+});
+assert('JS functions all referenced',
+  unusedFns.length === 0,
+  'unused: ' + unusedFns.map(d => d.name + ' (' + d.file + ')').join(', '));
+
+// ════════════════════════════════════════
 // Summary
 // ════════════════════════════════════════
 console.log('\n' + (failed === 0 ? '\x1b[32m' : '\x1b[31m')
