@@ -7,6 +7,13 @@ assets/*.jpeg
 assets/*.png
 assets/*.PNG
 
+# Временные файлы от Playwright MCP — preview-сессии во время брейнсторма
+.playwright-mcp/
+
+# Preview-скриншоты из корня (генерируются при сравнении вариантов UI)
+/*.png
+/*.jpg
+
 node_modules/
 .env
 .vscode/
