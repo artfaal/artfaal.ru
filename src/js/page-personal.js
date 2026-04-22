@@ -12,9 +12,10 @@ document.addEventListener('DOMContentLoaded', () => {
     sectionValue(p.value),
     sectionPrinciples(p.principles),
     sectionHuman(p.human),
+    sectionSideQuests(p.sidequests),
     sectionExploring(p.exploring),
     sectionBlog(c.blog),
-    renderContacts(c.contacts),
+    renderContacts(c.contacts, "07"),
   ].join('');
 
   initScrollReveal();
@@ -122,6 +123,69 @@ function sectionBlog(d) {
     +     `<p class="sect-sub">${d.sub}</p>`
     +   `</div>`
     +   `<div class="blog-links">${links}</div>`
+    + `</div>`
+    + `</section>`;
+}
+
+// ── Side quests (pet-projects по сюжетам) ──
+function sectionSideQuests(d) {
+  const sagas = d.sagas.map(saga => {
+    const projects = saga.projects.map(pr => {
+      const tags = pr.stack.map(s => `<span class="sq-tag">${escapeHTML(s)}</span>`).join('');
+      const link = pr.href
+        ? `<a class="sq-link" href="${escapeHTML(pr.href)}" target="_blank" rel="noopener" aria-label="открыть ${escapeHTML(pr.name)}">${icon('ext', 14)}</a>`
+        : '';
+      const img = pr.img
+        ? `<div class="sq-img"><img src="${escapeHTML(pr.img)}" alt="${escapeHTML(pr.name)}" loading="lazy"></div>`
+        : '';
+      const metric = pr.metric
+        ? `<div class="sq-metric">${escapeHTML(pr.metric)}</div>`
+        : '';
+      const cls = pr.img ? 'sq-card has-img' : 'sq-card';
+      return `<article class="${cls}">`
+        + img
+        + `<div class="sq-text">`
+        +   `<div class="sq-head">`
+        +     `<div class="sq-name">${escapeHTML(pr.name)}</div>`
+        +     link
+        +   `</div>`
+        +   metric
+        +   `<p class="sq-d">${pr.d}</p>`
+        +   `<div class="sq-stack">${tags}</div>`
+        + `</div>`
+        + `</article>`;
+    }).join('');
+
+    return `<div class="sq-saga">`
+      + `<header class="sq-saga-head">`
+      +   `<h3 class="sq-saga-title">${escapeHTML(saga.title)}</h3>`
+      +   `<p class="sq-saga-intro">${saga.intro}</p>`
+      + `</header>`
+      + `<div class="sq-grid stagger">${projects}</div>`
+      + `</div>`;
+  }).join('');
+
+  const outroLinks = Array.isArray(d.outro) ? d.outro : (d.outro ? [d.outro] : []);
+  const outro = outroLinks.length
+    ? `<div class="sq-outros">` + outroLinks.map(l =>
+        `<a class="sq-outro" href="${escapeHTML(l.href)}" target="_blank" rel="noopener">`
+        + `<span>${escapeHTML(l.label)}</span>`
+        + `<span class="cr-ext">${icon('ext', 14)}</span>`
+        + `</a>`
+      ).join('') + `</div>`
+    : '';
+
+  return `<section class="sect sect-sidequests" id="sidequests">`
+    + asciiRuleHTML(d.head, d.n)
+    + `<div class="sect-grid">`
+    +   `<div class="sect-title">`
+    +     `<h2>${d.title}</h2>`
+    +     `<p class="sect-sub">${d.sub}</p>`
+    +   `</div>`
+    +   `<div class="sq-body">`
+    +     `<div class="sq-sagas">${sagas}</div>`
+    +     outro
+    +   `</div>`
     + `</div>`
     + `</section>`;
 }

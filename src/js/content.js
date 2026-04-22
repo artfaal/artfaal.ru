@@ -54,7 +54,7 @@ const CONTENT = {
     // ── Блог / заметки ──
     blog: {
       head: "// blog",
-      n: "05",
+      n: "06",
       title: "Блог",
       sub: "Живые заметки о технике, жизни и том, что реально зацепило. Дамп сознания.",
       links: [
@@ -220,10 +220,76 @@ const CONTENT = {
         ],
       },
 
+      // -- Side quests (личная инфра и живые системы) --
+      sidequests: {
+        head: "// side quests",
+        n: "04",
+        title: "Side quests",
+        sub: "Не «pet-projects» в привычном смысле — скорее личная инфра с метриками, дашбордами и привычкой смотреть на жизнь через временные ряды. Звучит душно, но мне зашло =)",
+        sagas: [
+          {
+            title: "Домашний прод",
+            intro: "Растения и воздух — как сервисы с SLA. Свой Prometheus, своя Grafana, своя пиксельная панель на стене. Дома у меня маленький прод.",
+            projects: [
+              {
+                name: "plants + co2",
+                metric: "14 растений · Grafana · Divoom",
+                d: "Датчики влажности почвы → Prometheus → дашборд с графиками по каждому растению и таймерами полива. Пиксельная панель рядом буквально кричит «пора поливать!» — иначе я бы забыл =)",
+                img: "/assets/sq-plants.webp",
+                stack: ["Python", "Prometheus", "Grafana"],
+                href: "https://github.com/artfaal/tuya-exporter",
+              },
+              {
+                name: "homelab",
+                metric: "8 серверов · 3 дома + 5 VPS",
+                d: "OpenVPN, свой DNS, VictoriaMetrics, Caddy, прокси-серверы в разных регионах. Всё версионируется в git — каждый хост с README, ISSUES и SSH-доступом.",
+                stack: ["Ansible", "Docker", "Caddy"],
+              },
+            ],
+          },
+          {
+            title: "Наблюдения за собой",
+            intro: "DevOps-подход не только к серверам. Если что-то важно — значит у этого должны быть метрики и временные ряды. Да, я такой =)",
+            projects: [
+              {
+                name: "budget",
+                metric: "с сентября 2017 · каждый день",
+                d: "Семейный бюджет: Google Sheets + Telegram-бот для быстрых записей + свой UI. Доходы, категории трат, крупные покупки — всё одной рукой прямо с экрана блокировки. Дебет с кредитом не всегда сходится =)",
+                stack: ["Google Sheets", "aiogram", "Web UI"],
+                href: "https://docs.google.com/spreadsheets/d/12mn8-DfR-qm6kzXMNCJ1Bl4BucB1oegfxq0EJiKmlLc/edit?usp=sharing",
+              },
+              {
+                name: "hobby-tracker",
+                metric: "каждый день с сентября 2025",
+                d: "Telegram-бот + Grafana: каждый вечер отмечаю, чем занимался (спортзал, книги, работа, семья). Heatmap без жалости показывает, куда реально уходит время — иногда неприятно :D",
+                stack: ["Python", "Grafana", "aiogram"],
+                href: "https://github.com/artfaal/hobby-tracker",
+              },
+            ],
+          },
+          {
+            title: "LLM по делу",
+            intro: "LLM не как «вау», а как тихий инструмент для рутины. Остальные LLM-поделки отвалились сами — тут только то, что реально прижилось.",
+            projects: [
+              {
+                name: "kindle-flashcards",
+                d: "Закладки из Kindle + GPT = свежая пачка карточек Noji раз в неделю. Без напряга дочитал так пару книг на английском — язык подтягивается фоном =)",
+                stack: ["Python", "OpenAI API", "Noji"],
+                href: "https://github.com/artfaal/kindle-flashcards",
+              },
+            ],
+          },
+        ],
+        outro: [
+          { label: "пишу про это в @artfaal_log", href: "https://t.me/artfaal_log" },
+          { label: "ещё репозитории на github", href: "https://github.com/artfaal?tab=repositories" },
+        ],
+      },
+
       // -- Сейчас копаю --
       exploring: {
         head: "// exploring",
-        n: "04",
+        n: "05",
         title: "Сейчас копаю",
         sub: "Что интересует прямо сейчас.",
         // status: hot — активно погружён; active — регулярно занимаюсь; exploring — в процессе изучения
@@ -511,7 +577,7 @@ const CONTENT = {
     // ── Blog / notes ──
     blog: {
       head: "// blog",
-      n: "05",
+      n: "06",
       title: "Blog",
       sub: "Live notes on tech, life, and things that really hit home. A brain dump.",
       links: [
@@ -678,10 +744,76 @@ const CONTENT = {
         ],
       },
 
+      // -- Side quests (personal infra and living systems) --
+      sidequests: {
+        head: "// side quests",
+        n: "04",
+        title: "Side quests",
+        sub: "Not \"pet projects\" in the usual sense — more like personal infra with metrics, dashboards, and a habit of looking at life through time series. Sounds geeky, but I'm into it =)",
+        sagas: [
+          {
+            title: "Home as prod",
+            intro: "Plants and air — treated as services with an SLA. My own Prometheus, my own Grafana, my own pixel panel on the wall. A tiny prod at home.",
+            projects: [
+              {
+                name: "plants + co2",
+                metric: "14 plants · Grafana · Divoom",
+                d: "Soil moisture sensors → Prometheus → a dashboard with per-plant graphs and watering timers. The pixel panel right next to it literally yells \"time to water!\" — otherwise I'd forget =)",
+                img: "/assets/sq-plants.webp",
+                stack: ["Python", "Prometheus", "Grafana"],
+                href: "https://github.com/artfaal/tuya-exporter",
+              },
+              {
+                name: "homelab",
+                metric: "8 servers · 3 home + 5 VPS",
+                d: "OpenVPN, my own DNS, VictoriaMetrics, Caddy, proxies in different regions. Everything versioned in git — each host with a README, ISSUES, and SSH access.",
+                stack: ["Ansible", "Docker", "Caddy"],
+              },
+            ],
+          },
+          {
+            title: "Self-tracking",
+            intro: "DevOps mindset, not just for servers. If something matters, it deserves metrics and a time series. Yep, that's me =)",
+            projects: [
+              {
+                name: "budget",
+                metric: "since September 2017 · every day",
+                d: "Family budget: Google Sheets + a Telegram bot for quick entries + my own UI. Income, spending categories, big purchases — all one-handed, right from the lockscreen. The books don't always balance =)",
+                stack: ["Google Sheets", "aiogram", "Web UI"],
+                href: "https://docs.google.com/spreadsheets/d/12mn8-DfR-qm6kzXMNCJ1Bl4BucB1oegfxq0EJiKmlLc/edit?usp=sharing",
+              },
+              {
+                name: "hobby-tracker",
+                metric: "every day since September 2025",
+                d: "Telegram bot + Grafana: each evening I log what I did (gym, books, work, family). The heatmap shows no mercy — reveals where time actually goes, sometimes a bit painful :D",
+                stack: ["Python", "Grafana", "aiogram"],
+                href: "https://github.com/artfaal/hobby-tracker",
+              },
+            ],
+          },
+          {
+            title: "LLMs that actually stuck",
+            intro: "LLMs not as a \"wow\" moment, but as a quiet tool for routine. The rest of my LLM toys dropped off on their own — only what really stuck is here.",
+            projects: [
+              {
+                name: "kindle-flashcards",
+                d: "Kindle highlights + GPT = a fresh batch of Noji cards every week. Finished a couple of English books this way without even trying — the language picks itself up in the background =)",
+                stack: ["Python", "OpenAI API", "Noji"],
+                href: "https://github.com/artfaal/kindle-flashcards",
+              },
+            ],
+          },
+        ],
+        outro: [
+          { label: "I write about this on @artfaal_log", href: "https://t.me/artfaal_log" },
+          { label: "more repos on github", href: "https://github.com/artfaal?tab=repositories" },
+        ],
+      },
+
       // -- Currently exploring --
       exploring: {
         head: "// exploring",
-        n: "04",
+        n: "05",
         title: "Currently exploring",
         sub: "What I'm digging into right now.",
         items: [

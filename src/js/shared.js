@@ -192,7 +192,7 @@ function renderHero(el, c, pageTitle) {
 }
 
 // ── Рендер: Контакты ──
-function renderContacts(data) {
+function renderContacts(data, nOverride) {
   const html = data.links.map(l =>
     `<li>`
     + `<a class="contact-row" href="${escapeHTML(l.href)}" target="_blank" rel="noopener">`
@@ -205,7 +205,7 @@ function renderContacts(data) {
   ).join('');
 
   return `<section class="sect sect-contact" id="contact">`
-    + asciiRuleHTML(data.head, data.n)
+    + asciiRuleHTML(data.head, nOverride || data.n)
     + `<div class="sect-grid">`
     +   `<div class="sect-title">`
     +     `<h2>${data.title}</h2>`

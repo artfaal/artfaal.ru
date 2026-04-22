@@ -60,6 +60,11 @@ assert('personal.about.body', Array.isArray(p.about.body) && p.about.body.length
 assert('personal.value.items >= 3', p.value.items.length >= 3);
 assert('personal.principles.items >= 3', p.principles.items.length >= 3);
 assert('personal.human.cards >= 3', p.human.cards.length >= 3);
+assert('personal.sidequests.sagas >= 2', p.sidequests.sagas.length >= 2);
+p.sidequests.sagas.forEach(saga => {
+  assert('sidequests saga "' + saga.title + '" projects >= 1',
+    Array.isArray(saga.projects) && saga.projects.length >= 1);
+});
 assert('personal.exploring.items >= 1', p.exploring.items.length >= 1);
 
 // Human cards — images exist
@@ -120,6 +125,28 @@ p.exploring.items.forEach(it => {
   assert('exploring "' + it.t + '" has d', !!it.d);
 });
 
+// ── Side quests: поля саг и проектов ──
+p.sidequests.sagas.forEach(saga => {
+  assert('saga "' + saga.title + '" has intro', !!saga.intro);
+  saga.projects.forEach(pr => {
+    assert('sq "' + pr.name + '" has d',     !!pr.d);
+    assert('sq "' + pr.name + '" has stack', Array.isArray(pr.stack) && pr.stack.length >= 1);
+    assert('sq "' + pr.name + '" href valid',
+      !pr.href || /^https?:\/\//.test(pr.href), 'bad href: ' + pr.href);
+    if (pr.img) {
+      const imgPath = path.join(ROOT, pr.img);
+      assert('sq image: ' + pr.img, fs.existsSync(imgPath), 'file not found');
+    }
+  });
+});
+const outroArr = Array.isArray(p.sidequests.outro)
+  ? p.sidequests.outro
+  : (p.sidequests.outro ? [p.sidequests.outro] : []);
+outroArr.forEach((l, i) => {
+  assert(`sidequests.outro[${i}] has label+href`,
+    !!l.label && /^https?:\/\//.test(l.href), 'bad: ' + JSON.stringify(l));
+});
+
 // ── Human cards: все поля ──
 p.human.cards.forEach(card => {
   assert('card "' + card.t + '" has d+img', !!card.d && !!card.img);
@@ -175,7 +202,9 @@ function checkNumbering(pageName, sections) {
   assert(pageName + ' no duplicate n', unique.size === nums.length, 'duplicate section numbers');
 }
 
-checkNumbering('personal', [p.about, p.value, p.principles, p.human, p.exploring, c.blog, c.contacts]);
+// На personal contacts рендерится с nOverride="07" (см. page-personal.js),
+// поэтому в проверке нумерации используем локальный объект с n="07".
+checkNumbering('personal', [p.about, p.value, p.principles, p.human, p.sidequests, p.exploring, c.blog, { n: '07' }]);
 checkNumbering('cv', [cv.about, cv.experience, cv.cases, cv.skills, cv.languages, cv.education, c.contacts]);
 
 // ════════════════════════════════════════
@@ -268,6 +297,7 @@ const parityChecks = [
   ['personal.value.items',      c.personal.value.items,      CONTENT.en.personal.value.items],
   ['personal.principles.items', c.personal.principles.items, CONTENT.en.personal.principles.items],
   ['personal.human.cards',      c.personal.human.cards,      CONTENT.en.personal.human.cards],
+  ['personal.sidequests.sagas', c.personal.sidequests.sagas, CONTENT.en.personal.sidequests.sagas],
   ['personal.exploring.items',  c.personal.exploring.items,  CONTENT.en.personal.exploring.items],
   ['cv.experience.items',       c.cv.experience.items,       CONTENT.en.cv.experience.items],
   ['cv.cases.items',            c.cv.cases.items,            CONTENT.en.cv.cases.items],
@@ -280,6 +310,14 @@ const parityChecks = [
 parityChecks.forEach(([name, ru, en]) => {
   assert(name + ' parity ru/en', ru.length === en.length,
     `ru=${ru.length} en=${en.length}`);
+});
+
+// Внутри саг side-quests число проектов тоже должно совпадать по-саговно.
+c.personal.sidequests.sagas.forEach((saga, i) => {
+  const enSaga = CONTENT.en.personal.sidequests.sagas[i];
+  assert(`sidequests.sagas[${i}].projects parity ru/en`,
+    enSaga && saga.projects.length === enSaga.projects.length,
+    `ru=${saga.projects.length} en=${enSaga ? enSaga.projects.length : 'n/a'}`);
 });
 
 // ════════════════════════════════════════
@@ -359,6 +397,11 @@ const checkDesc = (name, str) => assert(
     checkDesc(`${tag} principle[${i}].d`, it.d));
   lang.personal.human.cards.forEach((it, i) =>
     checkDesc(`${tag} card[${i}].d`, it.d));
+  lang.personal.sidequests.sagas.forEach((saga, si) => {
+    checkDesc(`${tag} saga[${si}].intro`, saga.intro);
+    saga.projects.forEach((pr, pi) =>
+      checkDesc(`${tag} saga[${si}].project[${pi}].d`, pr.d));
+  });
   lang.personal.exploring.items.forEach((it, i) =>
     checkDesc(`${tag} exploring[${i}].d`, it.d));
   lang.cv.cases.items.forEach((it, i) => {
