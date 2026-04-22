@@ -182,14 +182,19 @@ const CONTENT = {
         sub: "Не «хобби», а то, что объясняет характер.",
         cards: [
           {
+            t: "Мотоцикл",
+            d: "Единственное место, где я ничего не пытаюсь оптимизировать. Просто еду — и этого хватает.",
+            img: "/assets/moto.webp",
+          },
+          {
             t: "Книги",
             d: "Брендон Сандерсон ван лав! Интересно не столько «магия», сколько то, как автор строит правила мира и держит их.",
             img: "/assets/cosmere.webp",
           },
           {
-            t: "Мотоцикл",
-            d: "Единственное место, где я ничего не пытаюсь оптимизировать. Просто еду — и этого хватает.",
-            img: "/assets/moto.webp",
+            t: "Спортзал",
+            d: "Получил второй разряд по жиму лёжа на соревах. Надеюсь дотянуть до мастера спорта =)",
+            img: "/assets/gym.webp",
           },
           {
             t: "Персональный ассистент",
@@ -200,11 +205,6 @@ const CONTENT = {
             t: "3D-принтер",
             d: "Печатаю всякую мелочь для быта. Кастомная подставка для электронной книги? А почему бы и нет =)",
             img: "/assets/printer.webp",
-          },
-          {
-            t: "Спортзал",
-            d: "Получил второй разряд по жиму лёжа на соревах. Надеюсь дотянуть до мастера спорта =)",
-            img: "/assets/gym.webp",
           },
           {
             t: "Аниме, игры",
@@ -692,14 +692,19 @@ const CONTENT = {
         sub: "Not \"hobbies\" — things that explain who I am.",
         cards: [
           {
+            t: "Motorcycle",
+            d: "The one place where I'm not trying to optimize anything. I just ride — and that's enough.",
+            img: "/assets/moto.webp",
+          },
+          {
             t: "Books",
             d: "Brandon Sanderson all the way! It's less about the magic and more about how he builds the rules of his worlds — and sticks to them.",
             img: "/assets/cosmere.webp",
           },
           {
-            t: "Motorcycle",
-            d: "The one place where I'm not trying to optimize anything. I just ride — and that's enough.",
-            img: "/assets/moto.webp",
+            t: "Gym",
+            d: "Earned a Class II ranking in bench press at a competition. Hoping to reach Master of Sport someday =)",
+            img: "/assets/gym.webp",
           },
           {
             t: "Personal assistant",
@@ -710,11 +715,6 @@ const CONTENT = {
             t: "3D printer",
             d: "I print all kinds of small bits and bobs for around the house. A custom stand for an e-reader? Why not =)",
             img: "/assets/printer.webp",
-          },
-          {
-            t: "Gym",
-            d: "Earned a Class II ranking in bench press at a competition. Hoping to reach Master of Sport someday =)",
-            img: "/assets/gym.webp",
           },
           {
             t: "Anime, games",
