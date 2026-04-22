@@ -130,7 +130,7 @@ function renderNav(el, c, currentPage) {
     +     `<span class="seg-sep">|</span>`
     +     `<button class="seg-btn ${lang === 'en' ? 'is-on' : ''}" onclick="setLang('en')">en</button>`
     +   `</div>`
-    +   `<a href="/assets/Solovev_Maksim_CV${lang === 'en' ? '_en' : ''}.pdf" download class="seg-btn seg-cv">${icon('download', 12)} CV</a>`
+    +   `<a href="/assets/Solovev_Maksim_CV${lang === 'en' ? '_en' : ''}.pdf" download class="seg-cv">${icon('download', 12)} PDF</a>`
     + `</div>`;
 }
 

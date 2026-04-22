@@ -43,9 +43,14 @@
   border-radius: 4px;
   margin-left: 6px;
   text-decoration: none;
-  transition: background 0.15s;
+  transition: background 0.15s, box-shadow 0.2s;
 }
-.seg-cv:hover { background: color-mix(in oklab, var(--accent-2) 85%, white); }
+.seg-cv svg { transition: transform 0.2s ease; }
+.seg-cv:hover {
+  background: color-mix(in oklab, var(--accent-2) 85%, white);
+  box-shadow: 0 0 12px color-mix(in oklab, var(--accent-2) 50%, transparent);
+}
+.seg-cv:hover svg { transform: translateY(2px); }
 
 /* ───────── Scroll progress ───────── */
 .scroll-progress {
