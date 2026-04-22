@@ -102,16 +102,32 @@ body::after {
 }
 
 /* ───────── Staggered reveal для дочерних элементов ───────── */
-.stagger > * {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
+/* Используем @keyframes + animation-delay, а не transition-delay.
+   Иначе transition-delay применяется ко ВСЕМ transitions элемента,
+   включая hover-эффекты на вложенных компонентах — hover чем дальше
+   по нумерации, тем сильнее «тормозит».
+
+   Две раздельные анимации:
+   • stagger-fade (forwards) — opacity 0→1, остаётся после окончания.
+   • stagger-slide (без forwards) — translateY 20px→0, после окончания
+     возвращается к static transform из nth-child (нужно для polaroid,
+     где у каждой карточки свой rotate). */
+.stagger > * { opacity: 0; }
+.in-view .stagger > * {
+  animation:
+    stagger-fade 0.5s ease forwards,
+    stagger-slide 0.5s ease;
 }
-.in-view .stagger > * { opacity: 1; transform: none; }
-.in-view .stagger > *:nth-child(2) { transition-delay: 0.15s; }
-.in-view .stagger > *:nth-child(3) { transition-delay: 0.30s; }
-.in-view .stagger > *:nth-child(4) { transition-delay: 0.45s; }
-.in-view .stagger > *:nth-child(5) { transition-delay: 0.60s; }
-.in-view .stagger > *:nth-child(6) { transition-delay: 0.75s; }
-.in-view .stagger > *:nth-child(7) { transition-delay: 0.90s; }
-.in-view .stagger > *:nth-child(8) { transition-delay: 1.05s; }
+.in-view .stagger > *:nth-child(2) { animation-delay: 0.15s; }
+.in-view .stagger > *:nth-child(3) { animation-delay: 0.30s; }
+.in-view .stagger > *:nth-child(4) { animation-delay: 0.45s; }
+.in-view .stagger > *:nth-child(5) { animation-delay: 0.60s; }
+.in-view .stagger > *:nth-child(6) { animation-delay: 0.75s; }
+.in-view .stagger > *:nth-child(7) { animation-delay: 0.90s; }
+.in-view .stagger > *:nth-child(8) { animation-delay: 1.05s; }
+@keyframes stagger-fade {
+  to { opacity: 1; }
+}
+@keyframes stagger-slide {
+  from { transform: translateY(20px); }
+}
