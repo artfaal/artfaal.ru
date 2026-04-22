@@ -795,6 +795,67 @@
   }
 }
 
+/* ═════════ Big typography manifesto — pattern break для секции «Принципы» ═════════ */
+/* Убираем карточки, оставляем чистую типографику: огромные цифры + title/desc справа. */
+@media (min-width: 700px) {
+  .sect-principles .principles-grid {
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .sect-principles .principle {
+    background: transparent;
+    padding: 28px 0;
+    border-top: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    grid-template-rows: auto auto;
+    column-gap: 40px;
+    align-items: baseline;
+  }
+  .sect-principles .principle:last-child { border-bottom: 1px solid var(--line); }
+  .sect-principles .principle:hover { background: transparent; }
+
+  .sect-principles .p-head {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    align-self: start;
+    margin-bottom: 0;
+    display: block;
+  }
+  .sect-principles .p-head .p-rule { display: none; }
+  .sect-principles .p-n {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 84px;
+    line-height: 1;
+    color: var(--accent);
+    letter-spacing: -0.05em;
+    display: block;
+  }
+  .sect-principles .p-t {
+    grid-column: 2;
+    grid-row: 1;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 26px;
+    letter-spacing: -0.04em;
+    color: var(--fg);
+    margin-bottom: 10px;
+    line-height: 1.15;
+  }
+  .sect-principles .p-d {
+    grid-column: 2;
+    grid-row: 2;
+    font-size: 16px;
+    color: var(--fg-2);
+    line-height: 1.55;
+    max-width: 56ch;
+  }
+}
+
 /* ───────── Tablet + Mobile: hero-аватар круг 120×120 над терминалом ───────── */
 /* Порог 899px совпадает с desktop grid-threshold (min-width: 900px в layout.css) */
 @media (max-width: 899px) {
