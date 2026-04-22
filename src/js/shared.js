@@ -96,6 +96,10 @@ function metaRowHTML(k, v) {
     + `</div>`;
 }
 
+// Номер секции для ascii-rule: 0-indexed, паддинг до двух цифр.
+// Единая точка форматирования — чтобы автонумерация выглядела одинаково на всех страницах.
+function sectionN(i) { return String(i).padStart(2, '0'); }
+
 // ── ASCII rule (секционный разделитель) ──
 function asciiRuleHTML(label, n) {
   return `<div class="ascii-rule" aria-hidden="true">`
@@ -192,7 +196,7 @@ function renderHero(el, c, pageTitle) {
 }
 
 // ── Рендер: Контакты ──
-function renderContacts(data, nOverride) {
+function renderContacts(data, n) {
   const html = data.links.map(l =>
     `<li>`
     + `<a class="contact-row" href="${escapeHTML(l.href)}" target="_blank" rel="noopener">`
@@ -205,7 +209,7 @@ function renderContacts(data, nOverride) {
   ).join('');
 
   return `<section class="sect sect-contact" id="contact">`
-    + asciiRuleHTML(data.head, nOverride || data.n)
+    + asciiRuleHTML(data.head, n)
     + `<div class="sect-grid">`
     +   `<div class="sect-title">`
     +     `<h2>${data.title}</h2>`

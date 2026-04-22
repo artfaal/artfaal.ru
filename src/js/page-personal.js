@@ -7,26 +7,30 @@ document.addEventListener('DOMContentLoaded', () => {
   const p = c.personal;
   const main = document.getElementById('main');
 
-  main.innerHTML = [
-    sectionAbout(p.about),
-    sectionValue(p.value),
-    sectionPrinciples(p.principles),
-    sectionHuman(p.human),
-    sectionSideQuests(p.sidequests),
-    sectionExploring(p.exploring),
-    sectionBlog(c.blog),
-    renderContacts(c.contacts, "07"),
-  ].join('');
+  // Секции личной страницы в порядке отображения.
+  // Номер секции (`n` в ascii-rule) вычисляется по индексу — 0-indexed,
+  // с паддингом до двух цифр ("00", "01", …). Единственный источник порядка.
+  const sections = [
+    [sectionAbout,      p.about],
+    [sectionValue,      p.value],
+    [sectionPrinciples, p.principles],
+    [sectionHuman,      p.human],
+    [sectionSideQuests, p.sidequests],
+    [sectionExploring,  p.exploring],
+    [sectionBlog,       c.blog],
+    [renderContacts,    c.contacts],
+  ];
+  main.innerHTML = sections.map(([fn, data], i) => fn(data, sectionN(i))).join('');
 
   initScrollReveal();
 });
 
 // ── About ──
-function sectionAbout(d) {
+function sectionAbout(d, n) {
   const body = d.body.map(p => `<p class="para">${p}</p>`).join('');
 
   return `<section class="sect sect-about" id="about">`
-    + asciiRuleHTML(d.head, d.n)
+    + asciiRuleHTML(d.head, n)
     + `<div class="sect-grid">`
     +   `<div class="sect-title"><h2>${d.title}</h2></div>`
     +   `<div class="sect-body">${body}</div>`
@@ -35,7 +39,7 @@ function sectionAbout(d) {
 }
 
 // ── Value ──
-function sectionValue(d) {
+function sectionValue(d, n) {
   const items = d.items.map(it =>
     `<li class="value-item">`
     + `<div class="vi-key">${it.k}</div>`
@@ -47,7 +51,7 @@ function sectionValue(d) {
   ).join('');
 
   return `<section class="sect sect-value" id="value">`
-    + asciiRuleHTML(d.head, d.n)
+    + asciiRuleHTML(d.head, n)
     + `<div class="sect-grid">`
     +   `<div class="sect-title"><h2>${d.title}</h2></div>`
     +   `<ul class="value-list stagger">${items}</ul>`
@@ -56,7 +60,7 @@ function sectionValue(d) {
 }
 
 // ── Principles ──
-function sectionPrinciples(d) {
+function sectionPrinciples(d, n) {
   const items = d.items.map(p =>
     `<article class="principle">`
     + `<header class="p-head">`
@@ -69,7 +73,7 @@ function sectionPrinciples(d) {
   ).join('');
 
   return `<section class="sect sect-principles" id="principles">`
-    + asciiRuleHTML(d.head, d.n)
+    + asciiRuleHTML(d.head, n)
     + `<div class="sect-grid">`
     +   `<div class="sect-title">`
     +     `<h2>${d.title}</h2>`
@@ -81,7 +85,7 @@ function sectionPrinciples(d) {
 }
 
 // ── Human ──
-function sectionHuman(d) {
+function sectionHuman(d, n) {
   const cards = d.cards.map(c =>
     `<article class="human-card">`
     + `<div class="hc-img"><img src="${escapeHTML(c.img)}" alt="${escapeHTML(c.t)}" loading="lazy"></div>`
@@ -93,7 +97,7 @@ function sectionHuman(d) {
   ).join('');
 
   return `<section class="sect sect-human" id="human">`
-    + asciiRuleHTML(d.head, d.n)
+    + asciiRuleHTML(d.head, n)
     + `<div class="sect-grid">`
     +   `<div class="sect-title">`
     +     `<h2>${d.title}</h2>`
@@ -105,7 +109,7 @@ function sectionHuman(d) {
 }
 
 // ── Blog ──
-function sectionBlog(d) {
+function sectionBlog(d, n) {
   const links = d.links.map(l =>
     `<a class="blog-link" href="${escapeHTML(l.href)}" target="_blank" rel="noopener">`
     + `<span class="cr-icon">${icon(l.icon, 18)}</span>`
@@ -116,7 +120,7 @@ function sectionBlog(d) {
   ).join('');
 
   return `<section class="sect sect-blog" id="blog">`
-    + asciiRuleHTML(d.head, d.n)
+    + asciiRuleHTML(d.head, n)
     + `<div class="sect-grid">`
     +   `<div class="sect-title">`
     +     `<h2>${d.title}</h2>`
@@ -128,7 +132,7 @@ function sectionBlog(d) {
 }
 
 // ── Side quests (pet-projects по сюжетам) ──
-function sectionSideQuests(d) {
+function sectionSideQuests(d, n) {
   const sagas = d.sagas.map(saga => {
     const projects = saga.projects.map(pr => {
       const tags = pr.stack.map(s => `<span class="sq-tag">${escapeHTML(s)}</span>`).join('');
@@ -165,18 +169,18 @@ function sectionSideQuests(d) {
       + `</div>`;
   }).join('');
 
-  const outroLinks = Array.isArray(d.outro) ? d.outro : (d.outro ? [d.outro] : []);
+  const outroLinks = d.outro ?? [];
   const outro = outroLinks.length
     ? `<div class="sq-outros">` + outroLinks.map(l =>
         `<a class="sq-outro" href="${escapeHTML(l.href)}" target="_blank" rel="noopener">`
         + `<span>${escapeHTML(l.label)}</span>`
-        + `<span class="cr-ext">${icon('ext', 14)}</span>`
+        + `<span class="sq-outro-ext">${icon('ext', 14)}</span>`
         + `</a>`
       ).join('') + `</div>`
     : '';
 
   return `<section class="sect sect-sidequests" id="sidequests">`
-    + asciiRuleHTML(d.head, d.n)
+    + asciiRuleHTML(d.head, n)
     + `<div class="sect-grid">`
     +   `<div class="sect-title">`
     +     `<h2>${d.title}</h2>`
@@ -191,7 +195,7 @@ function sectionSideQuests(d) {
 }
 
 // ── Exploring (Сейчас копаю) ──
-function sectionExploring(d) {
+function sectionExploring(d, n) {
   const items = d.items.map(it => {
     const badge = it.status
       ? `<div class="exp-status" data-status="${it.status}"><span class="exp-dot"></span>${it.status}</div>`
@@ -204,7 +208,7 @@ function sectionExploring(d) {
   }).join('');
 
   return `<section class="sect sect-exploring" id="exploring">`
-    + asciiRuleHTML(d.head, d.n)
+    + asciiRuleHTML(d.head, n)
     + `<div class="sect-grid">`
     +   `<div class="sect-title">`
     +     `<h2>${d.title}</h2>`

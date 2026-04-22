@@ -7,15 +7,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const cv = c.cv;
   const main = document.getElementById('main');
 
-  main.innerHTML = [
-    sectionCvAbout(cv.about),
-    sectionExperience(cv.experience),
-    sectionCases(cv.cases),
-    sectionSkills(cv.skills),
-    sectionLanguages(cv.languages),
-    sectionEducation(cv.education),
-    renderContacts(c.contacts),
-  ].join('');
+  // Секции CV в порядке отображения.
+  // Номер секции — по индексу (см. sectionN); источник порядка только здесь.
+  const sections = [
+    [sectionCvAbout,     cv.about],
+    [sectionExperience,  cv.experience],
+    [sectionCases,       cv.cases],
+    [sectionSkills,      cv.skills],
+    [sectionLanguages,   cv.languages],
+    [sectionEducation,   cv.education],
+    [renderContacts,     c.contacts],
+  ];
+  main.innerHTML = sections.map(([fn, data], i) => fn(data, sectionN(i))).join('');
 
   initScrollReveal();
   initCaseAccordion();
@@ -48,11 +51,11 @@ function initCaseAccordion() {
 }
 
 // ── About (CV) ──
-function sectionCvAbout(d) {
+function sectionCvAbout(d, n) {
   const body = d.body.map(p => `<p class="para">${p}</p>`).join('');
 
   return `<section class="sect sect-about" id="about">`
-    + asciiRuleHTML(d.head, d.n)
+    + asciiRuleHTML(d.head, n)
     + `<div class="sect-grid">`
     +   `<div class="sect-title"><h2>${d.title}</h2></div>`
     +   `<div class="sect-body">${body}</div>`
@@ -61,7 +64,7 @@ function sectionCvAbout(d) {
 }
 
 // ── Experience ──
-function sectionExperience(d) {
+function sectionExperience(d, n) {
   const items = d.items.map(exp => {
     const groups = exp.groups.map(g => {
       const lis = g.items.map(item => `<li>${item}</li>`).join('');
@@ -81,7 +84,7 @@ function sectionExperience(d) {
   }).join('');
 
   return `<section class="sect sect-experience" id="experience">`
-    + asciiRuleHTML(d.head, d.n)
+    + asciiRuleHTML(d.head, n)
     + `<div class="sect-grid">`
     +   `<div class="sect-title"><h2>${d.title}</h2></div>`
     +   `<div class="exp-list stagger">${items}</div>`
@@ -90,7 +93,7 @@ function sectionExperience(d) {
 }
 
 // ── Cases (accordion) ──
-function sectionCases(d) {
+function sectionCases(d, n) {
   const items = d.items.map(c =>
     `<article class="case-item">`
     + `<button class="case-header" aria-expanded="false">`
@@ -120,7 +123,7 @@ function sectionCases(d) {
   ).join('');
 
   return `<section class="sect sect-cases" id="cases">`
-    + asciiRuleHTML(d.head, d.n)
+    + asciiRuleHTML(d.head, n)
     + `<div class="sect-grid">`
     +   `<div class="sect-title"><h2>${d.title}</h2></div>`
     +   `<div class="cases-list stagger">${items}</div>`
@@ -129,7 +132,7 @@ function sectionCases(d) {
 }
 
 // ── Skills ──
-function sectionSkills(d) {
+function sectionSkills(d, n) {
   const groups = d.groups.map(g => {
     const tags = g.items.map(t => `<span class="skill-tag">${escapeHTML(t)}</span>`).join('');
     return `<div class="skill-group">`
@@ -139,7 +142,7 @@ function sectionSkills(d) {
   }).join('');
 
   return `<section class="sect sect-skills" id="skills">`
-    + asciiRuleHTML(d.head, d.n)
+    + asciiRuleHTML(d.head, n)
     + `<div class="sect-grid">`
     +   `<div class="sect-title"><h2>${d.title}</h2></div>`
     +   `<div class="skills-grid stagger">${groups}</div>`
@@ -148,7 +151,7 @@ function sectionSkills(d) {
 }
 
 // ── Languages ──
-function sectionLanguages(d) {
+function sectionLanguages(d, n) {
   const items = d.items.map(l =>
     `<div class="lang-item">`
     + `<span class="lang-name">${escapeHTML(l.name)}</span>`
@@ -157,7 +160,7 @@ function sectionLanguages(d) {
   ).join('');
 
   return `<section class="sect sect-languages" id="languages">`
-    + asciiRuleHTML(d.head, d.n)
+    + asciiRuleHTML(d.head, n)
     + `<div class="sect-grid">`
     +   `<div class="sect-title"><h2>${d.title}</h2></div>`
     +   `<div class="lang-list">${items}</div>`
@@ -166,7 +169,7 @@ function sectionLanguages(d) {
 }
 
 // ── Education ──
-function sectionEducation(d) {
+function sectionEducation(d, n) {
   const items = d.items.map(e =>
     `<div class="edu-item">`
     + `<div class="edu-title">${escapeHTML(e.title)}</div>`
@@ -176,7 +179,7 @@ function sectionEducation(d) {
   ).join('');
 
   return `<section class="sect sect-education" id="education">`
-    + asciiRuleHTML(d.head, d.n)
+    + asciiRuleHTML(d.head, n)
     + `<div class="sect-grid">`
     +   `<div class="sect-title"><h2>${d.title}</h2></div>`
     +   `<div class="edu-list">${items}</div>`

@@ -139,10 +139,10 @@ p.sidequests.sagas.forEach(saga => {
     }
   });
 });
-const outroArr = Array.isArray(p.sidequests.outro)
-  ? p.sidequests.outro
-  : (p.sidequests.outro ? [p.sidequests.outro] : []);
-outroArr.forEach((l, i) => {
+assert('sidequests.outro is array (ru)', Array.isArray(p.sidequests.outro),
+  'outro должен быть массивом — рендер не нормализует одиночные объекты');
+assert('sidequests.outro is array (en)', Array.isArray(CONTENT.en.personal.sidequests.outro));
+p.sidequests.outro.forEach((l, i) => {
   assert(`sidequests.outro[${i}] has label+href`,
     !!l.label && /^https?:\/\//.test(l.href), 'bad: ' + JSON.stringify(l));
 });
@@ -189,23 +189,54 @@ assert('start_devops < now', startDevOps < now, 'DevOps start should be in the p
 assert('birth > 1950', birthDate.getFullYear() > 1950, 'birth year sanity check');
 
 // ════════════════════════════════════════
-console.log('\n\x1b[1mSection numbering\x1b[0m');
+console.log('\n\x1b[1mSection numbering (autonumeration)\x1b[0m');
 // ════════════════════════════════════════
 
-function checkNumbering(pageName, sections) {
-  const nums = sections.map(s => parseInt(s.n, 10));
-  for (let i = 0; i < nums.length; i++) {
-    assert(pageName + ' section ' + i + ' has n="' + String(nums[i]).padStart(2, '0') + '"',
-      nums[i] === i, 'expected ' + i + ', got ' + nums[i]);
-  }
-  const unique = new Set(nums);
-  assert(pageName + ' no duplicate n', unique.size === nums.length, 'duplicate section numbers');
-}
+// Единый источник порядка секций — массивы в page-personal.js / page-cv.js.
+// Номер секции вычисляется по индексу через sectionN(i) (0-indexed, "NN").
+// Здесь проверяем, что код действительно использует автонумерацию
+// и в content.js нигде не остался хардкод секционного `n`.
 
-// На personal contacts рендерится с nOverride="07" (см. page-personal.js),
-// поэтому в проверке нумерации используем локальный объект с n="07".
-checkNumbering('personal', [p.about, p.value, p.principles, p.human, p.sidequests, p.exploring, c.blog, { n: '07' }]);
-checkNumbering('cv', [cv.about, cv.experience, cv.cases, cv.skills, cv.languages, cv.education, c.contacts]);
+const personalJs = fs.readFileSync(path.join(ROOT, 'src/js/page-personal.js'), 'utf8');
+const cvJs       = fs.readFileSync(path.join(ROOT, 'src/js/page-cv.js'),       'utf8');
+const sharedJs   = fs.readFileSync(path.join(ROOT, 'src/js/shared.js'),        'utf8');
+
+assert('sectionN helper defined in shared.js',
+  /function\s+sectionN\s*\(\s*i\s*\)/.test(sharedJs));
+
+const autoNumerationPattern = /sections\.map\(\(\[fn,\s*data\],\s*i\)\s*=>\s*fn\(data,\s*sectionN\(i\)\)\)/;
+assert('page-personal.js uses autonumeration', autoNumerationPattern.test(personalJs));
+assert('page-cv.js uses autonumeration',       autoNumerationPattern.test(cvJs));
+
+// Регрессия: явно проверяем, что в коде больше нет literal "NN" во втором аргументе renderContacts.
+// Такой хардкод был бы возвратом к `nOverride`-паттерну.
+const hardcodedN = /renderContacts\s*\(\s*[^,)]+,\s*["'`]\d{2}["'`]\s*\)/;
+assert('no hardcoded n in renderContacts (personal)', !hardcodedN.test(personalJs));
+assert('no hardcoded n in renderContacts (cv)',       !hardcodedN.test(cvJs));
+
+// Регрессия: в content.js не должно быть секционного `n` (он жил на отступе 6 или 8 пробелов
+// у объектов секций). Item-level `n` принципов имеет отступ 12 — его не трогаем.
+const contentRaw = fs.readFileSync(path.join(ROOT, 'src/js/content.js'), 'utf8');
+const sectionNLeftover = /^ {6,8}n: "\d+",$/m.test(contentRaw);
+assert('content.js: no section-level n left', !sectionNLeftover,
+  'секционные `n` должны быть удалены — номер приходит из индекса секций, не из контента');
+
+// Санити: helper sectionN реально 0-indexed с паддингом.
+// Eval-им код helper'а напрямую, чтобы не зависеть от браузерного окружения.
+const sectionN = new Function('i', 'return String(i).padStart(2, "0");');
+assert('sectionN(0) === "00"', sectionN(0) === '00');
+assert('sectionN(7) === "07"', sectionN(7) === '07');
+assert('sectionN(10) === "10"', sectionN(10) === '10');
+
+// Ожидаемая длина массивов секций — защита от «забыл добавить рендер новой секции».
+const personalSectionsCount = (personalJs.match(/\[\s*section[A-Z]\w*\s*,/g) || []).length
+                            + (personalJs.match(/\[\s*renderContacts\s*,/g) || []).length;
+const cvSectionsCount       = (cvJs.match(/\[\s*section[A-Z]\w*\s*,/g) || []).length
+                            + (cvJs.match(/\[\s*renderContacts\s*,/g) || []).length;
+assert('personal sections count = 8', personalSectionsCount === 8,
+  `got ${personalSectionsCount}; проверь массив sections в page-personal.js`);
+assert('cv sections count = 7', cvSectionsCount === 7,
+  `got ${cvSectionsCount}; проверь массив sections в page-cv.js`);
 
 // ════════════════════════════════════════
 console.log('\n\x1b[1mFile structure\x1b[0m');

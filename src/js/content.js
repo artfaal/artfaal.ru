@@ -54,7 +54,6 @@ const CONTENT = {
     // ── Блог / заметки ──
     blog: {
       head: "// blog",
-      n: "06",
       title: "Блог",
       sub: "Живые заметки о технике, жизни и том, что реально зацепило. Дамп сознания.",
       links: [
@@ -65,7 +64,6 @@ const CONTENT = {
 
     contacts: {
       head: "// contact",
-      n: "06",
       title: "Связаться",
       sub: "Лучше всего — Telegram. Остальное тоже работает.",
       links: [
@@ -91,7 +89,6 @@ const CONTENT = {
       // -- Короткий портрет --
       about: {
         head: "// about",
-        n: "00",
         title: "Короткий портрет",
         body: [
           "Больше десяти лет в IT — от единственного сисадмина в маленькой компании до DevOps-эксперта в «Инфосистемы Джет».",
@@ -104,7 +101,6 @@ const CONTENT = {
       // -- Чем полезен --
       value: {
         head: "// value",
-        n: "01",
         title: "Чем полезен",
         items: [
           {
@@ -143,7 +139,6 @@ const CONTENT = {
       // -- Принципы --
       principles: {
         head: "// principles",
-        n: "02",
         title: "Принципы",
         sub: "Несколько правил, по которым я работаю и живу. Не манифест — просто то, что себя окупило.",
         items: [
@@ -183,7 +178,6 @@ const CONTENT = {
       // -- Человеческий блок --
       human: {
         head: "// human",
-        n: "03",
         title: "По-человечески",
         sub: "Не «хобби», а то, что объясняет характер.",
         cards: [
@@ -223,7 +217,6 @@ const CONTENT = {
       // -- Side quests (личная инфра и живые системы) --
       sidequests: {
         head: "// side quests",
-        n: "04",
         title: "Side quests",
         sub: "Не «pet-projects» в привычном смысле — скорее личная инфра с метриками, дашбордами и привычкой смотреть на жизнь через временные ряды. Звучит душно, но мне зашло =)",
         sagas: [
@@ -289,7 +282,6 @@ const CONTENT = {
       // -- Сейчас копаю --
       exploring: {
         head: "// exploring",
-        n: "05",
         title: "Сейчас копаю",
         sub: "Что интересует прямо сейчас.",
         // status: hot — активно погружён; active — регулярно занимаюсь; exploring — в процессе изучения
@@ -321,7 +313,6 @@ const CONTENT = {
       // -- About (расширенный, для работодателей) --
       about: {
         head: "// about",
-        n: "00",
         title: "Обо мне",
         body: [
           "DevOps Expert Engineer. DevOps на антифрод-платформе Jet Detective («Инфосистемы Джет»). Построил с нуля CI/CD, мониторинг и систему управления 160+ ВМ.",
@@ -332,7 +323,6 @@ const CONTENT = {
       // -- Опыт работы --
       experience: {
         head: "// experience",
-        n: "01",
         title: "Опыт работы",
         items: [
           {
@@ -437,7 +427,6 @@ const CONTENT = {
       // -- Кейсы --
       cases: {
         head: "// cases",
-        n: "02",
         title: "Избранные кейсы",
         items: [
           {
@@ -486,7 +475,6 @@ const CONTENT = {
       // -- Навыки / стек --
       skills: {
         head: "// skills",
-        n: "03",
         title: "Навыки",
         groups: [
           {
@@ -507,7 +495,6 @@ const CONTENT = {
       // -- Языки --
       languages: {
         head: "// languages",
-        n: "04",
         title: "Языки",
         items: [
           { name: "Русский", level: "родной" },
@@ -517,7 +504,6 @@ const CONTENT = {
 
       education: {
         head: "// education",
-        n: "05",
         title: "Образование",
         items: [
           {
@@ -577,7 +563,6 @@ const CONTENT = {
     // ── Blog / notes ──
     blog: {
       head: "// blog",
-      n: "06",
       title: "Blog",
       sub: "Live notes on tech, life, and things that really hit home. A brain dump.",
       links: [
@@ -589,7 +574,6 @@ const CONTENT = {
     // ── Contacts (shared) ──
     contacts: {
       head: "// contact",
-      n: "06",
       title: "Get in touch",
       sub: "Telegram works best. Everything else works too.",
       links: [
@@ -615,7 +599,6 @@ const CONTENT = {
       // -- Short portrait --
       about: {
         head: "// about",
-        n: "00",
         title: "Short portrait",
         body: [
           "Over a decade in IT — from being the sole sysadmin at a small company to DevOps Expert at Jet Infosystems.",
@@ -628,7 +611,6 @@ const CONTENT = {
       // -- What I bring to the table --
       value: {
         head: "// value",
-        n: "01",
         title: "What I bring to the table",
         items: [
           {
@@ -667,7 +649,6 @@ const CONTENT = {
       // -- Principles --
       principles: {
         head: "// principles",
-        n: "02",
         title: "Principles",
         sub: "A few rules I work and live by. Not a manifesto — just things that have paid off.",
         items: [
@@ -707,7 +688,6 @@ const CONTENT = {
       // -- Human side --
       human: {
         head: "// human",
-        n: "03",
         title: "The human side",
         sub: "Not \"hobbies\" — things that explain who I am.",
         cards: [
@@ -747,7 +727,6 @@ const CONTENT = {
       // -- Side quests (personal infra and living systems) --
       sidequests: {
         head: "// side quests",
-        n: "04",
         title: "Side quests",
         sub: "Not \"pet projects\" in the usual sense — more like personal infra with metrics, dashboards, and a habit of looking at life through time series. Sounds geeky, but I'm into it =)",
         sagas: [
@@ -813,7 +792,6 @@ const CONTENT = {
       // -- Currently exploring --
       exploring: {
         head: "// exploring",
-        n: "05",
         title: "Currently exploring",
         sub: "What I'm digging into right now.",
         items: [
@@ -844,7 +822,6 @@ const CONTENT = {
       // -- About (extended, for employers) --
       about: {
         head: "// about",
-        n: "00",
         title: "About me",
         body: [
           "DevOps Expert Engineer. Running DevOps for the Jet Detective anti-fraud platform (Jet Infosystems). Built CI/CD, monitoring, and a management system for 160+ VMs from scratch.",
@@ -855,7 +832,6 @@ const CONTENT = {
       // -- Work experience --
       experience: {
         head: "// experience",
-        n: "01",
         title: "Work experience",
         items: [
           {
@@ -960,7 +936,6 @@ const CONTENT = {
       // -- Cases --
       cases: {
         head: "// cases",
-        n: "02",
         title: "Selected cases",
         items: [
           {
@@ -1009,7 +984,6 @@ const CONTENT = {
       // -- Skills / stack --
       skills: {
         head: "// skills",
-        n: "03",
         title: "Skills",
         groups: [
           {
@@ -1030,7 +1004,6 @@ const CONTENT = {
       // -- Languages --
       languages: {
         head: "// languages",
-        n: "04",
         title: "Languages",
         items: [
           { name: "Russian", level: "native" },
@@ -1040,7 +1013,6 @@ const CONTENT = {
 
       education: {
         head: "// education",
-        n: "05",
         title: "Education",
         items: [
           {
