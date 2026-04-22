@@ -473,7 +473,7 @@ function typeReveal(el) {
   el.dataset.typed = '1';
   const text = el.textContent;
   el.textContent = '';
-  el.style.visibility = 'visible';
+  el.style.opacity = '1';
 
   const cursor = document.createElement('span');
   cursor.className = 'cursor cursor-sub';
