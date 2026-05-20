@@ -226,7 +226,7 @@ const CONTENT = {
             projects: [
               {
                 name: "plants + co2",
-                metric: "14 растений · Grafana · Divoom",
+                metric: "15 растений · Grafana · Divoom",
                 d: "Датчики влажности почвы → Prometheus → дашборд с графиками по каждому растению и таймерами полива. Пиксельная панель рядом буквально кричит «пора поливать!» — иначе я бы забыл =)",
                 img: "/assets/sq-plants.webp",
                 stack: ["Python", "Prometheus", "Grafana"],
@@ -736,7 +736,7 @@ const CONTENT = {
             projects: [
               {
                 name: "plants + co2",
-                metric: "14 plants · Grafana · Divoom",
+                metric: "15 plants · Grafana · Divoom",
                 d: "Soil moisture sensors → Prometheus → a dashboard with per-plant graphs and watering timers. The pixel panel right next to it literally yells \"time to water!\" — otherwise I'd forget =)",
                 img: "/assets/sq-plants.webp",
                 stack: ["Python", "Prometheus", "Grafana"],
