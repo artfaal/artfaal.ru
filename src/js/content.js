@@ -26,9 +26,9 @@ const CONTENT = {
       start_it: "2013-03-01",
       start_devops: "2019-12-01",
       // Для JSON-LD (личная страница)
-      knowsAbout: ["DevOps", "CI/CD", "Infrastructure", "Monitoring", "LLM tooling"],
+      knowsAbout: ["DevOps", "CI/CD", "Infrastructure", "Monitoring", "LLM tooling", "MCP"],
       // Дата последнего обновления контента (тест напомнит обновить через 3 мес)
-      last_updated: "2026-04-22",
+      last_updated: "2026-06-22",
     },
 
     // ── Навигация ──
@@ -110,7 +110,7 @@ const CONTENT = {
           },
           {
             k: "02",
-            t: "Автоматизирую без культов",
+            t: "Автоматизирую по делу",
             d: "Не «потому что модно», а потому что рутина жрёт внимание. Оверинжиниринг — такой же враг, как ручной труд.",
           },
           {
@@ -126,7 +126,7 @@ const CONTENT = {
           {
             k: "05",
             t: "Мост infra ↔ AI tooling",
-            d: "Ковыряюсь в LLM-зоопарке изнутри — понимаю, что там реально работает, а что красивая демка. Помогаю командам сшивать это без боли.",
+            d: "Поковырялся в LLM-инструментах достаточно, чтобы отличать рабочее от демки. Главное, что вынес: дело не в модели, а в том, что вокруг — контекст и нормальная дока. Звучит скучно, зато работает =)",
           },
           {
             k: "06",
@@ -154,8 +154,8 @@ const CONTENT = {
           },
           {
             n: "03",
-            t: "Инструмент упрощает жизнь, а не строит новую религию",
-            d: "Если тул требует полставки на поддержку — это не инструмент, это проект.",
+            t: "Инструмент, а не вторая работа",
+            d: "Если тул требует полставки на поддержку — это не инструмент, а проект.",
           },
           {
             n: "04",
@@ -287,18 +287,18 @@ const CONTENT = {
         // status: hot — активно погружён; active — регулярно занимаюсь; exploring — в процессе изучения
         items: [
           {
-            t: "LLM и оркестрация агентов",
-            d: "~300 часов за полтора месяца на эксперименты с агентными фреймворками и оркестрацией LLM. Ищу, как по-настоящему разгрузить голову в инженерной рутине.",
+            t: "Инфраструктура, которую можно спросить",
+            d: "Собираю всю рабочую документацию в MCP-сервер — чтобы команда спрашивала его, а не меня по сто раз =) Тот же контекст заодно забирают и LLM-агенты.",
             status: "hot",
           },
           {
-            t: "LLM-инструменты в реальной работе",
-            d: "Как перетащить наработки из домашней песочницы в боевой DevOps — без культа и без боли.",
+            t: "Скиллы и контекст под задачи",
+            d: "Собираю рабочую обвязку вокруг LLM: скиллы под задачи, контекст по проектам, отладочные воркфлоу. Не гонюсь за новой моделью — кручу то, что вокруг неё.",
             status: "active",
           },
           {
-            t: "Разгрузить голову",
-            d: "Не только рутина — ещё и шаблонные решения. Если я всё равно выбираю по инструкции, пусть это делает скрипт.",
+            t: "Harness под рутину",
+            d: "Начал собирать на работе harness — конвейер из агентов под рутину. Пока больше дебажу, чем разгружаюсь :D",
             status: "exploring",
           },
         ],
@@ -317,6 +317,7 @@ const CONTENT = {
         body: [
           "DevOps Expert Engineer. DevOps на антифрод-платформе Jet Detective («Инфосистемы Джет»). Построил с нуля CI/CD, мониторинг и систему управления 160+ ВМ.",
           "Опыт руководства командой из 7 человек, вывода релизов на прод в крупных гос. проектах, адаптации сервисов под Kubernetes.",
+          "Сейчас встраиваю LLM в рабочие процессы — свои MCP-серверы и документацию, которой пользуются и люди, и LLM-агенты.",
         ],
       },
 
@@ -372,6 +373,7 @@ const CONTENT = {
                   "GitLab webhook-сервер для автоматизации MR",
                   "Apache Superset для embedded BI-дашбордов в продукте",
                   "Платформа документации на базе MkDocs с drift-detection",
+                  "MCP-серверы поверх документации и инфраструктуры — общий контекст для команды и LLM-агентов",
                 ],
               },
             ],
@@ -469,6 +471,14 @@ const CONTENT = {
             result: "Оставил 3 инструмента: Claude Code (код), Клоя / OpenClaw (персональный агент с памятью), Hermes (глубокий анализ). Остальное — выкинул.",
             lesson: "Главная ловушка LLM — «когда у тебя молоток, всё вокруг гвозди». 16 агентов давали эндорфины, но не результат. Путь от усложнения к упрощению.",
           },
+          {
+            num: "06",
+            title: "Инфраструктура, которую можно спросить",
+            task: "Команда ходит к девопсу с одними и теми же вопросами: как работает этот пайплайн, как считается версия, где это посмотреть. Ответы есть — но в Confluence, в Jenkinsfile'ах и в моей голове. Классика жанра: «спроси Макса».",
+            did: "Собрал документацию JD в одном месте и поднял над ней MCP-сервер с векторным поиском. Спрашивают и люди, и LLM-агенты: на конкретный вопрос — конкретный ответ и шаги, без раскопок по десяти страницам.",
+            result: "Боевая бета. Покрытие наполняю на ходу, но часть вопросов уже уходит в доку, а не ко мне. Агенты берут контекст оттуда — и заметно реже сочиняют.",
+            lesson: "Дело оказалось не в модели. Скучная дока под конкретный вопрос обыгрывает модель поумнее, но без контекста — каждый раз.",
+          },
         ],
       },
 
@@ -484,6 +494,10 @@ const CONTENT = {
           {
             title: "Extended",
             items: ["Thanos", "Packer", "OpenSearch", "Loki", "Promtail", "Logstash", "Telegraf", "Kafka", "Keycloak", "Nginx", "Kubernetes", "Terraform", "Go", "Python", "Bash", "Groovy", "MinIO/S3", "Apache Superset", "Git"],
+          },
+          {
+            title: "LLM / MCP",
+            items: ["MCP-серверы", "LLM-оркестрация", "Claude Code", "OpenAI API"],
           },
           {
             title: "Ранее",
@@ -539,8 +553,8 @@ const CONTENT = {
       birth: "1989-07-24",
       start_it: "2013-03-01",
       start_devops: "2019-12-01",
-      knowsAbout: ["DevOps", "CI/CD", "Infrastructure", "Monitoring", "LLM tooling"],
-      last_updated: "2026-04-22",
+      knowsAbout: ["DevOps", "CI/CD", "Infrastructure", "Monitoring", "LLM tooling", "MCP"],
+      last_updated: "2026-06-22",
     },
 
     // ── Navigation ──
@@ -636,7 +650,7 @@ const CONTENT = {
           {
             k: "05",
             t: "Bridge: infra ↔ AI tooling",
-            d: "Elbow-deep in the LLM zoo — I know what actually works and what's just a shiny demo. I help teams wire it in painlessly.",
+            d: "I've poked at enough LLM tooling to tell the real thing from a demo. The big takeaway: it's not about the model — it's about everything around it, the context and decent docs. Sounds boring, but it works =)",
           },
           {
             k: "06",
@@ -664,7 +678,7 @@ const CONTENT = {
           },
           {
             n: "03",
-            t: "A tool should simplify life, not start a new religion",
+            t: "A tool, not a second job",
             d: "If a tool takes a half-time hire to maintain — it's not a tool, it's a project.",
           },
           {
@@ -796,18 +810,18 @@ const CONTENT = {
         sub: "Stuff I'm genuinely hooked on right now.",
         items: [
           {
-            t: "LLM and agent orchestration",
-            d: "~300 hours over six weeks experimenting with agent frameworks and LLM orchestration. Looking for ways to actually clear the mental overhead in day-to-day engineering.",
+            t: "Infrastructure you can just ask",
+            d: "I'm pulling all our work documentation into one MCP server — so the team can ask it instead of asking me for the hundredth time =) LLM agents pull the same context too.",
             status: "hot",
           },
           {
-            t: "LLM tools in real work",
-            d: "Porting what works from my home sandbox into production DevOps — no cargo cults, no pain.",
+            t: "Skills and context for the task at hand",
+            d: "Building the scaffolding around LLMs: skills tuned to specific tasks, per-project context, debugging workflows. I'm not chasing the next model — I'm working on everything around it.",
             status: "active",
           },
           {
-            t: "Clearing the head",
-            d: "Not just routine — boilerplate decisions too. If the choice already follows a script, let a script make it.",
+            t: "A harness for the grind",
+            d: "Started building a harness at work — a pipeline of agents for the routine stuff. So far I'm debugging it more than it's unloading me :D",
             status: "exploring",
           },
         ],
@@ -826,6 +840,7 @@ const CONTENT = {
         body: [
           "DevOps Expert Engineer. Running DevOps for the Jet Detective anti-fraud platform (Jet Infosystems). Built CI/CD, monitoring, and a management system for 160+ VMs from scratch.",
           "Experience leading a team of 7, shipping releases to production on large government projects, and adapting services for Kubernetes.",
+          "Currently embedding LLMs into engineering workflows — my own MCP servers and documentation used by both people and LLM agents.",
         ],
       },
 
@@ -881,6 +896,7 @@ const CONTENT = {
                   "GitLab webhook server for MR automation",
                   "Apache Superset for embedded BI dashboards in the product",
                   "Documentation platform based on MkDocs with drift-detection",
+                  "MCP servers on top of documentation and infrastructure — shared context for the team and LLM agents",
                 ],
               },
             ],
@@ -978,6 +994,14 @@ const CONTENT = {
             result: "Kept 3 tools: Claude Code (code), Kloya / OpenClaw (personal agent with memory), Hermes (deep analysis). Dropped the rest.",
             lesson: "The main LLM trap — \"when all you have is a hammer, everything looks like a nail\". 16 agents gave endorphins but not results. The real journey: from overcomplicating to simplifying.",
           },
+          {
+            num: "06",
+            title: "Infrastructure you can just ask",
+            task: "The team keeps coming to the DevOps engineer with the same questions: how does this pipeline work, how is the version computed, where do I look. The answers exist — but they're buried in Confluence, in Jenkinsfiles, and in my head. The classic \"ask Maks\".",
+            did: "Pulled the JD documentation into one place and put an MCP server with vector search on top of it. Both people and LLM agents query it: a specific question gets a specific answer with steps — no digging through ten pages.",
+            result: "Live beta. Coverage is still growing, but some questions already go to the docs instead of to me. Agents pull context from there too — and make things up noticeably less.",
+            lesson: "It turned out not to be about the model. Boring docs aimed at a specific question beat a smarter model with no context — every single time.",
+          },
         ],
       },
 
@@ -993,6 +1017,10 @@ const CONTENT = {
           {
             title: "Extended",
             items: ["Thanos", "Packer", "OpenSearch", "Loki", "Promtail", "Logstash", "Telegraf", "Kafka", "Keycloak", "Nginx", "Kubernetes", "Terraform", "Go", "Python", "Bash", "Groovy", "MinIO/S3", "Apache Superset", "Git"],
+          },
+          {
+            title: "LLM / MCP",
+            items: ["MCP servers", "LLM orchestration", "Claude Code", "OpenAI API"],
           },
           {
             title: "Previously",
