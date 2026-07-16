@@ -26,9 +26,9 @@ const CONTENT = {
       start_it: "2013-03-01",
       start_devops: "2019-12-01",
       // Для JSON-LD (личная страница)
-      knowsAbout: ["DevOps", "CI/CD", "Infrastructure", "Monitoring", "LLM tooling", "MCP"],
+      knowsAbout: ["DevOps", "CI/CD", "Infrastructure", "Monitoring", "LLM tooling", "MCP", "AI agents"],
       // Дата последнего обновления контента (тест напомнит обновить через 3 мес)
-      last_updated: "2026-06-22",
+      last_updated: "2026-07-17",
     },
 
     // ── Навигация ──
@@ -43,7 +43,7 @@ const CONTENT = {
       name: "Соловьев Максим",
       role: "DevOps-инженер",
       tagline: "Навожу порядок в сложных системах и автоматизирую рутину так, чтобы у людей оставались силы на жизнь.",
-      sub: "Сейчас копаю LLM-инструменты — те, что помогают делу, а не плодят новый зоопарк.",
+      sub: "Сейчас строю LLM-инструменты — те, что помогают делу, а не плодят новый зоопарк.",
       cta_primary: { label: "написать", href: "https://t.me/artfaal" },
       cta_secondary: { label: "github", href: "https://github.com/artfaal" },
       // Строки для терминальной анимации набора
@@ -298,8 +298,13 @@ const CONTENT = {
           },
           {
             t: "Harness под рутину",
-            d: "Начал собирать на работе harness — конвейер из агентов под рутину. Пока больше дебажу, чем разгружаюсь :D",
-            status: "exploring",
+            d: "Собрал на работе harness — конвейер из агентов под рутину. Перед деплоем он идёт через eval-гейт: не зелёный — никуда не едет. Дебажу всё ещё много, но уже по делу, а не вместо работы =)",
+            status: "active",
+          },
+          {
+            t: "Локальные модели там, где данные не выпустишь",
+            d: "Гоняю модели на своём железе — закрытый контур, наружу не уходит ничего. Оказалось, дело не в размере: модель побольше бодро писала «всё хорошо», не заглянув ни в один лог :D",
+            status: "hot",
           },
         ],
       },
@@ -317,7 +322,7 @@ const CONTENT = {
         body: [
           "DevOps Expert Engineer. DevOps на антифрод-платформе Jet Detective («Инфосистемы Джет»). Построил с нуля CI/CD, мониторинг и систему управления 160+ ВМ.",
           "Опыт руководства командой из 7 человек, вывода релизов на прод в крупных гос. проектах, адаптации сервисов под Kubernetes.",
-          "Сейчас встраиваю LLM в рабочие процессы — свои MCP-серверы и документацию, которой пользуются и люди, и LLM-агенты.",
+          "Сейчас строю AI-часть платформы: агенты под рутину с eval-гейтом перед деплоем, MCP-серверы и документацию, которой пользуются и люди, и агенты. Отдельная ветка — локальные модели для закрытого контура, где данные наружу не уходят.",
         ],
       },
 
@@ -373,7 +378,15 @@ const CONTENT = {
                   "GitLab webhook-сервер для автоматизации MR",
                   "Apache Superset для embedded BI-дашбордов в продукте",
                   "Платформа документации на базе MkDocs с drift-detection",
+                ],
+              },
+              {
+                title: "LLM и агенты",
+                items: [
                   "MCP-серверы поверх документации и инфраструктуры — общий контекст для команды и LLM-агентов",
+                  "Агентский harness для DevOps-рутины: выбор движка после сравнения пяти фреймворков, eval-гейт перед деплоем (grounding, security, выбор инструментов), трейсинг вызовов модели",
+                  "PoC диагностического агента на локальных моделях — расследование инцидентов без отправки данных контура в облако",
+                  "Vault MCP для агентов: выдача секретов через deny-политики и изоляцию токена",
                 ],
               },
             ],
@@ -436,7 +449,7 @@ const CONTENT = {
             title: "JD-Gateway — единая точка правды для 160+ ВМ",
             task: "160+ виртуальных машин на стендах. Информация размазана по Confluence, головам инженеров и vSphere-консолям.",
             did: "Разработал JD-Gateway на Python — веб-приложение с REST API, интеграцией с vSphere, dynamic inventory для Ansible и Prometheus, TTL-системой и Web UI.",
-            result: "Вместо ручного создания ВМ — API-вызов. Вместо «спроси Макса» — self-service. TTL не дают стендам превращаться в зомби.",
+            result: "Создание хоста было 30 минут руками через vSphere — стало пара минут. 14 человек закрывают операции сами, обращений по ним больше нет. TTL не дают стендам превращаться в зомби.",
             lesson: "«Единая точка правды» — не архитектурный паттерн, а культурное решение. Техническая часть — 30%, остальное — убеждение и удобство.",
           },
           {
@@ -465,11 +478,11 @@ const CONTENT = {
           },
           {
             num: "05",
-            title: "Полтора месяца в LLM-зоопарке",
-            task: "Понять, можно ли с помощью LLM-агентов реально снять когнитивную нагрузку в ежедневной инженерной работе.",
-            did: "299 часов за полтора месяца. 16 агентов на двух Mac mini. Попробовал OpenClaw, Claude Code, Codex, Gemini, Hermes, локальные модели, системы памяти.",
-            result: "Оставил 3 инструмента: Claude Code (код), Клоя / OpenClaw (персональный агент с памятью), Hermes (глубокий анализ). Остальное — выкинул.",
-            lesson: "Главная ловушка LLM — «когда у тебя молоток, всё вокруг гвозди». 16 агентов давали эндорфины, но не результат. Путь от усложнения к упрощению.",
+            title: "Диагностический агент на локальной модели",
+            task: "Данные банковского контура в облако отправлять нельзя. Вопрос простой: потянет ли локальная модель роль дежурного — сама сходить в логи, метрики и runbook'и, собрать факты и поставить диагноз.",
+            did: "Собрал PoC: агент с набором инструментов, реестром собранных фактов и валидацией ответа. Прогнал Qwen3 (8B / 14B / 30B) против облачного DeepSeek как потолка качества. Добавил guard-правила против самого опасного режима — когда модель никуда не заглянула, но бодро отвечает «всё в порядке».",
+            result: "14B без reasoning дала 6 из 6 — как облако. 8 vCPU и 24 ГБ без GPU, ~12 минут на сценарий. Архитектор согласовал конфигурацию, идём в пилот на живых данных.",
+            lesson: "Размер модели не чинит честность: 30B уверенно писала «healthy», не вызвав ни одного инструмента. Спасли скучные guard-правила, а не параметры.",
           },
           {
             num: "06",
@@ -497,7 +510,7 @@ const CONTENT = {
           },
           {
             title: "LLM / MCP",
-            items: ["MCP-серверы", "LLM-оркестрация", "Claude Code", "OpenAI API"],
+            items: ["MCP-серверы", "Агентские харнессы (Hermes)", "LLM-evals (promptfoo)", "LLM-observability (Phoenix)", "Локальный inference (llama.cpp, Qwen3)", "Claude Code", "OpenAI API"],
           },
           {
             title: "Ранее",
@@ -553,8 +566,8 @@ const CONTENT = {
       birth: "1989-07-24",
       start_it: "2013-03-01",
       start_devops: "2019-12-01",
-      knowsAbout: ["DevOps", "CI/CD", "Infrastructure", "Monitoring", "LLM tooling", "MCP"],
-      last_updated: "2026-06-22",
+      knowsAbout: ["DevOps", "CI/CD", "Infrastructure", "Monitoring", "LLM tooling", "MCP", "AI agents"],
+      last_updated: "2026-07-17",
     },
 
     // ── Navigation ──
@@ -568,7 +581,7 @@ const CONTENT = {
       name: "Maksim Solovev",
       role: "DevOps Engineer",
       tagline: "I bring order to complex systems and automate the grind so people have energy left for life.",
-      sub: "Currently digging into LLM tooling — the kind that actually helps, not the kind that breeds another zoo.",
+      sub: "Currently building LLM tooling — the kind that actually helps, not the kind that breeds another zoo.",
       cta_primary: { label: "message me", href: "https://t.me/artfaal" },
       cta_secondary: { label: "github", href: "https://github.com/artfaal" },
       prompt_lines: ["whoami", "cat ~/human.md"],
@@ -821,8 +834,13 @@ const CONTENT = {
           },
           {
             t: "A harness for the grind",
-            d: "Started building a harness at work — a pipeline of agents for the routine stuff. So far I'm debugging it more than it's unloading me :D",
-            status: "exploring",
+            d: "Built a harness at work — a pipeline of agents for the routine stuff. Nothing ships until it clears an eval gate: not green, not going anywhere. Still plenty of debugging, but now it's the useful kind, not a substitute for work =)",
+            status: "active",
+          },
+          {
+            t: "Local models where the data can't leave",
+            d: "Running models on my own hardware — closed network, nothing goes out. Turns out size isn't the point: the bigger model cheerfully reported \"all good\" without opening a single log :D",
+            status: "hot",
           },
         ],
       },
@@ -840,7 +858,7 @@ const CONTENT = {
         body: [
           "DevOps Expert Engineer. Running DevOps for the Jet Detective anti-fraud platform (Jet Infosystems). Built CI/CD, monitoring, and a management system for 160+ VMs from scratch.",
           "Experience leading a team of 7, shipping releases to production on large government projects, and adapting services for Kubernetes.",
-          "Currently embedding LLMs into engineering workflows — my own MCP servers and documentation used by both people and LLM agents.",
+          "Currently building the AI side of the platform: agents for routine work with an eval gate before deploy, MCP servers, and documentation used by both people and agents. A separate track — local models for the closed network, where data never leaves the perimeter.",
         ],
       },
 
@@ -896,7 +914,15 @@ const CONTENT = {
                   "GitLab webhook server for MR automation",
                   "Apache Superset for embedded BI dashboards in the product",
                   "Documentation platform based on MkDocs with drift-detection",
+                ],
+              },
+              {
+                title: "LLM & agents",
+                items: [
                   "MCP servers on top of documentation and infrastructure — shared context for the team and LLM agents",
+                  "Agent harness for DevOps routine: engine picked after comparing five frameworks, eval gate before deploy (grounding, security, tool selection), tracing of model calls",
+                  "PoC of a diagnostic agent on local models — incident investigation without sending network data to the cloud",
+                  "Vault MCP for agents: secret delivery via deny policies and token isolation",
                 ],
               },
             ],
@@ -959,7 +985,7 @@ const CONTENT = {
             title: "JD-Gateway — single source of truth for 160+ VMs",
             task: "160+ virtual machines across environments. Information scattered across Confluence, engineers' heads, and vSphere consoles.",
             did: "Developed JD-Gateway in Python — a web app with REST API, vSphere integration, dynamic inventory for Ansible and Prometheus, TTL system, and Web UI.",
-            result: "Instead of manual VM creation — an API call. Instead of \"ask Maks\" — self-service. TTL prevents environments from turning into zombies.",
+            result: "Creating a host used to take 30 minutes by hand through vSphere — now it's a couple of minutes. 14 people handle these operations themselves; the requests have stopped coming. TTL prevents environments from turning into zombies.",
             lesson: "\"Single source of truth\" is not an architectural pattern — it's a cultural decision. The technical part is 30%; the rest is persuasion and convenience.",
           },
           {
@@ -988,11 +1014,11 @@ const CONTENT = {
           },
           {
             num: "05",
-            title: "Six weeks in the LLM zoo",
-            task: "Figure out whether LLM agents can genuinely reduce cognitive load in day-to-day engineering work.",
-            did: "299 hours over six weeks. 16 agents on two Mac minis. Tried OpenClaw, Claude Code, Codex, Gemini, Hermes, local models, memory systems.",
-            result: "Kept 3 tools: Claude Code (code), Kloya / OpenClaw (personal agent with memory), Hermes (deep analysis). Dropped the rest.",
-            lesson: "The main LLM trap — \"when all you have is a hammer, everything looks like a nail\". 16 agents gave endorphins but not results. The real journey: from overcomplicating to simplifying.",
+            title: "Diagnostic agent on a local model",
+            task: "Data from the bank's closed network can't go to the cloud. Simple question: can a local model handle the on-call role — go into the logs, metrics, and runbooks on its own, gather the facts, and reach a diagnosis.",
+            did: "Built a PoC: an agent with a toolset, a registry of gathered facts, and answer validation. Ran Qwen3 (8B / 14B / 30B) against cloud DeepSeek as the quality ceiling. Added guard rules against the worst failure mode — when the model hasn't looked at anything but cheerfully reports \"all clear\".",
+            result: "14B without reasoning scored 6 out of 6 — same as the cloud. 8 vCPUs and 24 GB, no GPU, ~12 minutes per scenario. The architect signed off on the configuration; we're moving to a pilot on live data.",
+            lesson: "Model size doesn't fix honesty: the 30B confidently wrote \"healthy\" without calling a single tool. What saved us were boring guard rules, not parameters.",
           },
           {
             num: "06",
@@ -1020,7 +1046,7 @@ const CONTENT = {
           },
           {
             title: "LLM / MCP",
-            items: ["MCP servers", "LLM orchestration", "Claude Code", "OpenAI API"],
+            items: ["MCP servers", "Agent harnesses (Hermes)", "LLM evals (promptfoo)", "LLM observability (Phoenix)", "Local inference (llama.cpp, Qwen3)", "Claude Code", "OpenAI API"],
           },
           {
             title: "Previously",
