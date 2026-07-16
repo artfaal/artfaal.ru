@@ -101,9 +101,10 @@ function buildHTML() {
   /* Footer */
   .pdf-footer { text-align: center; font-size: 8pt; color: #999; margin-top: 20px; padding-top: 8px; border-top: 1px solid #eee; }
 
-  /* Page breaks */
-  .exp { page-break-inside: avoid; }
-  .case { page-break-inside: avoid; }
+  /* Page breaks: неделимые единицы — шапка вакансии и связка «заголовок группы → список»,
+     а не вся вакансия целиком (она выше половины страницы и оставляет дыру). */
+  .section-title, .exp-head, .exp-company, .exp-project, .exp-group { break-after: avoid; }
+  .exp-head, .case { break-inside: avoid; }
 </style>
 </head>
 <body>
