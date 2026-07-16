@@ -410,8 +410,10 @@ console.log('\n\x1b[1mContent sanity\x1b[0m');
 // ════════════════════════════════════════
 
 // meta.last_updated не в будущем (опечатка года вроде 2027).
+// Дата парсится как локальная полночь: голый "YYYY-MM-DD" — это UTC, и вечерняя
+// правка по MSK выглядела бы «из будущего» до 03:00.
 assert('meta.last_updated не в будущем',
-  new Date(c.meta.last_updated) <= new Date(),
+  new Date(`${c.meta.last_updated}T00:00:00`) <= new Date(),
   `last_updated=${c.meta.last_updated}`);
 
 // Описания не слишком длинные — ломают layout карточек.
