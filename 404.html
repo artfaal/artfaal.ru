@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>404 — artfaal.ru</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <!-- GH Pages отдаёт этот файл с ЛЮБОГО несуществующего пути, включая вложенные,
+       поэтому все локальные ссылки здесь — только абсолютные (тест это проверяет). -->
+  <meta name="robots" content="noindex">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/styles/base.css?v=de85e3fd">
+
+  <script>
+    // До парсинга body: анимация набора только при живом JS и разрешённом motion.
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.documentElement.classList.add('nf-js');
+    }
+  </script>
+
+  <style>
+    .nf-wrap {
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      text-align: center;
+    }
+    .nf-cmd {
+      font-family: var(--mono);
+      font-size: 13px;
+      margin-bottom: clamp(24px, 6vh, 56px);
+      text-align: left;
+    }
+    .nf-line { margin-bottom: 6px; color: var(--fg-2); white-space: pre-wrap; word-break: break-all; }
+    .nf-user  { color: var(--accent); }
+    .nf-sep   { color: var(--muted); }
+    .nf-host  { color: var(--fg-2); }
+    .nf-tilde { color: var(--accent-2); }
+    .nf-err   { color: var(--muted); }
+    .nf-big {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: clamp(110px, 30vw, 300px);
+      line-height: 0.9;
+      letter-spacing: -0.06em;
+      color: var(--fg);
+      text-shadow:
+        4px 0 color-mix(in oklab, var(--accent) 55%, transparent),
+        -4px 0 color-mix(in oklab, var(--accent-2) 45%, transparent);
+      animation: nf-flicker 4s steps(1) infinite;
+    }
+    @keyframes nf-flicker {
+      0%, 92%, 100% { opacity: 1; }
+      93% { opacity: 0.85; }
+      94% { opacity: 1; }
+      97% { opacity: 0.9; }
+      98% { opacity: 1; }
+    }
+    .nf-msg {
+      font-family: var(--mono);
+      font-size: 14px;
+      color: var(--muted);
+      letter-spacing: 0.14em;
+      margin: clamp(16px, 4vh, 32px) 0 clamp(24px, 6vh, 48px);
+    }
+    .nf-nav { display: flex; justify-content: center; }
+    .nf-home {
+      font-family: var(--mono);
+      font-size: 13px;
+      padding: 10px 18px;
+      border: 1px solid var(--line-2);
+      border-radius: var(--radius);
+      color: var(--fg-2);
+      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    }
+    .nf-home:hover { border-color: var(--accent); color: var(--accent); }
+    .nf-cursor {
+      display: inline-block;
+      width: 0.55em; height: 1.05em;
+      background: var(--accent);
+      vertical-align: -0.15em;
+      margin-left: 0.15em;
+      animation: blink 1s steps(1) infinite;
+      box-shadow: 0 0 0.6em color-mix(in oklab, var(--accent) 60%, transparent);
+    }
+    /* Reveal после набора — @keyframes, не transition (правило из CLAUDE.md).
+       Без .nf-js (нет JS или reduced-motion) ничего не прячется — статичный экран. */
+    .nf-js .nf-err, .nf-js .nf-rest { opacity: 0; }
+    .nf-js .nf-err.nf-on  { animation: nf-fade 0.4s ease forwards; }
+    .nf-js .nf-rest.nf-on { animation: nf-fade 0.5s ease forwards; }
+    @keyframes nf-fade { to { opacity: 1; } }
+  </style>
+</head>
+<body>
+  <main class="nf-wrap">
+    <div class="nf-cmd">
+      <div class="nf-line"><span class="nf-user">artfaal</span><span class="nf-sep">@</span><span class="nf-host">artfaal.ru</span><span class="nf-sep">:</span><span class="nf-tilde">~</span><span class="nf-sep">$ </span><span id="nf-cmd-k">cat <span class="nf-path">/this/page</span></span></div>
+      <div class="nf-line nf-err" id="nf-err">cat: <span class="nf-path">/this/page</span>: No such file or directory</div>
+    </div>
+    <div class="nf-rest" id="nf-rest">
+      <h1 class="nf-big">404</h1>
+      <p class="nf-msg">page not found</p>
+      <nav class="nf-nav"><a class="nf-home" href="/">&larr; back to main</a></nav>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      // Реальный путь из URL. textContent — безопасно для любого содержимого.
+      var path = location.pathname;
+      try { path = decodeURIComponent(path); } catch (e) {}
+      if (path.length > 48) path = path.slice(0, 48) + '…';
+      if (path === '/404.html') path = '/this/page'; // файл открыт напрямую
+      document.querySelectorAll('.nf-path').forEach(function (el) { el.textContent = path; });
+
+      if (!document.documentElement.classList.contains('nf-js')) return;
+
+      // Набор команды посимвольно, затем reveal ошибки и остального (как в hero).
+      var cmdEl = document.getElementById('nf-cmd-k');
+      var full = 'cat ' + path;
+      cmdEl.textContent = '';
+      var cursor = document.createElement('span');
+      cursor.className = 'nf-cursor';
+      cmdEl.after(cursor);
+      var i = 0;
+      (function type() {
+        if (i <= full.length) {
+          cmdEl.textContent = full.slice(0, i);
+          i++;
+          setTimeout(type, 55);
+        } else {
+          cursor.remove();
+          document.getElementById('nf-err').classList.add('nf-on');
+          setTimeout(function () {
+            document.getElementById('nf-rest').classList.add('nf-on');
+          }, 450);
+        }
+      })();
+    })();
+  </script>
+</body>
+</html>

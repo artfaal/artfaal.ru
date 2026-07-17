@@ -250,6 +250,7 @@ const PAGES = { 'index.html': '/', 'life/index.html': '/life/' };
 
 const requiredFiles = [
   ...Object.keys(PAGES),
+  '404.html',
   'robots.txt',
   'sitemap.xml',
   'CNAME',
@@ -350,6 +351,17 @@ const stub = fs.readFileSync(path.join(ROOT, 'cv/index.html'), 'utf8');
 assert('cv stub redirects', /http-equiv="refresh"/.test(stub) && /location\.replace/.test(stub));
 assert('cv stub canonical → root', stub.includes('rel="canonical" href="' + HOST + '/"'));
 assert('cv stub has no noindex', !/noindex/.test(stub), 'noindex заблокирует консолидацию сигналов');
+
+// 404.html — GH Pages отдаёт его с ЛЮБОГО несуществующего пути, включая вложенные
+// (/foo/bar/baz), поэтому относительная ссылка на ассет развалит страницу.
+// В PAGES не входит: noindex, без canonical/og — это не страница, а экран ошибки.
+const nf = fs.readFileSync(path.join(ROOT, '404.html'), 'utf8');
+assert('404 has noindex', /name="robots" content="noindex"/.test(nf));
+assert('404 has no canonical/og:url', !/rel="canonical"|og:url/.test(nf));
+const nfRelRefs = [...nf.matchAll(/(?:src|href)=["'](?!https?:|\/|#|data:)([^"']+)/g)].map(m => m[1]);
+assert('404 asset paths absolute', nfRelRefs.length === 0, 'relative: ' + nfRelRefs.join(', '));
+assert('404 base.css cache-bust', /\/src\/styles\/base\.css\?v=[a-f0-9]{6,12}/.test(nf),
+  'no ?v=<hash> — 404.html входит в glob хука (git ls-files \'*index.html\' \'404.html\')');
 
 // sitemap не должен разъезжаться с реальным набором страниц
 const sitemapXml = fs.readFileSync(path.join(ROOT, 'sitemap.xml'), 'utf8');
