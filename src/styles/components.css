@@ -1193,7 +1193,7 @@
 
 /* Ультра-узкий: прячем brand целиком, чтобы топбар умещался в 1 строку.
    Бренд остаётся виден в hero-промпте (`artfaal@artfaal.ru:~$`).
-   Layout: nav (жизнь|работа) слева, lang+PDF группой справа — через
+   Layout: nav (работа|жизнь) слева, lang+PDF группой справа — через
    width:100% на .tb-right и margin-left:auto на lang-сегменте. */
 @media (max-width: 499px) {
   .tb-brand { display: none; }

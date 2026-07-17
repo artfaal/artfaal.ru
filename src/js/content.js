@@ -47,7 +47,7 @@ const CONTENT = {
       cta_primary: { label: "написать", href: "https://t.me/artfaal" },
       cta_secondary: { label: "github", href: "https://github.com/artfaal" },
       // Строки для терминальной анимации набора
-      prompt_lines: ["whoami", "cat ~/human.md"],
+      prompt_lines: { cv: ["whoami", "cat ~/cv.md"], personal: ["whoami", "cat ~/human.md"] },
     },
 
     // ── Контакты (общие) ──
@@ -584,7 +584,7 @@ const CONTENT = {
       sub: "Currently building LLM tooling — the kind that actually helps, not the kind that breeds another zoo.",
       cta_primary: { label: "message me", href: "https://t.me/artfaal" },
       cta_secondary: { label: "github", href: "https://github.com/artfaal" },
-      prompt_lines: ["whoami", "cat ~/human.md"],
+      prompt_lines: { cv: ["whoami", "cat ~/cv.md"], personal: ["whoami", "cat ~/human.md"] },
     },
 
     // ── Blog / notes ──

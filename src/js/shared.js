@@ -25,12 +25,14 @@ function updateMeta(c, currentPage) {
   const hero = c.hero;
   const isCV = currentPage === 'cv';
   const base = 'https://' + meta.host;
-  const url = base + (isCV ? '/cv/' : '/');
+  const url = base + location.pathname;
   const title = isCV ? meta.title_cv : meta.title_personal;
   const desc = isCV
     ? hero.role + '. ' + calcYears(meta.start_it) + '+ ' + (lang === 'en' ? 'years in IT, ' : 'лет в IT, ') + calcYears(meta.start_devops) + '+ ' + (lang === 'en' ? 'years in DevOps.' : 'лет в DevOps.')
     : hero.role + '. ' + hero.tagline;
-  const image = base + '/assets/photo.webp';
+  // Превью ссылки — аватар, а не фото: аватар и есть лицо бренда на страницах,
+  // фото открывается по клику и печатается в PDF. Держим og в этой же логике.
+  const image = base + '/assets/avatar.webp';
 
   // HTML lang
   document.documentElement.lang = lang;
@@ -124,9 +126,9 @@ function renderNav(el, c, currentPage) {
     + `<div class="tb-right">`
     +   `<div class="seg" role="navigation">`
     +     `<span class="seg-label">--page=</span>`
-    +     `<a href="/" class="seg-btn ${isPersonal ? 'is-on' : ''}">${escapeHTML(c.nav.personal)}</a>`
+    +     `<a href="/" class="seg-btn ${!isPersonal ? 'is-on' : ''}">${escapeHTML(c.nav.cv)}</a>`
     +     `<span class="seg-sep">|</span>`
-    +     `<a href="/cv/" class="seg-btn ${!isPersonal ? 'is-on' : ''}">${escapeHTML(c.nav.cv)}</a>`
+    +     `<a href="/life/" class="seg-btn ${isPersonal ? 'is-on' : ''}">${escapeHTML(c.nav.personal)}</a>`
     +   `</div>`
     +   `<div class="seg" role="group" aria-label="lang">`
     +     `<span class="seg-label">--lang=</span>`
@@ -325,6 +327,17 @@ function initTerminalTyping(lines, user, host) {
   const container = document.getElementById('terminal-lines');
   const heroBody = document.getElementById('hero-body');
   const termBody = container.parentNode;
+
+  // Заглушка reduced-motion в base.css гасит только CSS-анимации, а набор и revealGlitch —
+  // это JS-таймеры, они медиа-фичу не видят. Без раннего выхода скринридер ~4 секунды читает
+  // пустой h1: revealGlitch чистит textContent и набирает заново.
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    container.innerHTML = lines
+      .map(l => '<div class="tline">' + promptHTML(user, host, l) + '</div>')
+      .join('');
+    heroBody.style.cssText = 'opacity:1;transform:none';
+    return;
+  }
 
   function makePromptDiv() {
     const div = document.createElement('div');
@@ -625,7 +638,7 @@ function initPage(currentPage) {
   updateMeta(c, currentPage);
 
   // Терминальная анимация
-  initTerminalTyping(c.hero.prompt_lines, c.meta.handle, c.meta.host);
+  initTerminalTyping(c.hero.prompt_lines[currentPage], c.meta.handle, c.meta.host);
 
   // Консольное приветствие
   console.log(

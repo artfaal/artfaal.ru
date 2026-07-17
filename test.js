@@ -45,7 +45,8 @@ assert('content freshness (< 3 months)', monthsAgo < 3, 'last_updated ' + c.meta
 assert('hero.name', !!c.hero.name);
 assert('hero.role', !!c.hero.role);
 assert('hero.tagline', !!c.hero.tagline);
-assert('hero.prompt_lines', Array.isArray(c.hero.prompt_lines) && c.hero.prompt_lines.length >= 2);
+assert('hero.prompt_lines.cv', Array.isArray(c.hero.prompt_lines.cv) && c.hero.prompt_lines.cv.length >= 2);
+assert('hero.prompt_lines.personal', Array.isArray(c.hero.prompt_lines.personal) && c.hero.prompt_lines.personal.length >= 2);
 assert('hero.cta_primary.href', !!c.hero.cta_primary.href);
 
 // Contacts
@@ -242,9 +243,13 @@ assert('cv sections count = 7', cvSectionsCount === 7,
 console.log('\n\x1b[1mFile structure\x1b[0m');
 // ════════════════════════════════════════
 
+// Единый источник путей страниц. Меняешь URL-структуру — правишь только здесь.
+// Стаб-редиректы сюда не входят: у них нет ни JSON-LD, ни og — им отдельный assert.
+const HOST = 'https://' + fs.readFileSync(path.join(ROOT, 'CNAME'), 'utf8').trim();
+const PAGES = { 'index.html': '/', 'life/index.html': '/life/' };
+
 const requiredFiles = [
-  'index.html',
-  'cv/index.html',
+  ...Object.keys(PAGES),
   'robots.txt',
   'sitemap.xml',
   'CNAME',
@@ -298,7 +303,7 @@ assert('PDF (en) size > 10KB', fs.existsSync(pdfPathEn) && fs.statSync(pdfPathEn
 console.log('\n\x1b[1mHTML validation\x1b[0m');
 // ════════════════════════════════════════
 
-['index.html', 'cv/index.html'].forEach(file => {
+Object.keys(PAGES).forEach(file => {
   const html = fs.readFileSync(path.join(ROOT, file), 'utf8');
   assert(file + ' has lang="ru"', html.includes('lang="ru"'));
   assert(file + ' has meta description', html.includes('meta name="description"'));
@@ -306,6 +311,27 @@ console.log('\n\x1b[1mHTML validation\x1b[0m');
   assert(file + ' has canonical', html.includes('rel="canonical"'));
   assert(file + ' has JSON-LD', html.includes('application/ld+json'));
   assert(file + ' has favicon link', /rel=["']icon["']/.test(html));
+
+  // Дрифт-ловушка: обе страницы с canonical на "/" → Google молча выкидывает вторую.
+  // Ни 404, ни ошибки в консоли, ни визуальной разницы — поэтому только тест это и поймает.
+  const want = HOST + PAGES[file];
+  const grab = re => (html.match(re) || [])[1];
+  assert(file + ' canonical === ' + want, grab(/rel="canonical"\s+href="([^"]+)"/) === want);
+  assert(file + ' og:url === ' + want, grab(/property="og:url"\s+content="([^"]+)"/) === want);
+  assert(file + ' hreflang href === ' + want, grab(/hreflang="ru"\s+href="([^"]+)"/) === want);
+
+  // og заполнен статикой: краулеры соцсетей (Telegram, Slack, LinkedIn) JS не исполняют,
+  // и без этого шаренная ссылка разворачивается пустой карточкой. Раз статика — привязываем
+  // к content.js, иначе разъедется при первой же правке контента.
+  // og:description намеренно без стажа: в JS он считается из meta.start_it, хардкод бы протух.
+  const wantOgTitle = file === 'index.html' ? c.meta.title_cv : c.meta.title_personal;
+  const wantOgDesc = c.hero.role + '. ' + c.hero.tagline;
+  assert(file + ' og:title === content.js', grab(/property="og:title"\s+content="([^"]+)"/) === wantOgTitle,
+    'в HTML: ' + grab(/property="og:title"\s+content="([^"]+)"/) + ' | в content.js: ' + wantOgTitle);
+  assert(file + ' og:description === content.js', grab(/property="og:description"\s+content="([^"]+)"/) === wantOgDesc);
+  // Превью — аватар, не фото: фото открывается по клику и печатается в PDF.
+  assert(file + ' og:image === аватар', grab(/property="og:image"\s+content="([^"]+)"/) === HOST + '/assets/avatar.webp');
+  assert(file + ' og:site_name', grab(/property="og:site_name"\s+content="([^"]+)"/) === c.meta.host);
   // Cache-busting: все local CSS/JS должны быть с ?v=<hash> (hook ставит md5).
   // Проверяем только наличие pattern — не точное значение, иначе будут
   // ложно-отрицательные прогоны когда файл грязный, а хук ещё не отработал.
@@ -317,6 +343,123 @@ console.log('\n\x1b[1mHTML validation\x1b[0m');
       'no ?v=<hash> suffix');
   });
 });
+
+// /cv/ — стаб-редирект: в PAGES не входит (нет ни og, ни JSON-LD), но существовать обязан,
+// иначе рекрутер со старой ссылкой из выдачи или ATS словит 404.
+const stub = fs.readFileSync(path.join(ROOT, 'cv/index.html'), 'utf8');
+assert('cv stub redirects', /http-equiv="refresh"/.test(stub) && /location\.replace/.test(stub));
+assert('cv stub canonical → root', stub.includes('rel="canonical" href="' + HOST + '/"'));
+assert('cv stub has no noindex', !/noindex/.test(stub), 'noindex заблокирует консолидацию сигналов');
+
+// sitemap не должен разъезжаться с реальным набором страниц
+const sitemapXml = fs.readFileSync(path.join(ROOT, 'sitemap.xml'), 'utf8');
+const locs = [...sitemapXml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1]).sort();
+const wantLocs = Object.values(PAGES).map(p => HOST + p).sort();
+assert('sitemap <loc> === PAGES', JSON.stringify(locs) === JSON.stringify(wantLocs),
+  'sitemap: ' + locs.join(',') + ' | ожидалось: ' + wantLocs.join(','));
+
+// ════════════════════════════════════════
+console.log('\n\x1b[1mNav rendering\x1b[0m');
+// ════════════════════════════════════════
+
+// shared.js — браузерный, но renderNav/initTerminalTyping по сути чистые: гоняем их
+// в vm с минимальными моками. Иначе порядок вкладок и a11y hero не проверяются ничем.
+const vm = require('vm');
+let _reducedMotion = false;
+const sandbox = {
+  window: {
+    addEventListener() {},
+    matchMedia: q => ({ matches: _reducedMotion && q.includes('reduce') }),
+  },
+};
+vm.createContext(sandbox);
+vm.runInContext(
+  fs.readFileSync(path.join(ROOT, 'src/js/utils.js'), 'utf8') + '\n' +
+  fs.readFileSync(path.join(ROOT, 'src/js/icons.js'), 'utf8') + '\n' +
+  fs.readFileSync(path.join(ROOT, 'src/js/shared.js'), 'utf8'),
+  sandbox
+);
+
+// renderNav — единственное место, где живут порядок вкладок и подсветка is-on.
+// Тернарник и href правятся руками и врозь: перепутаешь — подсветка инвертируется
+// молча, без ошибки в консоли и без визуальной поломки вёрстки.
+{
+  // Только вкладки страниц: lang — это <button>, кнопка PDF — класс seg-cv.
+  const tabsOf = page => {
+    const el = {};
+    sandbox.renderNav(el, c, page);
+    return [...el.innerHTML.matchAll(/<a href="([^"]*)" class="seg-btn([^"]*)">([^<]*)<\/a>/g)]
+      .map(m => ({ href: m[1], on: m[2].includes('is-on'), text: m[3] }));
+  };
+
+  const onRoot = tabsOf('cv');
+  const onLife = tabsOf('personal');
+
+  assert('nav: работа первая, жизнь вторая',
+    onRoot[0].href === '/' && onRoot[1].href === '/life/',
+    onRoot.map(t => t.href).join(' | '));
+  assert('nav: первая вкладка — это CV', onRoot[0].text === c.nav.cv, onRoot[0].text);
+  assert('nav на /: подсвечена работа', onRoot[0].on && !onRoot[1].on);
+  assert('nav на /life/: подсвечена жизнь', !onLife[0].on && onLife[1].on);
+}
+
+// updateMeta перезаписывает og на лету. Если разъедется со статикой в <head> —
+// краулер соцсети покажет одно, браузер другое, и оба будут «работать». Сверяем.
+{
+  const set = {};
+  sandbox.document = {
+    documentElement: {}, title: '',
+    querySelector: sel => ({ setAttribute: (_k, v) => { set[sel] = v; } }),
+    getElementById: () => ({ textContent: '' }),
+  };
+  sandbox.location = { pathname: '/' };
+  sandbox.updateMeta(c, 'cv');
+
+  const staticOgImage = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8')
+    .match(/property="og:image"\s+content="([^"]+)"/)[1];
+  assert('updateMeta og:image === статика в <head>',
+    set['meta[property="og:image"]'] === staticOgImage,
+    'JS: ' + set['meta[property="og:image"]'] + ' | HTML: ' + staticOgImage);
+  assert('updateMeta og:title === статика в <head>',
+    set['meta[property="og:title"]'] === c.meta.title_cv);
+}
+
+// ════════════════════════════════════════
+console.log('\n\x1b[1mHero a11y\x1b[0m');
+// ════════════════════════════════════════
+
+// CSS-заглушка reduced-motion не действует на JS-таймеры: без раннего выхода
+// скринридер ~4 секунды читает пустой h1 (revealGlitch чистит textContent).
+{
+  const runTyping = () => {
+    const container = {
+      innerHTML: '', appendChild() {},
+      parentNode: { style: {}, offsetHeight: 120 },
+    };
+    const heroBody = { innerHTML: '', style: { cssText: '' } };
+    sandbox.document = {
+      getElementById: id => (id === 'terminal-lines' ? container : heroBody),
+      createElement: () => ({ className: '', innerHTML: '', style: {}, appendChild() {} }),
+    };
+    // Таймеры глушим: нас интересует только синхронное решение «анимировать или нет».
+    sandbox.setTimeout = () => 0;
+    sandbox.setInterval = () => 0;
+    sandbox.initTerminalTyping(c.hero.prompt_lines.cv, c.meta.handle, c.meta.host);
+    return { container, heroBody };
+  };
+
+  _reducedMotion = true;
+  const reduced = runTyping();
+  assert('reduced-motion: hero виден сразу',
+    reduced.heroBody.style.cssText === 'opacity:1;transform:none', reduced.heroBody.style.cssText);
+  assert('reduced-motion: строки терминала отрисованы без набора',
+    c.hero.prompt_lines.cv.every(l => reduced.container.innerHTML.includes(l)));
+
+  _reducedMotion = false;
+  const animated = runTyping();
+  assert('без reduced-motion: hero скрыт до анимации',
+    animated.heroBody.style.cssText.includes('opacity:0'), animated.heroBody.style.cssText);
+}
 
 // ════════════════════════════════════════
 console.log('\n\x1b[1mRU/EN parity\x1b[0m');
@@ -468,7 +611,7 @@ console.log('\n\x1b[1mDead code detection\x1b[0m');
 const cssFiles = ['src/styles/base.css', 'src/styles/layout.css', 'src/styles/components.css'];
 const jsFiles = ['src/js/content.js', 'src/js/utils.js', 'src/js/icons.js',
                  'src/js/shared.js', 'src/js/page-personal.js', 'src/js/page-cv.js'];
-const htmlFiles = ['index.html', 'cv/index.html'];
+const htmlFiles = Object.keys(PAGES);
 
 const readSafe = f => fs.readFileSync(path.join(ROOT, f), 'utf8');
 // Источники, в которых могут встречаться упоминания классов/функций:
