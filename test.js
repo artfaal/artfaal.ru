@@ -211,10 +211,6 @@ console.log('\n\x1b[1mSection numbering (autonumeration)\x1b[0m');
 
 const personalJs = fs.readFileSync(path.join(ROOT, 'src/js/page-personal.js'), 'utf8');
 const cvJs       = fs.readFileSync(path.join(ROOT, 'src/js/page-cv.js'),       'utf8');
-const sharedJs   = fs.readFileSync(path.join(ROOT, 'src/js/shared.js'),        'utf8');
-
-assert('sectionN helper defined in shared.js',
-  /function\s+sectionN\s*\(\s*i\s*\)/.test(sharedJs));
 
 const autoNumerationPattern = /sections\.map\(\(\[fn,\s*data\],\s*i\)\s*=>\s*fn\(data,\s*sectionN\(i\)\)\)/;
 assert('page-personal.js uses autonumeration', autoNumerationPattern.test(personalJs));
@@ -234,8 +230,8 @@ assert('content.js: no section-level n left', !sectionNLeftover,
   'секционные `n` должны быть удалены — номер приходит из индекса секций, не из контента');
 
 // Санити: helper sectionN реально 0-indexed с паддингом.
-// Eval-им код helper'а напрямую, чтобы не зависеть от браузерного окружения.
-const sectionN = new Function('i', 'return String(i).padStart(2, "0");');
+// Берём ту самую функцию из utils.js, а не копию — копия молча разъедется с оригиналом.
+const { sectionN } = require('./src/js/utils.js');
 assert('sectionN(0) === "00"', sectionN(0) === '00');
 assert('sectionN(7) === "07"', sectionN(7) === '07');
 assert('sectionN(10) === "10"', sectionN(10) === '10');

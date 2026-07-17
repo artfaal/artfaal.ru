@@ -68,7 +68,7 @@ en/life/index.html      — EN личная (URL: /en/life/)
 cv/index.html           — стаб-редирект /cv/ → / (старый URL, удалить когда выпадет из индекса)
 404.html                — страница 404 (GH Pages отдаёт с любого пути → ассеты только абсолютные)
 src/js/content.js       — весь контент (ru + en)
-src/js/utils.js         — calcAge, calcYears (browser + Node)
+src/js/utils.js         — calcAge, calcYears, sectionN (browser + Node)
 src/js/shared.js        — рендер, анимации, общая логика
 src/js/page-personal.js — секции личной страницы
 src/js/page-cv.js       — секции CV

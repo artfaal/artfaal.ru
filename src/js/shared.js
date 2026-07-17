@@ -111,10 +111,6 @@ function metaRowHTML(k, v) {
     + `</div>`;
 }
 
-// Номер секции для ascii-rule: 0-indexed, паддинг до двух цифр.
-// Единая точка форматирования — чтобы автонумерация выглядела одинаково на всех страницах.
-function sectionN(i) { return String(i).padStart(2, '0'); }
-
 // ── ASCII rule (секционный разделитель) ──
 function asciiRuleHTML(label, n) {
   return `<div class="ascii-rule" aria-hidden="true">`

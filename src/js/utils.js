@@ -15,4 +15,8 @@ function calcYears(dateStr) {
   return Math.floor((new Date() - new Date(dateStr)) / (365.25 * 24 * 3600 * 1000));
 }
 
-if (typeof module !== 'undefined') module.exports = { calcAge, calcYears };
+// Номер секции для ascii-rule: 0-indexed, паддинг до двух цифр.
+// Единая точка форматирования — чтобы автонумерация выглядела одинаково на всех страницах.
+function sectionN(i) { return String(i).padStart(2, '0'); }
+
+if (typeof module !== 'undefined') module.exports = { calcAge, calcYears, sectionN };
