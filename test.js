@@ -92,13 +92,19 @@ cv.experience.items.forEach(exp => {
   assert('exp "' + exp.title + '" has groups', Array.isArray(exp.groups) && exp.groups.length > 0);
 });
 
-// Cases items have required fields
-cv.cases.items.forEach(cs => {
-  assert('case "' + cs.num + '" has all fields', !!cs.task && !!cs.did && !!cs.result && !!cs.lesson);
+// Cases items have required fields; num должен совпадать с позицией в массиве —
+// иначе перестановка кейсов молча разъезжается с нумерацией.
+[['ru', c], ['en', CONTENT.en]].forEach(([tag, lang]) => {
+  lang.cv.cases.items.forEach((cs, i) => {
+    assert(tag + ' case "' + cs.num + '" has all fields', !!cs.task && !!cs.did && !!cs.result && !!cs.lesson);
+    assert(tag + ' case "' + cs.num + '" num matches position',
+      cs.num === String(i + 1).padStart(2, '0'), 'ожидался ' + String(i + 1).padStart(2, '0'));
+  });
 });
 
-// ── Доступные иконки ──
-const ICONS = ['arrow', 'tg', 'mail', 'gh', 'in', 'blog', 'ext', 'download'];
+// ── Доступные иконки: ключи ICON_PATHS из icons.js, чтобы список не разъезжался ──
+const ICONS = (fs.readFileSync(path.join(ROOT, 'src/js/icons.js'), 'utf8')
+  .match(/^\s{2}(\w+):/gm) || []).map(s => s.trim().replace(':', ''));
 
 // ── Контакты: все поля + иконки существуют ──
 c.contacts.links.forEach(l => {

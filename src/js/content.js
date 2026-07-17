@@ -62,6 +62,7 @@ const CONTENT = {
       links: [
         { label: "Telegram-канал", handle: "@artfaal_log", href: "https://t.me/artfaal_log", icon: "tg" },
         { label: "Лонгриды", handle: "log.artfaal.ru", href: "https://log.artfaal.ru/", icon: "blog" },
+        { label: "X (Twitter)", handle: "@artfaal", href: "https://x.com/artfaal", icon: "x" },
       ],
     },
 
@@ -290,14 +291,14 @@ const CONTENT = {
         // status: hot — активно погружён; active — регулярно занимаюсь; exploring — в процессе изучения
         items: [
           {
-            t: "Инфраструктура, которую можно спросить",
-            d: "Собираю всю рабочую документацию в MCP-сервер — чтобы команда спрашивала его, а не меня по сто раз =) Тот же контекст заодно забирают и LLM-агенты.",
+            t: "Локальные модели там, где данные не выпустишь",
+            d: "Гоняю модели на своём железе — закрытый контур, наружу не уходит ничего. Оказалось, дело не в размере: модель побольше бодро писала «всё хорошо», не заглянув ни в один лог :D",
             status: "hot",
           },
           {
-            t: "Скиллы и контекст под задачи",
-            d: "Собираю рабочую обвязку вокруг LLM: скиллы под задачи, контекст по проектам, отладочные воркфлоу. Не гонюсь за новой моделью — кручу то, что вокруг неё.",
-            status: "active",
+            t: "Инфраструктура, которую можно спросить",
+            d: "Собираю всю рабочую документацию в MCP-сервер — чтобы команда спрашивала его, а не меня по сто раз =) Тот же контекст заодно забирают и LLM-агенты.",
+            status: "hot",
           },
           {
             t: "Harness под рутину",
@@ -305,9 +306,9 @@ const CONTENT = {
             status: "active",
           },
           {
-            t: "Локальные модели там, где данные не выпустишь",
-            d: "Гоняю модели на своём железе — закрытый контур, наружу не уходит ничего. Оказалось, дело не в размере: модель побольше бодро писала «всё хорошо», не заглянув ни в один лог :D",
-            status: "hot",
+            t: "Скиллы и контекст под задачи",
+            d: "Собираю рабочую обвязку вокруг LLM: скиллы под задачи, контекст по проектам, отладочные воркфлоу. Не гонюсь за новой моделью — кручу то, что вокруг неё.",
+            status: "active",
           },
         ],
       },
@@ -374,6 +375,15 @@ const CONTENT = {
                 ],
               },
               {
+                title: "LLM и агенты",
+                items: [
+                  "MCP-серверы поверх документации и инфраструктуры — общий контекст для команды и LLM-агентов",
+                  "Агентский harness для DevOps-рутины: выбор движка после сравнения пяти фреймворков, eval-гейт перед деплоем (grounding, security, выбор инструментов), трейсинг вызовов модели",
+                  "PoC диагностического агента на локальных моделях — расследование инцидентов без отправки данных контура в облако",
+                  "Vault MCP для агентов: выдача секретов через deny-политики и изоляцию токена",
+                ],
+              },
+              {
                 title: "Собственные инструменты",
                 items: [
                   "Telegram-бот для управления инфраструктурой с LDAP и аудитом",
@@ -381,15 +391,6 @@ const CONTENT = {
                   "GitLab webhook-сервер для автоматизации MR",
                   "Apache Superset для embedded BI-дашбордов в продукте",
                   "Платформа документации на базе MkDocs с drift-detection",
-                ],
-              },
-              {
-                title: "LLM и агенты",
-                items: [
-                  "MCP-серверы поверх документации и инфраструктуры — общий контекст для команды и LLM-агентов",
-                  "Агентский harness для DevOps-рутины: выбор движка после сравнения пяти фреймворков, eval-гейт перед деплоем (grounding, security, выбор инструментов), трейсинг вызовов модели",
-                  "PoC диагностического агента на локальных моделях — расследование инцидентов без отправки данных контура в облако",
-                  "Vault MCP для агентов: выдача секретов через deny-политики и изоляцию токена",
                 ],
               },
             ],
@@ -465,22 +466,6 @@ const CONTENT = {
           },
           {
             num: "03",
-            title: "Jenkins как основа CI/CD на enterprise-проекте",
-            task: "Сложный продукт, много компонентов, несколько ОС, куча стендов. Нужен надёжный и быстрый CI/CD.",
-            did: "Комплексные pipeline для полного цикла. Параллельные сборки, динамические воркеры в vSphere. Active Choice UI. Автотесты в PR. OWASP Dependency Check.",
-            result: "Команда деплоит сама. PR не мержится без тестов. Зависимости проверяются на уязвимости автоматически.",
-            lesson: "Jenkins — мощный, но опасный. Без дисциплины pipeline превращаются в нечитаемые Groovy-скрипты.",
-          },
-          {
-            num: "04",
-            title: "Обновление MongoDB на продуктиве (ЕГРН)",
-            task: "Обновить MongoDB на продуктиве крупнейшего гос. IT-проекта. Даунтайм критичен, данные терять нельзя.",
-            did: "Ansible-плейбуки для обновления. Продлайк-стенд для полного прогона. Отладка до полной воспроизводимости.",
-            result: "Успешная миграция без потери данных и с минимальным даунтаймом.",
-            lesson: "На проде не бывает «попробуем». Каждый шаг проверен на стенде. Плейбуки — документация, которая ещё и исполняется.",
-          },
-          {
-            num: "05",
             title: "Диагностический агент на локальной модели",
             task: "Данные банковского контура в облако отправлять нельзя. Вопрос простой: потянет ли локальная модель роль дежурного — сама сходить в логи, метрики и runbook'и, собрать факты и поставить диагноз.",
             did: "Собрал PoC: агент с набором инструментов, реестром собранных фактов и валидацией ответа. Прогнал Qwen3 (8B / 14B / 30B) против облачного DeepSeek как потолка качества. Добавил guard-правила против самого опасного режима — когда модель никуда не заглянула, но бодро отвечает «всё в порядке».",
@@ -488,12 +473,28 @@ const CONTENT = {
             lesson: "Размер модели не чинит честность: 30B уверенно писала «healthy», не вызвав ни одного инструмента. Спасли скучные guard-правила, а не параметры.",
           },
           {
-            num: "06",
+            num: "04",
             title: "Инфраструктура, которую можно спросить",
             task: "Команда ходит к девопсу с одними и теми же вопросами: как работает этот пайплайн, как считается версия, где это посмотреть. Ответы есть — но в Confluence, в Jenkinsfile'ах и в моей голове. Классика жанра: «спроси Макса».",
             did: "Собрал документацию JD в одном месте и поднял над ней MCP-сервер с векторным поиском. Спрашивают и люди, и LLM-агенты: на конкретный вопрос — конкретный ответ и шаги, без раскопок по десяти страницам.",
             result: "Боевая бета. Покрытие наполняю на ходу, но часть вопросов уже уходит в доку, а не ко мне. Агенты берут контекст оттуда — и заметно реже сочиняют.",
             lesson: "Дело оказалось не в модели. Скучная дока под конкретный вопрос обыгрывает модель поумнее, но без контекста — каждый раз.",
+          },
+          {
+            num: "05",
+            title: "Jenkins как основа CI/CD на enterprise-проекте",
+            task: "Сложный продукт, много компонентов, несколько ОС, куча стендов. Нужен надёжный и быстрый CI/CD.",
+            did: "Комплексные pipeline для полного цикла. Параллельные сборки, динамические воркеры в vSphere. Active Choice UI. Автотесты в PR. OWASP Dependency Check.",
+            result: "Команда деплоит сама. PR не мержится без тестов. Зависимости проверяются на уязвимости автоматически.",
+            lesson: "Jenkins — мощный, но опасный. Без дисциплины pipeline превращаются в нечитаемые Groovy-скрипты.",
+          },
+          {
+            num: "06",
+            title: "Обновление MongoDB на продуктиве (ЕГРН)",
+            task: "Обновить MongoDB на продуктиве крупнейшего гос. IT-проекта. Даунтайм критичен, данные терять нельзя.",
+            did: "Ansible-плейбуки для обновления. Продлайк-стенд для полного прогона. Отладка до полной воспроизводимости.",
+            result: "Успешная миграция без потери данных и с минимальным даунтаймом.",
+            lesson: "На проде не бывает «попробуем». Каждый шаг проверен на стенде. Плейбуки — документация, которая ещё и исполняется.",
           },
         ],
       },
@@ -512,8 +513,8 @@ const CONTENT = {
             items: ["Thanos", "Packer", "OpenSearch", "Loki", "Promtail", "Logstash", "Telegraf", "Kafka", "Keycloak", "Nginx", "Kubernetes", "Terraform", "Go", "Python", "Bash", "Groovy", "MinIO/S3", "Apache Superset", "Git"],
           },
           {
-            title: "LLM / MCP",
-            items: ["MCP-серверы", "Агентские харнессы (Hermes)", "LLM-evals (promptfoo)", "LLM-observability (Phoenix)", "Локальный inference (llama.cpp, Qwen3)", "Claude Code", "OpenAI API"],
+            title: "AI / LLM",
+            items: ["MCP-серверы", "Агентские харнессы", "LLM-evals (promptfoo)", "LLM-observability (Phoenix)", "Локальный inference", "Claude Code", "OpenAI API"],
           },
           {
             title: "Ранее",
@@ -606,6 +607,7 @@ const CONTENT = {
       links: [
         { label: "Telegram channel", handle: "@artfaal_log", href: "https://t.me/artfaal_log", icon: "tg" },
         { label: "Long reads", handle: "log.artfaal.ru", href: "https://log.artfaal.ru/", icon: "blog" },
+        { label: "X (Twitter)", handle: "@artfaal", href: "https://x.com/artfaal", icon: "x" },
       ],
     },
 
@@ -834,14 +836,14 @@ const CONTENT = {
         sub: "Stuff I'm genuinely hooked on right now.",
         items: [
           {
-            t: "Infrastructure you can just ask",
-            d: "I'm pulling all our work documentation into one MCP server — so the team can ask it instead of asking me for the hundredth time =) LLM agents pull the same context too.",
+            t: "Local models where the data can't leave",
+            d: "Running models on my own hardware — closed network, nothing goes out. Turns out size isn't the point: the bigger model cheerfully reported \"all good\" without opening a single log :D",
             status: "hot",
           },
           {
-            t: "Skills and context for the task at hand",
-            d: "Building the scaffolding around LLMs: skills tuned to specific tasks, per-project context, debugging workflows. I'm not chasing the next model — I'm working on everything around it.",
-            status: "active",
+            t: "Infrastructure you can just ask",
+            d: "I'm pulling all our work documentation into one MCP server — so the team can ask it instead of asking me for the hundredth time =) LLM agents pull the same context too.",
+            status: "hot",
           },
           {
             t: "A harness for the grind",
@@ -849,9 +851,9 @@ const CONTENT = {
             status: "active",
           },
           {
-            t: "Local models where the data can't leave",
-            d: "Running models on my own hardware — closed network, nothing goes out. Turns out size isn't the point: the bigger model cheerfully reported \"all good\" without opening a single log :D",
-            status: "hot",
+            t: "Skills and context for the task at hand",
+            d: "Building the scaffolding around LLMs: skills tuned to specific tasks, per-project context, debugging workflows. I'm not chasing the next model — I'm working on everything around it.",
+            status: "active",
           },
         ],
       },
@@ -918,6 +920,15 @@ const CONTENT = {
                 ],
               },
               {
+                title: "LLM & agents",
+                items: [
+                  "MCP servers on top of documentation and infrastructure — shared context for the team and LLM agents",
+                  "Agent harness for DevOps routine: engine picked after comparing five frameworks, eval gate before deploy (grounding, security, tool selection), tracing of model calls",
+                  "PoC of a diagnostic agent on local models — incident investigation without sending network data to the cloud",
+                  "Vault MCP for agents: secret delivery via deny policies and token isolation",
+                ],
+              },
+              {
                 title: "Custom tooling",
                 items: [
                   "Telegram bot for infrastructure management with LDAP and audit logging",
@@ -925,15 +936,6 @@ const CONTENT = {
                   "GitLab webhook server for MR automation",
                   "Apache Superset for embedded BI dashboards in the product",
                   "Documentation platform based on MkDocs with drift-detection",
-                ],
-              },
-              {
-                title: "LLM & agents",
-                items: [
-                  "MCP servers on top of documentation and infrastructure — shared context for the team and LLM agents",
-                  "Agent harness for DevOps routine: engine picked after comparing five frameworks, eval gate before deploy (grounding, security, tool selection), tracing of model calls",
-                  "PoC of a diagnostic agent on local models — incident investigation without sending network data to the cloud",
-                  "Vault MCP for agents: secret delivery via deny policies and token isolation",
                 ],
               },
             ],
@@ -1009,22 +1011,6 @@ const CONTENT = {
           },
           {
             num: "03",
-            title: "Jenkins as the CI/CD backbone for an enterprise project",
-            task: "A complex product with many components, multiple OSes, lots of environments. Needed reliable and fast CI/CD.",
-            did: "Complex pipelines for the full cycle. Parallel builds, dynamic workers in vSphere. Active Choice UI. Auto-tests in PRs. OWASP Dependency Check.",
-            result: "The team deploys on their own. PRs don't merge without tests. Dependencies are automatically checked for vulnerabilities.",
-            lesson: "Jenkins is powerful but dangerous. Without discipline, pipelines turn into unreadable Groovy scripts.",
-          },
-          {
-            num: "04",
-            title: "Production MongoDB upgrade (EGRN)",
-            task: "Upgrade MongoDB in production on one of the largest government IT projects. Downtime is critical, data loss is unacceptable.",
-            did: "Ansible playbooks for the upgrade. A production-like environment for full dry runs. Debugging until fully reproducible.",
-            result: "Successful migration with zero data loss and minimal downtime.",
-            lesson: "In production there's no \"let's try\". Every step is verified on a staging environment. Playbooks are documentation that also executes.",
-          },
-          {
-            num: "05",
             title: "Diagnostic agent on a local model",
             task: "Data from the bank's closed network can't go to the cloud. Simple question: can a local model handle the on-call role — go into the logs, metrics, and runbooks on its own, gather the facts, and reach a diagnosis.",
             did: "Built a PoC: an agent with a toolset, a registry of gathered facts, and answer validation. Ran Qwen3 (8B / 14B / 30B) against cloud DeepSeek as the quality ceiling. Added guard rules against the worst failure mode — when the model hasn't looked at anything but cheerfully reports \"all clear\".",
@@ -1032,12 +1018,28 @@ const CONTENT = {
             lesson: "Model size doesn't fix honesty: the 30B confidently wrote \"healthy\" without calling a single tool. What saved us were boring guard rules, not parameters.",
           },
           {
-            num: "06",
+            num: "04",
             title: "Infrastructure you can just ask",
             task: "The team keeps coming to the DevOps engineer with the same questions: how does this pipeline work, how is the version computed, where do I look. The answers exist — but they're buried in Confluence, in Jenkinsfiles, and in my head. The classic \"ask Maks\".",
             did: "Pulled the JD documentation into one place and put an MCP server with vector search on top of it. Both people and LLM agents query it: a specific question gets a specific answer with steps — no digging through ten pages.",
             result: "Live beta. Coverage is still growing, but some questions already go to the docs instead of to me. Agents pull context from there too — and make things up noticeably less.",
             lesson: "It turned out not to be about the model. Boring docs aimed at a specific question beat a smarter model with no context — every single time.",
+          },
+          {
+            num: "05",
+            title: "Jenkins as the CI/CD backbone for an enterprise project",
+            task: "A complex product with many components, multiple OSes, lots of environments. Needed reliable and fast CI/CD.",
+            did: "Complex pipelines for the full cycle. Parallel builds, dynamic workers in vSphere. Active Choice UI. Auto-tests in PRs. OWASP Dependency Check.",
+            result: "The team deploys on their own. PRs don't merge without tests. Dependencies are automatically checked for vulnerabilities.",
+            lesson: "Jenkins is powerful but dangerous. Without discipline, pipelines turn into unreadable Groovy scripts.",
+          },
+          {
+            num: "06",
+            title: "Production MongoDB upgrade (EGRN)",
+            task: "Upgrade MongoDB in production on one of the largest government IT projects. Downtime is critical, data loss is unacceptable.",
+            did: "Ansible playbooks for the upgrade. A production-like environment for full dry runs. Debugging until fully reproducible.",
+            result: "Successful migration with zero data loss and minimal downtime.",
+            lesson: "In production there's no \"let's try\". Every step is verified on a staging environment. Playbooks are documentation that also executes.",
           },
         ],
       },
@@ -1056,8 +1058,8 @@ const CONTENT = {
             items: ["Thanos", "Packer", "OpenSearch", "Loki", "Promtail", "Logstash", "Telegraf", "Kafka", "Keycloak", "Nginx", "Kubernetes", "Terraform", "Go", "Python", "Bash", "Groovy", "MinIO/S3", "Apache Superset", "Git"],
           },
           {
-            title: "LLM / MCP",
-            items: ["MCP servers", "Agent harnesses (Hermes)", "LLM evals (promptfoo)", "LLM observability (Phoenix)", "Local inference (llama.cpp, Qwen3)", "Claude Code", "OpenAI API"],
+            title: "AI / LLM",
+            items: ["MCP servers", "Agent harnesses", "LLM evals (promptfoo)", "LLM observability (Phoenix)", "Local inference", "Claude Code", "OpenAI API"],
           },
           {
             title: "Previously",
