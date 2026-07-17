@@ -245,8 +245,17 @@ console.log('\n\x1b[1mFile structure\x1b[0m');
 
 // Единый источник путей страниц. Меняешь URL-структуру — правишь только здесь.
 // Стаб-редиректы сюда не входят: у них нет ни JSON-LD, ни og — им отдельный assert.
+// page — ключ рендера ('cv'/'personal'), совпадает с currentPage в initPage().
 const HOST = 'https://' + fs.readFileSync(path.join(ROOT, 'CNAME'), 'utf8').trim();
-const PAGES = { 'index.html': '/', 'life/index.html': '/life/' };
+const PAGES = {
+  'index.html':      { url: '/',      lang: 'ru', page: 'cv'       },
+  'life/index.html': { url: '/life/', lang: 'ru', page: 'personal' },
+};
+// Парный URL другого языка — вычисляется, не хранится: нельзя опечатать то, чего нет.
+const altOf = u => u.startsWith('/en') ? (u.slice(3) || '/') : '/en' + u;
+Object.values(PAGES).forEach(p => {
+  assert('altOf round-trip: ' + p.url, altOf(altOf(p.url)) === p.url, altOf(altOf(p.url)));
+});
 
 const requiredFiles = [
   ...Object.keys(PAGES),
@@ -304,41 +313,51 @@ assert('PDF (en) size > 10KB', fs.existsSync(pdfPathEn) && fs.statSync(pdfPathEn
 console.log('\n\x1b[1mHTML validation\x1b[0m');
 // ════════════════════════════════════════
 
-Object.keys(PAGES).forEach(file => {
+Object.entries(PAGES).forEach(([file, p]) => {
   const html = fs.readFileSync(path.join(ROOT, file), 'utf8');
-  assert(file + ' has lang="ru"', html.includes('lang="ru"'));
+  const L = CONTENT[p.lang];
+  assert(file + ' <html lang="' + p.lang + '">', html.includes('<html lang="' + p.lang + '"'));
   assert(file + ' has meta description', html.includes('meta name="description"'));
-  assert(file + ' has og:title', html.includes('og:title'));
-  assert(file + ' has canonical', html.includes('rel="canonical"'));
   assert(file + ' has JSON-LD', html.includes('application/ld+json'));
   assert(file + ' has favicon link', /rel=["']icon["']/.test(html));
 
   // Дрифт-ловушка: обе страницы с canonical на "/" → Google молча выкидывает вторую.
   // Ни 404, ни ошибки в консоли, ни визуальной разницы — поэтому только тест это и поймает.
-  const want = HOST + PAGES[file];
+  const want = HOST + p.url;
   const grab = re => (html.match(re) || [])[1];
   assert(file + ' canonical === ' + want, grab(/rel="canonical"\s+href="([^"]+)"/) === want);
   assert(file + ' og:url === ' + want, grab(/property="og:url"\s+content="([^"]+)"/) === want);
-  assert(file + ' hreflang href === ' + want, grab(/hreflang="ru"\s+href="([^"]+)"/) === want);
+  assert(file + ' hreflang self === ' + want,
+    grab(new RegExp('hreflang="' + p.lang + '"\\s+href="([^"]+)"')) === want);
 
   // og заполнен статикой: краулеры соцсетей (Telegram, Slack, LinkedIn) JS не исполняют,
   // и без этого шаренная ссылка разворачивается пустой карточкой. Раз статика — привязываем
   // к content.js, иначе разъедется при первой же правке контента.
   // og:description намеренно без стажа: в JS он считается из meta.start_it, хардкод бы протух.
-  const wantOgTitle = file === 'index.html' ? c.meta.title_cv : c.meta.title_personal;
-  const wantOgDesc = c.hero.role + '. ' + c.hero.tagline;
+  const wantOgTitle = p.page === 'cv' ? L.meta.title_cv : L.meta.title_personal;
+  const wantOgDesc = L.hero.role + '. ' + L.hero.tagline;
   assert(file + ' og:title === content.js', grab(/property="og:title"\s+content="([^"]+)"/) === wantOgTitle,
     'в HTML: ' + grab(/property="og:title"\s+content="([^"]+)"/) + ' | в content.js: ' + wantOgTitle);
   assert(file + ' og:description === content.js', grab(/property="og:description"\s+content="([^"]+)"/) === wantOgDesc);
   // Превью — аватар, не фото: фото открывается по клику и печатается в PDF.
   assert(file + ' og:image === аватар', grab(/property="og:image"\s+content="([^"]+)"/) === HOST + '/assets/avatar.webp');
-  assert(file + ' og:site_name', grab(/property="og:site_name"\s+content="([^"]+)"/) === c.meta.host);
+  assert(file + ' og:site_name', grab(/property="og:site_name"\s+content="([^"]+)"/) === L.meta.host);
+  assert(file + ' og:locale', grab(/property="og:locale"\s+content="([^"]+)"/) === (p.lang === 'en' ? 'en_US' : 'ru_RU'));
+  assert(file + ' og:type', grab(/property="og:type"\s+content="([^"]+)"/) === (p.page === 'cv' ? 'profile' : 'website'));
+
   // Cache-busting: все local CSS/JS должны быть с ?v=<hash> (hook ставит md5).
   // Проверяем только наличие pattern — не точное значение, иначе будут
   // ложно-отрицательные прогоны когда файл грязный, а хук ещё не отработал.
-  const localAssetRe = /(?:src|href)=["'](?:\.\.\/)?src\/(?:js|styles)\/[a-zA-Z0-9._-]+/g;
-  const htmlAssets = html.match(localAssetRe) || [];
-  htmlAssets.forEach(ref => {
+  // (?:\.\.\/)* — любая глубина: старый (?:\.\.\/)? был слеп на глубине 2,
+  // цикл проверок молча не выполнялся. Заодно резолвим каждую ссылку по
+  // фактической глубине файла — ловит битый префикс ../ (пустая страница
+  // при зелёном тесте, в браузере громко, в тестах раньше — тихо).
+  const dir = path.dirname(path.join(ROOT, file));
+  const localAssetRe = /(?:src|href)=["']((?:\.\.\/)*src\/(?:js|styles)\/[a-zA-Z0-9._-]+)/g;
+  const refs = [...html.matchAll(localAssetRe)].map(m => m[1]);
+  assert(file + ' ссылается на src-ассеты', refs.length > 0, 'regex не нашёл ни одного — сломан?');
+  refs.forEach(ref => {
+    assert(file + ' asset exists: ' + ref, fs.existsSync(path.resolve(dir, ref)), 'битая глубина ../?');
     const hashRe = new RegExp(ref.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\?v=[a-f0-9]{6,12}');
     assert(file + ' cache-bust: ' + ref.split('/').pop(), hashRe.test(html),
       'no ?v=<hash> suffix');
@@ -366,7 +385,7 @@ assert('404 base.css cache-bust', /\/src\/styles\/base\.css\?v=[a-f0-9]{6,12}/.t
 // sitemap не должен разъезжаться с реальным набором страниц
 const sitemapXml = fs.readFileSync(path.join(ROOT, 'sitemap.xml'), 'utf8');
 const locs = [...sitemapXml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1]).sort();
-const wantLocs = Object.values(PAGES).map(p => HOST + p).sort();
+const wantLocs = Object.values(PAGES).map(p => HOST + p.url).sort();
 assert('sitemap <loc> === PAGES', JSON.stringify(locs) === JSON.stringify(wantLocs),
   'sitemap: ' + locs.join(',') + ' | ожидалось: ' + wantLocs.join(','));
 
@@ -396,11 +415,13 @@ vm.runInContext(
 // Тернарник и href правятся руками и врозь: перепутаешь — подсветка инвертируется
 // молча, без ошибки в консоли и без визуальной поломки вёрстки.
 {
-  // Только вкладки страниц: lang — это <button>, кнопка PDF — класс seg-cv.
+  // Только вкладки страниц: парсим контейнер role="navigation",
+  // lang-группа (role="group") — отдельная сущность, сюда не попадает.
   const tabsOf = page => {
     const el = {};
     sandbox.renderNav(el, c, page);
-    return [...el.innerHTML.matchAll(/<a href="([^"]*)" class="seg-btn([^"]*)">([^<]*)<\/a>/g)]
+    const seg = (el.innerHTML.match(/<div class="seg" role="navigation">([\s\S]*?)<\/div>/) || [])[1] || '';
+    return [...seg.matchAll(/<a href="([^"]*)" class="seg-btn([^"]*)"[^>]*>([^<]*)<\/a>/g)]
       .map(m => ({ href: m[1], on: m[2].includes('is-on'), text: m[3] }));
   };
 
@@ -416,24 +437,32 @@ vm.runInContext(
 }
 
 // updateMeta перезаписывает og на лету. Если разъедется со статикой в <head> —
-// краулер соцсети покажет одно, браузер другое, и оба будут «работать». Сверяем.
+// краулер соцсети покажет одно, браузер (и Google, который рендерит JS) другое,
+// и оба будут «работать». Сверяем по каждой странице из таблицы.
 {
-  const set = {};
-  sandbox.document = {
-    documentElement: {}, title: '',
-    querySelector: sel => ({ setAttribute: (_k, v) => { set[sel] = v; } }),
-    getElementById: () => ({ textContent: '' }),
-  };
-  sandbox.location = { pathname: '/' };
-  sandbox.updateMeta(c, 'cv');
+  Object.entries(PAGES).forEach(([file, p]) => {
+    const set = {};
+    sandbox.document = {
+      documentElement: {}, title: '',
+      querySelector: sel => ({ setAttribute: (_k, v) => { set[sel] = v; } }),
+      getElementById: () => ({ textContent: '' }),
+    };
+    sandbox.location = { pathname: p.url };
+    vm.runInContext('_lang = ' + JSON.stringify(p.lang), sandbox);
+    sandbox.updateMeta(CONTENT[p.lang], p.page);
 
-  const staticOgImage = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8')
-    .match(/property="og:image"\s+content="([^"]+)"/)[1];
-  assert('updateMeta og:image === статика в <head>',
-    set['meta[property="og:image"]'] === staticOgImage,
-    'JS: ' + set['meta[property="og:image"]'] + ' | HTML: ' + staticOgImage);
-  assert('updateMeta og:title === статика в <head>',
-    set['meta[property="og:title"]'] === c.meta.title_cv);
+    const html = fs.readFileSync(path.join(ROOT, file), 'utf8');
+    const stat = re => (html.match(re) || [])[1];
+    assert(file + ' updateMeta og:image === статика в <head>',
+      set['meta[property="og:image"]'] === stat(/property="og:image"\s+content="([^"]+)"/),
+      'JS: ' + set['meta[property="og:image"]'] + ' | HTML: ' + stat(/property="og:image"\s+content="([^"]+)"/));
+    assert(file + ' updateMeta og:title === статика в <head>',
+      set['meta[property="og:title"]'] === stat(/property="og:title"\s+content="([^"]+)"/));
+    assert(file + ' updateMeta og:locale === статика в <head>',
+      set['meta[property="og:locale"]'] === stat(/property="og:locale"\s+content="([^"]+)"/));
+    // og:description НЕ сверяем: на CV рантайм считает стаж из дат, статика намеренно без стажа.
+  });
+  vm.runInContext('_lang = "ru"', sandbox); // вернуть дефолт для последующих блоков
 }
 
 // ════════════════════════════════════════
