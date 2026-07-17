@@ -45,8 +45,13 @@ assert('content freshness (< 3 months)', monthsAgo < 3, 'last_updated ' + c.meta
 assert('hero.name', !!c.hero.name);
 assert('hero.role', !!c.hero.role);
 assert('hero.tagline', !!c.hero.tagline);
-assert('hero.prompt_lines.cv', Array.isArray(c.hero.prompt_lines.cv) && c.hero.prompt_lines.cv.length >= 2);
-assert('hero.prompt_lines.personal', Array.isArray(c.hero.prompt_lines.personal) && c.hero.prompt_lines.personal.length >= 2);
+// prompt_lines — оба языка: отсутствие ключа в en = краш страницы (.map по undefined),
+// а parity-блок ниже структуру hero не проверяет.
+['ru', 'en'].forEach(tag => {
+  const pl = CONTENT[tag].hero.prompt_lines;
+  assert(tag + ' hero.prompt_lines.cv', Array.isArray(pl.cv) && pl.cv.length >= 2);
+  assert(tag + ' hero.prompt_lines.personal', Array.isArray(pl.personal) && pl.personal.length >= 2);
+});
 assert('hero.cta_primary.href', !!c.hero.cta_primary.href);
 
 // Contacts
@@ -248,13 +253,22 @@ console.log('\n\x1b[1mFile structure\x1b[0m');
 // page — ключ рендера ('cv'/'personal'), совпадает с currentPage в initPage().
 const HOST = 'https://' + fs.readFileSync(path.join(ROOT, 'CNAME'), 'utf8').trim();
 const PAGES = {
-  'index.html':      { url: '/',      lang: 'ru', page: 'cv'       },
-  'life/index.html': { url: '/life/', lang: 'ru', page: 'personal' },
+  'index.html':         { url: '/',         lang: 'ru', page: 'cv'       },
+  'life/index.html':    { url: '/life/',    lang: 'ru', page: 'personal' },
+  'en/index.html':      { url: '/en/',      lang: 'en', page: 'cv'       },
+  'en/life/index.html': { url: '/en/life/', lang: 'en', page: 'personal' },
 };
 // Парный URL другого языка — вычисляется, не хранится: нельзя опечатать то, чего нет.
 const altOf = u => u.startsWith('/en') ? (u.slice(3) || '/') : '/en' + u;
 Object.values(PAGES).forEach(p => {
   assert('altOf round-trip: ' + p.url, altOf(altOf(p.url)) === p.url, altOf(altOf(p.url)));
+});
+// Языковые пары зеркальны: у каждой страницы есть двойник с тем же page и другим lang.
+const byUrl = Object.fromEntries(Object.values(PAGES).map(p => [p.url, p]));
+Object.values(PAGES).forEach(p => {
+  const a = byUrl[altOf(p.url)];
+  assert('языковая пара для ' + p.url, !!a && a.lang !== p.lang && a.page === p.page,
+    'нет зеркальной записи ' + altOf(p.url));
 });
 
 const requiredFiles = [
@@ -327,8 +341,15 @@ Object.entries(PAGES).forEach(([file, p]) => {
   const grab = re => (html.match(re) || [])[1];
   assert(file + ' canonical === ' + want, grab(/rel="canonical"\s+href="([^"]+)"/) === want);
   assert(file + ' og:url === ' + want, grab(/property="og:url"\s+content="([^"]+)"/) === want);
-  assert(file + ' hreflang self === ' + want,
-    grab(new RegExp('hreflang="' + p.lang + '"\\s+href="([^"]+)"')) === want);
+
+  // hreflang-пары: оба конца считаются из одной таблицы → взаимность гарантирована.
+  // Односторонний hreflang Google молча игнорирует — EN не свяжется и не проиндексируется.
+  const pairRu = HOST + (p.lang === 'ru' ? p.url : altOf(p.url));
+  const pairEn = HOST + (p.lang === 'en' ? p.url : altOf(p.url));
+  assert(file + ' hreflang ru', grab(/hreflang="ru"\s+href="([^"]+)"/) === pairRu);
+  assert(file + ' hreflang en', grab(/hreflang="en"\s+href="([^"]+)"/) === pairEn);
+  // x-default → RU-член кластера (вердикт консилиума: одна шляпа с hreflang ru, ноль дрейфа)
+  assert(file + ' hreflang x-default → RU', grab(/hreflang="x-default"\s+href="([^"]+)"/) === pairRu);
 
   // og заполнен статикой: краулеры соцсетей (Telegram, Slack, LinkedIn) JS не исполняют,
   // и без этого шаренная ссылка разворачивается пустой карточкой. Раз статика — привязываем
@@ -343,6 +364,7 @@ Object.entries(PAGES).forEach(([file, p]) => {
   assert(file + ' og:image === аватар', grab(/property="og:image"\s+content="([^"]+)"/) === HOST + '/assets/avatar.webp');
   assert(file + ' og:site_name', grab(/property="og:site_name"\s+content="([^"]+)"/) === L.meta.host);
   assert(file + ' og:locale', grab(/property="og:locale"\s+content="([^"]+)"/) === (p.lang === 'en' ? 'en_US' : 'ru_RU'));
+  assert(file + ' og:locale:alternate', grab(/property="og:locale:alternate"\s+content="([^"]+)"/) === (p.lang === 'en' ? 'ru_RU' : 'en_US'));
   assert(file + ' og:type', grab(/property="og:type"\s+content="([^"]+)"/) === (p.page === 'cv' ? 'profile' : 'website'));
 
   // Cache-busting: все local CSS/JS должны быть с ?v=<hash> (hook ставит md5).
@@ -362,6 +384,14 @@ Object.entries(PAGES).forEach(([file, p]) => {
     assert(file + ' cache-bust: ' + ref.split('/').pop(), hashRe.test(html),
       'no ?v=<hash> suffix');
   });
+});
+
+// Шрифты EN-головы === RU-двойника: life-пара тянет Caveat, cv-пара — нет.
+// Кросс-копия головы (en/life ← index) молча теряет шрифт — ловится только сверкой пар.
+const fontOf = f => (fs.readFileSync(path.join(ROOT, f), 'utf8').match(/fonts\.googleapis\.com\/css2[^"]*/) || [''])[0];
+Object.entries(PAGES).filter(([, p]) => p.lang === 'en').forEach(([file, p]) => {
+  const [twin] = Object.entries(PAGES).find(([, q]) => q.page === p.page && q.lang === 'ru');
+  assert(file + ' шрифты === ' + twin, fontOf(file) === fontOf(twin), 'головы копировались кросс?');
 });
 
 // /cv/ — стаб-редирект: в PAGES не входит (нет ни og, ни JSON-LD), но существовать обязан,
@@ -411,29 +441,60 @@ vm.runInContext(
   sandbox
 );
 
-// renderNav — единственное место, где живут порядок вкладок и подсветка is-on.
-// Тернарник и href правятся руками и врозь: перепутаешь — подсветка инвертируется
-// молча, без ошибки в консоли и без визуальной поломки вёрстки.
+// getLang — чистая функция pathname. Прямой заход на GH Pages даёт и /en/, и /en/index.html.
 {
-  // Только вкладки страниц: парсим контейнер role="navigation",
-  // lang-группа (role="group") — отдельная сущность, сюда не попадает.
-  const tabsOf = page => {
+  const cases = [
+    ['/', 'ru'], ['/index.html', 'ru'], ['/life/', 'ru'], ['/life/index.html', 'ru'],
+    ['/en/', 'en'], ['/en', 'en'], ['/en/index.html', 'en'], ['/en/life/', 'en'],
+    ['/en/life/index.html', 'en'], ['/energy/', 'ru'],
+  ];
+  cases.forEach(([pn, want]) => {
+    sandbox.location = { pathname: pn };
+    assert('getLang(' + pn + ') === ' + want, vm.runInContext('getLang()', sandbox) === want);
+  });
+  // Регрессия: localStorage мёртв. Остаточное чтение дало бы EN-тело на RU-URL
+  // под RU-canonical — ровно тот дубль в индексе, ради которого затевалась фича.
+  sandbox.localStorage = { getItem: () => 'en' };
+  sandbox.location = { pathname: '/' };
+  assert('getLang игнорирует localStorage', vm.runInContext('getLang()', sandbox) === 'ru');
+  delete sandbox.localStorage;
+}
+
+// renderNav — единственное место, где живут порядок вкладок, подсветка is-on и сетка URL.
+// Гоняем все 4 состояния (страница × язык) прямо из PAGES: вкладки и бренд остаются
+// в своём языке, href языкового переключателя === altOf (та же истина, что hreflang).
+{
+  Object.values(PAGES).forEach(p => {
+    vm.runInContext('_lang = ' + JSON.stringify(p.lang), sandbox);
     const el = {};
-    sandbox.renderNav(el, c, page);
-    const seg = (el.innerHTML.match(/<div class="seg" role="navigation">([\s\S]*?)<\/div>/) || [])[1] || '';
-    return [...seg.matchAll(/<a href="([^"]*)" class="seg-btn([^"]*)"[^>]*>([^<]*)<\/a>/g)]
+    sandbox.renderNav(el, CONTENT[p.lang], p.page);
+    const html = el.innerHTML;
+    const seg = re => (html.match(re) || [])[1] || '';
+
+    // Только вкладки страниц: контейнер role="navigation"; lang-группа — role="group".
+    const nav = seg(/<div class="seg" role="navigation">([\s\S]*?)<\/div>/);
+    const tabs = [...nav.matchAll(/<a href="([^"]*)" class="seg-btn([^"]*)"[^>]*>([^<]*)<\/a>/g)]
       .map(m => ({ href: m[1], on: m[2].includes('is-on'), text: m[3] }));
-  };
 
-  const onRoot = tabsOf('cv');
-  const onLife = tabsOf('personal');
+    const grp = seg(/<div class="seg" role="group"[^>]*>([\s\S]*?)<\/div>/);
+    const langs = Object.fromEntries(
+      [...grp.matchAll(/<a href="([^"]*)" hreflang="(ru|en)"/g)].map(m => [m[2], m[1]]));
 
-  assert('nav: работа первая, жизнь вторая',
-    onRoot[0].href === '/' && onRoot[1].href === '/life/',
-    onRoot.map(t => t.href).join(' | '));
-  assert('nav: первая вкладка — это CV', onRoot[0].text === c.nav.cv, onRoot[0].text);
-  assert('nav на /: подсвечена работа', onRoot[0].on && !onRoot[1].on);
-  assert('nav на /life/: подсвечена жизнь', !onLife[0].on && onLife[1].on);
+    const cvURL = p.lang === 'en' ? '/en/' : '/';
+    const lifeURL = p.lang === 'en' ? '/en/life/' : '/life/';
+    assert('nav@' + p.url + ': работа первая, жизнь вторая, свой язык',
+      tabs.length === 2 && tabs[0].href === cvURL && tabs[1].href === lifeURL,
+      tabs.map(t => t.href).join(' | '));
+    assert('nav@' + p.url + ': первая вкладка — это CV', tabs[0].text === CONTENT[p.lang].nav.cv, tabs[0].text);
+    assert('nav@' + p.url + ': подсветка верна',
+      tabs[0].on === (p.page === 'cv') && tabs[1].on === (p.page === 'personal'));
+    assert('nav@' + p.url + ': lang self === свой URL', langs[p.lang] === p.url, langs[p.lang]);
+    assert('nav@' + p.url + ': lang alt === altOf', langs[p.lang === 'ru' ? 'en' : 'ru'] === altOf(p.url),
+      langs[p.lang === 'ru' ? 'en' : 'ru']);
+    assert('nav@' + p.url + ': бренд в своём языке',
+      html.includes('class="tb-brand" href="' + cvURL + '"'));
+  });
+  vm.runInContext('_lang = "ru"', sandbox);
 }
 
 // updateMeta перезаписывает og на лету. Если разъедется со статикой в <head> —

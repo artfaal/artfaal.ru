@@ -28,6 +28,12 @@ All text lives in `src/js/content.js`. Edit there, reload browser.
 
 After editing, update `meta.last_updated` date.
 
+## English version
+
+`/en/` and `/en/life/` are separate indexable URLs (reciprocal hreflang pairs).
+Same `content.js` — the `en` branch renders there; language is derived from
+the URL, there is no client-side language state.
+
 ## Adding images
 
 ```bash

@@ -67,13 +67,14 @@ function updateMeta(c, currentPage) {
   if (el) el.textContent = JSON.stringify(jsonld);
 }
 
-// ── Язык ──
+// ── Язык ── (язык = URL: /en/* — английский, остальное — русский; localStorage не участвует)
 function getLang() {
-  return localStorage.getItem('lang') || 'ru';
+  return /^\/en(\/|$)/.test(location.pathname) ? 'en' : 'ru';
 }
-function setLang(lang) {
-  localStorage.setItem('lang', lang);
-  location.reload();
+
+// Сетка URL «страница × язык» — единственный владелец всех внутренних ссылок.
+function pageURL(page, lang) {
+  return (lang === 'en' ? '/en/' : '/') + (page === 'personal' ? 'life/' : '');
 }
 
 // ── PDF резюме: путь и дата ──
@@ -131,22 +132,22 @@ function renderNav(el, c, currentPage) {
   const lang = _lang;
   const isPersonal = currentPage === 'personal';
   el.innerHTML = ''
-    + `<a class="tb-brand" href="/">`
+    + `<a class="tb-brand" href="${pageURL('cv', lang)}">`
     +   `<span class="tb-dot"></span>`
     +   `<span class="tb-name">${escapeHTML(c.meta.host)}</span>`
     + `</a>`
     + `<div class="tb-right">`
     +   `<div class="seg" role="navigation">`
     +     `<span class="seg-label">--page=</span>`
-    +     `<a href="/" class="seg-btn ${!isPersonal ? 'is-on' : ''}">${escapeHTML(c.nav.cv)}</a>`
+    +     `<a href="${pageURL('cv', lang)}" class="seg-btn ${!isPersonal ? 'is-on' : ''}"${!isPersonal ? ' aria-current="page"' : ''}>${escapeHTML(c.nav.cv)}</a>`
     +     `<span class="seg-sep">|</span>`
-    +     `<a href="/life/" class="seg-btn ${isPersonal ? 'is-on' : ''}">${escapeHTML(c.nav.personal)}</a>`
+    +     `<a href="${pageURL('personal', lang)}" class="seg-btn ${isPersonal ? 'is-on' : ''}"${isPersonal ? ' aria-current="page"' : ''}>${escapeHTML(c.nav.personal)}</a>`
     +   `</div>`
     +   `<div class="seg" role="group" aria-label="lang">`
     +     `<span class="seg-label">--lang=</span>`
-    +     `<button class="seg-btn ${lang === 'ru' ? 'is-on' : ''}" onclick="setLang('ru')">ru</button>`
+    +     `<a href="${pageURL(currentPage, 'ru')}" hreflang="ru" class="seg-btn ${lang === 'ru' ? 'is-on' : ''}"${lang === 'ru' ? ' aria-current="page"' : ''}>ru</a>`
     +     `<span class="seg-sep">|</span>`
-    +     `<button class="seg-btn ${lang === 'en' ? 'is-on' : ''}" onclick="setLang('en')">en</button>`
+    +     `<a href="${pageURL(currentPage, 'en')}" hreflang="en" class="seg-btn ${lang === 'en' ? 'is-on' : ''}"${lang === 'en' ? ' aria-current="page"' : ''}>en</a>`
     +   `</div>`
     +   `<a href="${cvPdfHref()}" download class="seg-cv">${icon('download', 12)} PDF</a>`
     + `</div>`;
