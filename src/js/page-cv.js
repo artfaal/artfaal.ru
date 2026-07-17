@@ -16,13 +16,31 @@ document.addEventListener('DOMContentLoaded', () => {
     [sectionSkills,      cv.skills],
     [sectionLanguages,   cv.languages],
     [sectionEducation,   cv.education],
-    [renderContacts,     c.contacts],
+    [renderContacts,     takeaway(c)],
   ];
   main.innerHTML = sections.map(([fn, data], i) => fn(data, sectionN(i))).join('');
 
   initScrollReveal();
   initCaseAccordion();
 });
+
+// ── Контакты CV: резюме первым пунктом ──
+// Список тот же, что на личной странице, плюс строка с PDF впереди. Собираем
+// локальную копию: c.contacts не мутируется, поэтому на /life/ резюме не течёт.
+function takeaway(c) {
+  const pdf = {
+    label: c.cv.contact.label,
+    handle: 'PDF · ' + updatedLabel(c.meta),
+    href: cvPdfHref(),
+    icon: 'download',
+  };
+  return {
+    ...c.contacts,
+    title: c.cv.contact.title,
+    sub: c.cv.contact.sub,
+    links: [pdf, ...c.contacts.links],
+  };
+}
 
 function initCaseAccordion() {
   let transitioning = false;

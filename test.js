@@ -498,6 +498,11 @@ parityChecks.forEach(([name, ru, en]) => {
     `ru=${ru.length} en=${en.length}`);
 });
 
+// cv.contact — не массив, а объект: сверяем набор ключей, а не длину.
+const cvContactKeys = (t) => Object.keys(t.cv.contact).sort().join(',');
+assert('cv.contact parity ru/en', cvContactKeys(c) === cvContactKeys(CONTENT.en),
+  `ru=[${cvContactKeys(c)}] en=[${cvContactKeys(CONTENT.en)}]`);
+
 // Внутри саг side-quests число проектов тоже должно совпадать по-саговно.
 c.personal.sidequests.sagas.forEach((saga, i) => {
   const enSaga = CONTENT.en.personal.sidequests.sagas[i];

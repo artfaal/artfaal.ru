@@ -76,6 +76,18 @@ function setLang(lang) {
   location.reload();
 }
 
+// ── PDF резюме: путь и дата ──
+// Единый источник имени файла и формата даты — их читают и топбар, и список контактов CV.
+function cvPdfHref() {
+  return `/assets/Solovev_Maksim_CV${_lang === 'en' ? '_en' : ''}.pdf`;
+}
+
+function updatedLabel(meta) {
+  if (!meta.last_updated) return '';
+  const locale = _lang === 'en' ? 'en-US' : 'ru-RU';
+  return new Date(meta.last_updated).toLocaleDateString(locale, { month: 'long', year: 'numeric' });
+}
+
 // ── Prompt строка (ZSH-стиль) ──
 function promptHTML(user, host, text) {
   return `<span class="prompt-line">`
@@ -136,7 +148,7 @@ function renderNav(el, c, currentPage) {
     +     `<span class="seg-sep">|</span>`
     +     `<button class="seg-btn ${lang === 'en' ? 'is-on' : ''}" onclick="setLang('en')">en</button>`
     +   `</div>`
-    +   `<a href="/assets/Solovev_Maksim_CV${lang === 'en' ? '_en' : ''}.pdf" download class="seg-cv">${icon('download', 12)} PDF</a>`
+    +   `<a href="${cvPdfHref()}" download class="seg-cv">${icon('download', 12)} PDF</a>`
     + `</div>`;
 }
 
@@ -227,8 +239,7 @@ function renderFooter(el, data, contacts, meta) {
   const lang = _lang;
   const year = new Date().getFullYear();
   const email = contacts.links.find(l => l.icon === 'mail');
-  const locale = lang === 'en' ? 'en-US' : 'ru-RU';
-  const updated = meta.last_updated ? new Date(meta.last_updated).toLocaleDateString(locale, { month: 'long', year: 'numeric' }) : '';
+  const updated = updatedLabel(meta);
   el.innerHTML = ''
     + `<span>${data.sig}</span>`
     + `<span>`
