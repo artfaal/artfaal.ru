@@ -777,17 +777,26 @@
   border-top: 1px solid var(--line);
   font-family: var(--mono);
   text-decoration: none;
-  transition: background 0.15s, padding-left 0.15s;
+  transition: background 0.15s;
 }
 .cr-ext { display: none; }
 .contact-list li:last-child .contact-row { border-bottom: 1px solid var(--line); }
 .contact-row:hover {
   background: color-mix(in oklab, var(--accent) 7%, transparent);
-  padding-left: 18px;
 }
+/* Сдвиг на hover — transform, а не padding-left: padding двигал раскладку
+   (reflow на каждый ховер). 12px — ровно прежний сдвиг: padding шёл 6px → 18px. */
+.contact-row:hover .cr-icon,
+.contact-row:hover .cr-label { transform: translateX(12px); }
 .contact-row:hover .cr-ext { color: var(--accent); transform: translate(2px, -2px); }
-.cr-icon { color: var(--accent); display: inline-flex; align-self: center; }
-.cr-label { color: var(--fg); font-size: 14px; white-space: nowrap; }
+.cr-icon {
+  color: var(--accent); display: inline-flex; align-self: center;
+  transition: transform 0.15s;
+}
+.cr-label {
+  color: var(--fg); font-size: 14px; white-space: nowrap;
+  transition: transform 0.15s;
+}
 .cr-dots {
   color: var(--line-2);
   font-size: 13px;
