@@ -16,7 +16,7 @@ const CONTENT = {
     // ── Мета ──
     meta: {
       title_personal: "Соловьев Максим — DevOps",
-      title_cv: "Соловьев Максим — DevOps CV",
+      title_cv: "Соловьев Максим — резюме DevOps-инженера",
       handle: "artfaal",
       host: "artfaal.ru",
       location: "Russia, Moscow",
