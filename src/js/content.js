@@ -197,7 +197,7 @@ const CONTENT = {
           },
           {
             t: "Персональный ассистент",
-            d: "Дома на маке живёт свой агент, но центр тяжести давно переехал в обвязку: скиллы под задачи, роли-советники, консилиум перед сложной правкой. Цель была освободить время — сначала, конечно, вышло наоборот :D",
+            d: "Дома на маке живёт свой агент, но центр тяжести давно переехал в обвязку: скиллы под задачи, роли-советники, консилиум перед сложной правкой. Хотел освободить время — сначала только терял :D",
             img: "/assets/kloya.webp",
           },
           {
@@ -745,7 +745,7 @@ const CONTENT = {
           },
           {
             t: "Personal assistant",
-            d: "I run my own agent on the Mac at home, but the center of gravity moved into the scaffolding around it long ago: skills tuned to specific tasks, advisor roles, a panel review before anything tricky. The goal was to free up time — which, naturally, cost me time first :D",
+            d: "I run my own agent on the Mac at home, but the center of gravity moved into the scaffolding around it long ago: skills tuned to specific tasks, advisor roles, a panel review before anything tricky. Wanted to free up time — at first I just lost it :D",
             img: "/assets/kloya.webp",
           },
           {
