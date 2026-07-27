@@ -28,7 +28,7 @@ const CONTENT = {
       // Для JSON-LD (личная страница)
       knowsAbout: ["DevOps", "CI/CD", "Infrastructure", "Monitoring", "LLM tooling", "MCP", "AI agents"],
       // Дата последнего обновления контента (тест напомнит обновить через 3 мес)
-      last_updated: "2026-07-17",
+      last_updated: "2026-07-27",
     },
 
     // ── Навигация ──
@@ -95,7 +95,7 @@ const CONTENT = {
         head: "// about",
         title: "Короткий портрет",
         body: [
-          "Больше десяти лет в IT — от единственного сисадмина в маленькой компании до DevOps-эксперта в «Инфосистемы Джет».",
+          "Начинал единственным сисадмином в маленькой компании, дорос до DevOps-эксперта в «Инфосистемы Джет».",
           "Несколько лет строю инфраструктуру для enterprise-продуктов. Сейчас — DevOps-инженер на проекте Jet Detective, антифрод-платформе для банков и ритейла. На мне всё: от CI/CD и мониторинга до 160+ виртуалок.",
           "Из тимлидов сознательно ушёл обратно в инженеры. Командой рулить умею, но больше люблю копаться в сложном сам — разобраться, починить, автоматизировать, задокументировать.",
           "Люблю понятные системы, честные компромиссы и практичные решения. Не ведусь на «магические платформы» — отделяю то, что реально работает, от красивых слайдов.",
@@ -124,16 +124,11 @@ const CONTENT = {
           },
           {
             k: "04",
-            t: "Отличаю инструмент от демки",
-            d: "Быстро вижу, где настоящая польза, а где красивая обёртка. Не даю зоопарку AI-тулов расти бесконтрольно.",
+            t: "Мост infra ↔ AI tooling",
+            d: "Быстро вижу, где настоящая польза, а где красивая обёртка. Главное, что вынес: дело не в модели, а в том, что вокруг — контекст и нормальная дока. Звучит скучно, зато работает =)",
           },
           {
             k: "05",
-            t: "Мост infra ↔ AI tooling",
-            d: "Поковырялся в LLM-инструментах достаточно, чтобы отличать рабочее от демки. Главное, что вынес: дело не в модели, а в том, что вокруг — контекст и нормальная дока. Звучит скучно, зато работает =)",
-          },
-          {
-            k: "06",
             t: "Инфраструктура без «хранителя тайного знания»",
             d: "Строю так, чтобы ничего не висело на одном человеке. Документация, прозрачность, самодокументируемые процессы.",
           },
@@ -174,7 +169,7 @@ const CONTENT = {
           {
             n: "06",
             t: "set -e, никаких скипов",
-            d: "Если что-то падает — разберись, а не обойди.",
+            d: "Если что-то падает — разберись, а не обходи.",
           },
         ],
       },
@@ -202,7 +197,7 @@ const CONTENT = {
           },
           {
             t: "Персональный ассистент",
-            d: "В свободное время пилю «Клою» — персонального ассистента на базе OpenClaw. Цель была освободить время на другие дела, но пока в основном больше дебажу :D",
+            d: "Дома на маке живёт свой агент, но центр тяжести давно переехал в обвязку: скиллы под задачи, роли-советники, консилиум перед сложной правкой. Цель была освободить время — сначала, конечно, вышло наоборот :D",
             img: "/assets/kloya.webp",
           },
           {
@@ -222,7 +217,7 @@ const CONTENT = {
       sidequests: {
         head: "// side quests",
         title: "Side quests",
-        sub: "Не «pet-projects» в привычном смысле — скорее личная инфра с метриками, дашбордами и привычкой смотреть на жизнь через временные ряды. Звучит душно, но мне зашло =)",
+        sub: "Не «pet-projects» в привычном смысле — личная инфра, привычка мерить собственную жизнь и инструменты, которых не хватало под рукой. Звучит душно, но мне зашло =)",
         sagas: [
           {
             title: "Домашний прод",
@@ -274,6 +269,30 @@ const CONTENT = {
                 stack: ["Python", "OpenAI API", "Noji"],
                 href: "https://github.com/artfaal/kindle-flashcards",
               },
+              {
+                name: "eater",
+                metric: "с июля 2026 · вдвоём с женой",
+                d: "Счётчик калорий, который не бесит. Наговорил голосом или сфоткал этикетку — модель разложила на КБЖУ и положила в нужный приём пищи. Понимает «съел половину» и «пицца целиком 800, взял 4 куска из 10». Готовые приложения просят подписку за гору функций, которыми я не пользуюсь =)",
+                stack: ["Python", "OpenRouter", "ElevenLabs STT", "SQLite"],
+              },
+            ],
+          },
+          {
+            title: "Сделал под себя",
+            intro: "Не нашёл готового — сделал. Пользователь у них один — я =)",
+            projects: [
+              {
+                name: "hangar",
+                metric: "Go · TUI",
+                d: "Mission control для параллельных сессий агента: кто чем занят, живые статусы, поиск, превью контекста — и переход в нужную вкладку терминала. Написал, когда понял, что сам себе диспетчер и прям путаюсь в сессиях.",
+                stack: ["Go", "Bubble Tea"],
+              },
+              {
+                name: "rest timer",
+                metric: "watchOS · для зала",
+                d: "Таймер отдыха между подходами прямо на часах: крутанул колёсико — пошёл отсчёт, телефон доставать не надо. Когда закрыл все подходы, часы кидают конфетти. Мелочь, а приятно =)",
+                stack: ["Swift", "SwiftUI", "watchOS"],
+              },
             ],
           },
         ],
@@ -291,24 +310,19 @@ const CONTENT = {
         // status: hot — активно погружён; active — регулярно занимаюсь; exploring — в процессе изучения
         items: [
           {
-            t: "Локальные модели там, где данные не выпустишь",
-            d: "Гоняю модели на своём железе — закрытый контур, наружу не уходит ничего. Оказалось, дело не в размере: модель побольше бодро писала «всё хорошо», не заглянув ни в один лог :D",
-            status: "hot",
-          },
-          {
-            t: "Инфраструктура, которую можно спросить",
-            d: "Собираю всю рабочую документацию в MCP-сервер — чтобы команда спрашивала его, а не меня по сто раз =) Тот же контекст заодно забирают и LLM-агенты.",
+            t: "Локальные модели на своём железе",
+            d: "Интересно нащупать потолок, а не выбрать «самую большую»: что тянет железка без GPU, где начинается враньё. Модель побольше умеет бодро писать «всё хорошо», не заглянув ни в один лог :D",
             status: "hot",
           },
           {
             t: "Harness под рутину",
-            d: "Собрал на работе harness — конвейер из агентов под рутину. Перед деплоем он идёт через eval-гейт: не зелёный — никуда не едет. Дебажу всё ещё много, но уже по делу, а не вместо работы =)",
+            d: "Конвейер из агентов: скиллы под задачи, контекст по проектам, eval-гейт перед деплоем — не зелёный, никуда не едет. Не гонюсь за новой моделью, кручу то, что вокруг неё.",
             status: "active",
           },
           {
-            t: "Скиллы и контекст под задачи",
-            d: "Собираю рабочую обвязку вокруг LLM: скиллы под задачи, контекст по проектам, отладочные воркфлоу. Не гонюсь за новой моделью — кручу то, что вокруг неё.",
-            status: "active",
+            t: "Агент, который разбирает свои же косяки",
+            d: "Ночью перечитывает мои сессии за день и ищет места, где пришлось переделывать. На выходе — не патч к коду, а патч к инструкции агенту: где я плохо объяснил, где он сам себе придумал. Отсматриваю руками, но кое-что уже прижилось.",
+            status: "hot",
           },
         ],
       },
@@ -324,9 +338,9 @@ const CONTENT = {
         head: "// about",
         title: "Обо мне",
         body: [
-          "DevOps Expert Engineer. DevOps на антифрод-платформе Jet Detective («Инфосистемы Джет»). Построил с нуля CI/CD, мониторинг и систему управления 160+ ВМ.",
+          "DevOps Expert Engineer. Веду DevOps на антифрод-платформе Jet Detective («Инфосистемы Джет»). Построил с нуля CI/CD, мониторинг и систему управления 160+ ВМ.",
           "Опыт руководства командой из 7 человек, вывода релизов на прод в крупных гос. проектах, адаптации сервисов под Kubernetes.",
-          "Сейчас строю AI-часть платформы: агенты под рутину с eval-гейтом перед деплоем, MCP-серверы и документацию, которой пользуются и люди, и агенты. Отдельная ветка — локальные модели для закрытого контура, где данные наружу не уходят.",
+          "Сейчас строю AI-часть платформы: агенты под рутину с eval-гейтом перед деплоем, MCP-серверы и документацию, которой пользуются и люди, и агенты. Отдельное направление — локальные модели для закрытого контура, где данные наружу не уходят.",
         ],
       },
 
@@ -347,14 +361,16 @@ const CONTENT = {
                   "Разработал JD-Gateway (Python) — единую точку правды для 160+ ВМ в vSphere: lifecycle management, TTL, REST API, dynamic inventory для Ansible и Prometheus, Web UI",
                   "Создал автоматический установщик продукта с поддержкой CentOS, RedOS и Astra Linux",
                   "Автоматизировал подготовку ВМ через Packer (4 ОС) и Ansible (10+ ролей)",
+                  "Построил систему бэкапов (PostgreSQL, Jenkins, OpenSearch, Kafka) на MinIO S3",
+                  "Встроил Apache Superset в продукт для embedded BI-дашбордов",
                 ],
               },
               {
                 title: "CI/CD",
                 items: [
-                  "Спроектировал и поддерживаю комплексные Jenkins pipeline для сборки и деплоя",
+                  "Спроектировал и поддерживаю комплексные Jenkins-пайплайны для сборки и деплоя",
                   "Реализовал параллельные сборки, динамическое создание воркеров в vSphere",
-                  "Встроил автотесты в PR pipeline и внедрил OWASP Dependency Check",
+                  "Встроил автотесты и SCA-проверку зависимостей в PR pipeline",
                   "Мигрировал репозитории из Bitbucket в GitLab с сохранением CI/CD интеграций",
                 ],
               },
@@ -377,19 +393,18 @@ const CONTENT = {
               {
                 title: "LLM и агенты",
                 items: [
-                  "MCP-серверы поверх документации и инфраструктуры — общий контекст для команды и LLM-агентов",
-                  "Агентский harness для DevOps-рутины: выбор движка после сравнения пяти фреймворков, eval-гейт перед деплоем (grounding, security, выбор инструментов), трейсинг вызовов модели",
+                  "Агентский харнесс для DevOps-рутины: выбор движка после сравнения пяти фреймворков, eval-гейт перед деплоем (grounding, security, выбор инструментов), трейсинг вызовов модели",
                   "PoC диагностического агента на локальных моделях — расследование инцидентов без отправки данных контура в облако",
-                  "Vault MCP для агентов: выдача секретов через deny-политики и изоляцию токена",
+                  "MCP-серверы поверх документации и инфраструктуры — общий контекст для команды и LLM-агентов",
+                  "MCP-сервер поверх JD-Gateway — агент заводит, гасит и снапшотит стенды сам, без кликов в vSphere",
+                  "Vault MCP для агентов: секреты под deny-политиками, токен изолирован",
                 ],
               },
               {
                 title: "Собственные инструменты",
                 items: [
-                  "Telegram-бот для управления инфраструктурой с LDAP и аудитом",
-                  "Глубокая система бэкапов (PostgreSQL, Jenkins, OpenSearch, Kafka) на MinIO S3",
-                  "GitLab webhook-сервер для автоматизации MR",
-                  "Apache Superset для embedded BI-дашбордов в продукте",
+                  "Telegram-бот для управления инфраструктурой: LDAP, аудит, защита от брутфорса",
+                  "Портал релизов JD на Go: карточки релизов с артефактами, синхронизация с Jira, LDAP-авторизация и аудит",
                   "Платформа документации на базе MkDocs с drift-detection",
                 ],
               },
@@ -404,9 +419,9 @@ const CONTENT = {
               {
                 title: "Проект ЕГРН",
                 items: [
-                  "Обеспечение инфраструктуры тестовых стендов (6+ стендов, 1000+ ВМ)",
-                  "Вывод релизов на продуктив — дебаг в боевых условиях, анализ логов",
-                  "Обновление MongoDB на продуктиве — плейбуки, продлайк-стенд, миграция данных",
+                  "Инфраструктура тестирования: 6+ стендов, 1000+ ВМ",
+                  "Вывод релизов на прод — дебаг в боевых условиях, анализ логов",
+                  "Обновление MongoDB на проде — плейбуки, продлайк-стенд, миграция данных",
                 ],
               },
               {
@@ -453,13 +468,13 @@ const CONTENT = {
             title: "JD-Gateway — единая точка правды для 160+ ВМ",
             task: "160+ виртуальных машин на стендах. Информация размазана по Confluence, головам инженеров и vSphere-консолям.",
             did: "Разработал JD-Gateway на Python — веб-приложение с REST API, интеграцией с vSphere, dynamic inventory для Ansible и Prometheus, TTL-системой и Web UI.",
-            result: "Создание хоста было 30 минут руками через vSphere — стало пара минут. 14 человек закрывают операции сами, обращений по ним больше нет. TTL не дают стендам превращаться в зомби.",
-            lesson: "«Единая точка правды» — не архитектурный паттерн, а культурное решение. Техническая часть — 30%, остальное — убеждение и удобство.",
+            result: "Создание хоста руками через vSphere занимало 30 минут — стало пара минут. 14 человек закрывают операции сами, обращений по ним больше нет. TTL не даёт стендам превращаться в зомби.",
+            lesson: "«Единая точка правды» — не архитектурный паттерн, а вопрос культуры. Техническая часть — 30%, остальное — убеждение и удобство.",
           },
           {
             num: "02",
             title: "Мониторинг с нуля для антифрод-платформы",
-            task: "Продукт без мониторинга. Проблемы обнаруживались, когда кто-то жаловался или падал стенд.",
+            task: "Продукт без мониторинга. Проблемы обнаруживались, когда падал стенд или кто-то жаловался.",
             did: "Построил полный стек: Prometheus, Grafana, Thanos для долгосрочного хранения. Алертинг с гибкой системой уведомлений. OpenSearch + Logstash для логов.",
             result: "Проблемы видны до того, как кто-то пожалуется. Дашборды — основной инструмент диагностики.",
             lesson: "Мониторинг — это не «поставить Prometheus». Это дашборд, который конкретный человек открывает каждое утро. Если не отвечает на «всё ли ок?» за 5 секунд — бесполезен.",
@@ -468,8 +483,8 @@ const CONTENT = {
             num: "03",
             title: "Диагностический агент на локальной модели",
             task: "Данные банковского контура в облако отправлять нельзя. Вопрос простой: потянет ли локальная модель роль дежурного — сама сходить в логи, метрики и runbook'и, собрать факты и поставить диагноз.",
-            did: "Собрал PoC: агент с набором инструментов, реестром собранных фактов и валидацией ответа. Прогнал Qwen3 (8B / 14B / 30B) против облачного DeepSeek как потолка качества. Добавил guard-правила против самого опасного режима — когда модель никуда не заглянула, но бодро отвечает «всё в порядке».",
-            result: "14B без reasoning дала 6 из 6 — как облако. 8 vCPU и 24 ГБ без GPU, ~12 минут на сценарий. Архитектор согласовал конфигурацию, идём в пилот на живых данных.",
+            did: "Собрал PoC: агент с набором инструментов, реестром найденных фактов и валидацией ответа. Прогнал Qwen3 (8B / 14B / 30B) против облачного DeepSeek как потолка качества. Добавил guard-правила против самого опасного режима — когда модель никуда не заглянула, но бодро отвечает «всё в порядке».",
+            result: "14B без reasoning дала тот же результат, что и облако, — на обычной ВМ без GPU. Архитектор согласовал конфигурацию, собираю демо-стенд с воспроизводимыми поломками.",
             lesson: "Размер модели не чинит честность: 30B уверенно писала «healthy», не вызвав ни одного инструмента. Спасли скучные guard-правила, а не параметры.",
           },
           {
@@ -477,21 +492,13 @@ const CONTENT = {
             title: "Инфраструктура, которую можно спросить",
             task: "Команда ходит к девопсу с одними и теми же вопросами: как работает этот пайплайн, как считается версия, где это посмотреть. Ответы есть — но в Confluence, в Jenkinsfile'ах и в моей голове. Классика жанра: «спроси Макса».",
             did: "Собрал документацию JD в одном месте и поднял над ней MCP-сервер с векторным поиском. Спрашивают и люди, и LLM-агенты: на конкретный вопрос — конкретный ответ и шаги, без раскопок по десяти страницам.",
-            result: "Боевая бета. Покрытие наполняю на ходу, но часть вопросов уже уходит в доку, а не ко мне. Агенты берут контекст оттуда — и заметно реже сочиняют.",
+            result: "Боевая бета. Покрытие наращиваю на ходу, но часть вопросов уже уходит в доку, а не ко мне. Агенты берут контекст оттуда — и заметно реже сочиняют.",
             lesson: "Дело оказалось не в модели. Скучная дока под конкретный вопрос обыгрывает модель поумнее, но без контекста — каждый раз.",
           },
           {
             num: "05",
-            title: "Jenkins как основа CI/CD на enterprise-проекте",
-            task: "Сложный продукт, много компонентов, несколько ОС, куча стендов. Нужен надёжный и быстрый CI/CD.",
-            did: "Комплексные pipeline для полного цикла. Параллельные сборки, динамические воркеры в vSphere. Active Choice UI. Автотесты в PR. OWASP Dependency Check.",
-            result: "Команда деплоит сама. PR не мержится без тестов. Зависимости проверяются на уязвимости автоматически.",
-            lesson: "Jenkins — мощный, но опасный. Без дисциплины pipeline превращаются в нечитаемые Groovy-скрипты.",
-          },
-          {
-            num: "06",
-            title: "Обновление MongoDB на продуктиве (ЕГРН)",
-            task: "Обновить MongoDB на продуктиве крупнейшего гос. IT-проекта. Даунтайм критичен, данные терять нельзя.",
+            title: "Обновление MongoDB на проде (ЕГРН)",
+            task: "Обновить MongoDB на проде крупнейшего гос. IT-проекта. Даунтайм критичен, данные терять нельзя.",
             did: "Ansible-плейбуки для обновления. Продлайк-стенд для полного прогона. Отладка до полной воспроизводимости.",
             result: "Успешная миграция без потери данных и с минимальным даунтаймом.",
             lesson: "На проде не бывает «попробуем». Каждый шаг проверен на стенде. Плейбуки — документация, которая ещё и исполняется.",
@@ -514,11 +521,11 @@ const CONTENT = {
           },
           {
             title: "AI / LLM",
-            items: ["MCP-серверы", "Агентские харнессы", "LLM-evals (promptfoo)", "LLM-observability (Phoenix)", "Локальный inference", "Claude Code", "OpenAI API"],
+            items: ["MCP-серверы", "Агентские харнессы", "LLM-evals (promptfoo)", "LLM-observability (Phoenix)", "Локальный inference", "Агентские CLI (Claude Code, Codex)", "OpenAI API"],
           },
           {
             title: "Ранее",
-            items: ["Flask", "MongoDB", "HTML/JS/CSS", "DigitalOcean", "Ruby", "Java", "SonarQube"],
+            items: ["Flask", "MongoDB", "HTML/JS/CSS", "DigitalOcean", "SonarQube"],
           },
         ],
       },
@@ -541,11 +548,6 @@ const CONTENT = {
             title: "Яндекс.Практикум",
             detail: "DevOps для эксплуатации и разработки (включая Kubernetes)",
             year: "2022–2023",
-          },
-          {
-            title: "Coursera",
-            detail: "An Introduction to Interactive Programming in Python",
-            year: "2014",
           },
           {
             title: "ГБОУ СПО Педагогический колледж №1 им. К.Д. Ушинского",
@@ -579,7 +581,7 @@ const CONTENT = {
       start_it: "2013-03-01",
       start_devops: "2019-12-01",
       knowsAbout: ["DevOps", "CI/CD", "Infrastructure", "Monitoring", "LLM tooling", "MCP", "AI agents"],
-      last_updated: "2026-07-17",
+      last_updated: "2026-07-27",
     },
 
     // ── Navigation ──
@@ -641,7 +643,7 @@ const CONTENT = {
         head: "// about",
         title: "Short portrait",
         body: [
-          "Over a decade in IT — from being the sole sysadmin at a small company to DevOps Expert at Jet Infosystems.",
+          "Started out as the sole sysadmin at a small company, grew into a DevOps Expert at Jet Infosystems.",
           "For the past several years I've been building infrastructure for enterprise products. Currently a DevOps Engineer on the Jet Detective project — an anti-fraud platform for banks and retail. Everything's on me: CI/CD, monitoring, 160+ VMs.",
           "Stepped down from team lead back to hands-on engineering — by choice. I can lead a team, but I'd rather dig into hard problems myself: figure it out, fix it, automate, document.",
           "I like clear systems, honest trade-offs, and practical solutions. I don't buy into \"magic platforms\" — I can tell what actually works from what just looks good on slides.",
@@ -670,16 +672,11 @@ const CONTENT = {
           },
           {
             k: "04",
-            t: "Telling a tool from a demo",
-            d: "I quickly spot where the real value is and where it's just a shiny wrapper. I don't let the AI-tool zoo grow unchecked.",
+            t: "Bridge: infra ↔ AI tooling",
+            d: "I quickly spot where the real value is and where it's just a shiny wrapper. The big takeaway: it's not about the model — it's about everything around it, the context and decent docs. Sounds boring, but it works =)",
           },
           {
             k: "05",
-            t: "Bridge: infra ↔ AI tooling",
-            d: "I've poked at enough LLM tooling to tell the real thing from a demo. The big takeaway: it's not about the model — it's about everything around it, the context and decent docs. Sounds boring, but it works =)",
-          },
-          {
-            k: "06",
             t: "Infrastructure without a \"keeper of secret knowledge\"",
             d: "I build things so nothing hangs on a single person. Documentation, transparency, self-documenting processes.",
           },
@@ -748,7 +745,7 @@ const CONTENT = {
           },
           {
             t: "Personal assistant",
-            d: "In my spare time I'm building \"Kloya\" — a personal assistant based on OpenClaw. The goal was to free up time for other things, but so far I'm mostly debugging :D",
+            d: "I run my own agent on the Mac at home, but the center of gravity moved into the scaffolding around it long ago: skills tuned to specific tasks, advisor roles, a panel review before anything tricky. The goal was to free up time — which, naturally, cost me time first :D",
             img: "/assets/kloya.webp",
           },
           {
@@ -768,7 +765,7 @@ const CONTENT = {
       sidequests: {
         head: "// side quests",
         title: "Side quests",
-        sub: "Not \"pet projects\" in the usual sense — more like personal infra with metrics, dashboards, and a habit of looking at life through time series. Sounds geeky, but I'm into it =)",
+        sub: "Not \"pet projects\" in the usual sense — personal infra, a habit of measuring my own life, and tools I kept wishing existed. Sounds geeky, but I'm into it =)",
         sagas: [
           {
             title: "Home as prod",
@@ -820,6 +817,30 @@ const CONTENT = {
                 stack: ["Python", "OpenAI API", "Noji"],
                 href: "https://github.com/artfaal/kindle-flashcards",
               },
+              {
+                name: "eater",
+                metric: "since July 2026 · me and my wife",
+                d: "A calorie tracker that doesn't get on my nerves. Say it out loud or snap the label — the model logs the calories and macros under the right meal. It gets \"I ate half\" and \"the whole pizza is 800, I had 4 slices of 10\". Ready-made apps want a subscription for a pile of features I never touch =)",
+                stack: ["Python", "OpenRouter", "ElevenLabs STT", "SQLite"],
+              },
+            ],
+          },
+          {
+            title: "Built for myself",
+            intro: "Couldn't find one that fit, so I built it. These have exactly one user — me =)",
+            projects: [
+              {
+                name: "hangar",
+                metric: "Go · TUI",
+                d: "Mission control for parallel agent sessions: who's working on what, live statuses, search, a context preview — and a jump straight to the right terminal tab. I wrote it once I realized I was my own dispatcher and kept genuinely losing track of my own sessions.",
+                stack: ["Go", "Bubble Tea"],
+              },
+              {
+                name: "rest timer",
+                metric: "watchOS · for the gym",
+                d: "A rest timer between sets, right on the watch: spin the crown and the countdown starts, no need to dig out the phone. When the last set is done, the watch throws confetti. A small thing, but it makes my day =)",
+                stack: ["Swift", "SwiftUI", "watchOS"],
+              },
             ],
           },
         ],
@@ -836,24 +857,19 @@ const CONTENT = {
         sub: "Stuff I'm genuinely hooked on right now.",
         items: [
           {
-            t: "Local models where the data can't leave",
-            d: "Running models on my own hardware — closed network, nothing goes out. Turns out size isn't the point: the bigger model cheerfully reported \"all good\" without opening a single log :D",
-            status: "hot",
-          },
-          {
-            t: "Infrastructure you can just ask",
-            d: "I'm pulling all our work documentation into one MCP server — so the team can ask it instead of asking me for the hundredth time =) LLM agents pull the same context too.",
+            t: "Local models on my own hardware",
+            d: "The fun part is finding the ceiling, not picking \"the biggest one\": what a box with no GPU can actually handle, where it starts making things up. A bigger model will happily write \"all good\" without opening a single log :D",
             status: "hot",
           },
           {
             t: "A harness for the grind",
-            d: "Built a harness at work — a pipeline of agents for the routine stuff. Nothing ships until it clears an eval gate: not green, not going anywhere. Still plenty of debugging, but now it's the useful kind, not a substitute for work =)",
+            d: "A pipeline of agents: skills tuned to specific tasks, per-project context, an eval gate before deploy — not green, not shipping. I'm not chasing the next model, I'm working on everything around it.",
             status: "active",
           },
           {
-            t: "Skills and context for the task at hand",
-            d: "Building the scaffolding around LLMs: skills tuned to specific tasks, per-project context, debugging workflows. I'm not chasing the next model — I'm working on everything around it.",
-            status: "active",
+            t: "An agent that reviews its own screw-ups",
+            d: "Overnight it re-reads my sessions from the day and hunts for spots where something had to be redone. What comes out is not a patch to the code but a patch to the agent's instructions: where I explained badly, where it made things up. I check each one by hand, but a few have stuck.",
+            status: "hot",
           },
         ],
       },
@@ -892,6 +908,8 @@ const CONTENT = {
                   "Developed JD-Gateway (Python) — a single source of truth for 160+ VMs in vSphere: lifecycle management, TTL, REST API, dynamic inventory for Ansible and Prometheus, Web UI",
                   "Created an automated product installer supporting CentOS, RedOS, and Astra Linux",
                   "Automated VM provisioning via Packer (4 OSes) and Ansible (10+ roles)",
+                  "Built a backup system (PostgreSQL, Jenkins, OpenSearch, Kafka) on MinIO S3",
+                  "Integrated Apache Superset into the product for embedded BI dashboards",
                 ],
               },
               {
@@ -899,7 +917,7 @@ const CONTENT = {
                 items: [
                   "Designed and maintain complex Jenkins pipelines for build and deploy",
                   "Implemented parallel builds and dynamic worker creation in vSphere",
-                  "Integrated auto-tests into PR pipelines and introduced OWASP Dependency Check",
+                  "Added auto-tests and SCA dependency scanning to the PR pipeline",
                   "Migrated repositories from Bitbucket to GitLab while preserving CI/CD integrations",
                 ],
               },
@@ -922,19 +940,18 @@ const CONTENT = {
               {
                 title: "LLM & agents",
                 items: [
-                  "MCP servers on top of documentation and infrastructure — shared context for the team and LLM agents",
                   "Agent harness for DevOps routine: engine picked after comparing five frameworks, eval gate before deploy (grounding, security, tool selection), tracing of model calls",
                   "PoC of a diagnostic agent on local models — incident investigation without sending network data to the cloud",
-                  "Vault MCP for agents: secret delivery via deny policies and token isolation",
+                  "MCP servers on top of documentation and infrastructure — shared context for the team and LLM agents",
+                  "MCP server on top of JD-Gateway — the agent spins environments up, shuts them down, and snapshots them itself, with no clicking around vSphere",
+                  "Vault MCP for agents: secrets served under deny policies, token isolated",
                 ],
               },
               {
                 title: "Custom tooling",
                 items: [
-                  "Telegram bot for infrastructure management with LDAP and audit logging",
-                  "Comprehensive backup system (PostgreSQL, Jenkins, OpenSearch, Kafka) to MinIO S3",
-                  "GitLab webhook server for MR automation",
-                  "Apache Superset for embedded BI dashboards in the product",
+                  "Telegram bot for infrastructure management: LDAP, audit logging, brute-force protection",
+                  "JD release portal in Go: release cards with artifacts, Jira sync, LDAP authorization, and audit logging",
                   "Documentation platform based on MkDocs with drift-detection",
                 ],
               },
@@ -949,7 +966,7 @@ const CONTENT = {
               {
                 title: "EGRN project",
                 items: [
-                  "Managed test environment infrastructure (6+ environments, 1000+ VMs)",
+                  "Test infrastructure: 6+ environments, 1000+ VMs",
                   "Shipped releases to production — debugging under fire, log analysis",
                   "Production MongoDB upgrade — playbooks, production-like environment, data migration",
                 ],
@@ -999,7 +1016,7 @@ const CONTENT = {
             task: "160+ virtual machines across environments. Information scattered across Confluence, engineers' heads, and vSphere consoles.",
             did: "Developed JD-Gateway in Python — a web app with REST API, vSphere integration, dynamic inventory for Ansible and Prometheus, TTL system, and Web UI.",
             result: "Creating a host used to take 30 minutes by hand through vSphere — now it's a couple of minutes. 14 people handle these operations themselves; the requests have stopped coming. TTL prevents environments from turning into zombies.",
-            lesson: "\"Single source of truth\" is not an architectural pattern — it's a cultural decision. The technical part is 30%; the rest is persuasion and convenience.",
+            lesson: "\"Single source of truth\" is not an architectural pattern — it's a matter of culture. The technical part is 30%; the rest is persuasion and convenience.",
           },
           {
             num: "02",
@@ -1014,7 +1031,7 @@ const CONTENT = {
             title: "Diagnostic agent on a local model",
             task: "Data from the bank's closed network can't go to the cloud. Simple question: can a local model handle the on-call role — go into the logs, metrics, and runbooks on its own, gather the facts, and reach a diagnosis.",
             did: "Built a PoC: an agent with a toolset, a registry of gathered facts, and answer validation. Ran Qwen3 (8B / 14B / 30B) against cloud DeepSeek as the quality ceiling. Added guard rules against the worst failure mode — when the model hasn't looked at anything but cheerfully reports \"all clear\".",
-            result: "14B without reasoning scored 6 out of 6 — same as the cloud. 8 vCPUs and 24 GB, no GPU, ~12 minutes per scenario. The architect signed off on the configuration; we're moving to a pilot on live data.",
+            result: "14B without reasoning matched the cloud result — on an ordinary VM with no GPU. The architect signed off on the configuration; I'm putting together a demo environment with reproducible failures.",
             lesson: "Model size doesn't fix honesty: the 30B confidently wrote \"healthy\" without calling a single tool. What saved us were boring guard rules, not parameters.",
           },
           {
@@ -1027,14 +1044,6 @@ const CONTENT = {
           },
           {
             num: "05",
-            title: "Jenkins as the CI/CD backbone for an enterprise project",
-            task: "A complex product with many components, multiple OSes, lots of environments. Needed reliable and fast CI/CD.",
-            did: "Complex pipelines for the full cycle. Parallel builds, dynamic workers in vSphere. Active Choice UI. Auto-tests in PRs. OWASP Dependency Check.",
-            result: "The team deploys on their own. PRs don't merge without tests. Dependencies are automatically checked for vulnerabilities.",
-            lesson: "Jenkins is powerful but dangerous. Without discipline, pipelines turn into unreadable Groovy scripts.",
-          },
-          {
-            num: "06",
             title: "Production MongoDB upgrade (EGRN)",
             task: "Upgrade MongoDB in production on one of the largest government IT projects. Downtime is critical, data loss is unacceptable.",
             did: "Ansible playbooks for the upgrade. A production-like environment for full dry runs. Debugging until fully reproducible.",
@@ -1059,11 +1068,11 @@ const CONTENT = {
           },
           {
             title: "AI / LLM",
-            items: ["MCP servers", "Agent harnesses", "LLM evals (promptfoo)", "LLM observability (Phoenix)", "Local inference", "Claude Code", "OpenAI API"],
+            items: ["MCP servers", "Agent harnesses", "LLM evals (promptfoo)", "LLM observability (Phoenix)", "Local inference", "Agentic CLIs (Claude Code, Codex)", "OpenAI API"],
           },
           {
             title: "Previously",
-            items: ["Flask", "MongoDB", "HTML/JS/CSS", "DigitalOcean", "Ruby", "Java", "SonarQube"],
+            items: ["Flask", "MongoDB", "HTML/JS/CSS", "DigitalOcean", "SonarQube"],
           },
         ],
       },
@@ -1086,11 +1095,6 @@ const CONTENT = {
             title: "Yandex Practicum",
             detail: "DevOps for Operations and Development (including Kubernetes)",
             year: "2022–2023",
-          },
-          {
-            title: "Coursera",
-            detail: "An Introduction to Interactive Programming in Python",
-            year: "2014",
           },
           {
             title: "Pedagogical College No. 1 (K.D. Ushinsky)",
