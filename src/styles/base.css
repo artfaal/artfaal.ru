@@ -11,6 +11,7 @@
   --muted-2: #6a665b;
   --accent:   oklch(0.82 0.17 85);
   --accent-2: oklch(0.82 0.14 205);
+  --link-on-paper: #75420f;
 
   --mono:    'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
   --sans:    'Inter Tight', 'Inter', system-ui, -apple-system, sans-serif;

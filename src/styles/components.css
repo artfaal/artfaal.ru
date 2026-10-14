@@ -460,6 +460,23 @@
 }
 .hc-d { font-size: 14px; color: var(--fg-2); margin: 0; line-height: 1.55; }
 
+/* Ссылки в тексте различимы без наведения. */
+.para a, .hc-d a, .sq-d a, .case-text a, .vi-d a, .p-d a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.para a:hover, .hc-d a:hover, .sq-d a:hover,
+.case-text a:hover, .vi-d a:hover, .p-d a:hover {
+  text-decoration-thickness: 2px;
+}
+.para a:focus-visible, .hc-d a:focus-visible, .sq-d a:focus-visible,
+.case-text a:focus-visible, .vi-d a:focus-visible, .p-d a:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
 /* ───────── Exploring (сейчас копаю) ───────── */
 .exploring-list {
   display: grid;
@@ -1037,6 +1054,7 @@
   color: #5a5046;
   line-height: 1.5;
 }
+.sect-human .hc-d a { color: var(--link-on-paper); }
 
 /* Rotate и lift только там, где достаточно ширины (планшет+) */
 @media (min-width: 700px) {

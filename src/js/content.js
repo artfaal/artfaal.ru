@@ -1,11 +1,11 @@
 // ============================================================
 // Контент сайта — единый файл
 // ============================================================
-// Источник правды: draft_v2.md
+// Единственный источник контента — этот файл.
 // Для правки текста — редактируйте ТОЛЬКО этот файл.
 // Не нужно трогать HTML или другие JS-файлы.
 //
-// Обе страницы (index.html, cv/index.html) загружают этот файл.
+// CV (/) и личная страница (/life/) загружают этот файл.
 // Личная использует: meta, nav, hero, personal.*, contacts, footer
 // CV использует:     meta, nav, hero, cv.*, contacts, footer
 // ============================================================
@@ -28,7 +28,7 @@ const CONTENT = {
       // Для JSON-LD (личная страница)
       knowsAbout: ["DevOps", "CI/CD", "Infrastructure", "Monitoring", "LLM tooling", "MCP", "AI agents"],
       // Дата последнего обновления контента (тест напомнит обновить через 3 мес)
-      last_updated: "2026-07-27",
+      last_updated: "2026-10-14",
     },
 
     // ── Навигация ──
@@ -86,7 +86,7 @@ const CONTENT = {
     },
 
     // ================================================================
-    // ЛИЧНАЯ СТРАНИЦА (index.html)
+    // ЛИЧНАЯ СТРАНИЦА (/life/)
     // ================================================================
     personal: {
 
@@ -187,7 +187,7 @@ const CONTENT = {
           },
           {
             t: "Книги",
-            d: "Брендон Сандерсон ван лав! Интересно не столько «магия», сколько то, как автор строит правила мира и держит их.",
+            d: "Брендон Сандерсон ван лав! Интересна не столько «магия», сколько то, как автор строит правила мира и держит их.",
             img: "/assets/cosmere.webp",
           },
           {
@@ -197,7 +197,7 @@ const CONTENT = {
           },
           {
             t: "Персональный ассистент",
-            d: "Дома на маке живёт свой агент, но центр тяжести давно переехал в обвязку: скиллы под задачи, роли-советники, консилиум перед сложной правкой. Хотел освободить время — сначала только терял :D",
+            d: "Для меня агент отлично работает как ассистент: помогает с почтой, бюджетом, дневником, медиатекой и домашними компьютерами. Кроны и проактивность чаще создавали лишнюю нагрузку. Теперь спокойно прихожу с задачей, которую нужно решить прямо сейчас =)",
             img: "/assets/kloya.webp",
           },
           {
@@ -207,7 +207,7 @@ const CONTENT = {
           },
           {
             t: "Аниме, игры",
-            d: "Аниме — чтобы выключить рабочий режим. Игры пылятся в Steam, но всё равно слежу — вдруг успею на пенсии :D",
+            d: "Аниме — чтобы выключить рабочий режим. В играх люблю истории из моих решений: RimWorld, Project Zomboid. Иногда затягивает приключение. В <a href=\"https://games.artfaal.ru/\" target=\"_blank\" rel=\"noopener\">игровом дневнике</a> записываю, что зацепило и почему бросил. Память потом всё равно врёт :D",
             img: "/assets/life.webp",
           },
         ],
@@ -272,7 +272,7 @@ const CONTENT = {
               {
                 name: "eater",
                 metric: "с июля 2026 · вдвоём с женой",
-                d: "Счётчик калорий, который не бесит. Наговорил голосом или сфоткал этикетку — модель разложила на КБЖУ и положила в нужный приём пищи. Понимает «съел половину» и «пицца целиком 800, взял 4 куска из 10». Готовые приложения просят подписку за гору функций, которыми я не пользуюсь =)",
+                d: "Счётчик калорий для нас с женой. Можно сфоткать стол, обсудить, что и сколько съел, и только потом записать. КБЖУ ищет в интернете, прикидки помечает отдельно. Повторяющуюся еду добавляю кнопкой — даже разговаривать с моделью каждый раз лень =)",
                 stack: ["Python", "OpenRouter", "ElevenLabs STT", "SQLite"],
               },
             ],
@@ -310,26 +310,21 @@ const CONTENT = {
         // status: hot — активно погружён; active — регулярно занимаюсь; exploring — в процессе изучения
         items: [
           {
-            t: "Локальные модели на своём железе",
-            d: "Интересно нащупать потолок, а не выбрать «самую большую»: что тянет железка без GPU, где начинается враньё. Модель побольше умеет бодро писать «всё хорошо», не заглянув ни в один лог :D",
+            t: "Границы локальных моделей",
+            d: "Проверял локальные модели на задачах диагностики: где помогают разобраться, а где уверенно выдают неверный вердикт. Теперь интереснее разделение ответственности — что решает код, а что стоит поручить модели.",
             status: "hot",
           },
           {
             t: "Harness под рутину",
-            d: "Конвейер из агентов: скиллы под задачи, контекст по проектам, eval-гейт перед деплоем — не зелёный, никуда не едет. Не гонюсь за новой моделью, кручу то, что вокруг неё.",
+            d: "Выстраиваю контекст, навыки под задачи и проверку результата. После бана в Claude Code переехал в Codex за полдня без потери качества и темпа. Агенты разные, но главное — процессы и репозиторий навыков — я выстраивал сам. Всё это переехало со мной.",
             status: "active",
-          },
-          {
-            t: "Агент, который разбирает свои же косяки",
-            d: "Ночью перечитывает мои сессии за день и ищет места, где пришлось переделывать. На выходе — не патч к коду, а патч к инструкции агенту: где я плохо объяснил, где он сам себе придумал. Отсматриваю руками, но кое-что уже прижилось.",
-            status: "hot",
           },
         ],
       },
     },
 
     // ================================================================
-    // CV СТРАНИЦА (cv/index.html)
+    // CV СТРАНИЦА (/)
     // ================================================================
     cv: {
 
@@ -340,7 +335,7 @@ const CONTENT = {
         body: [
           "DevOps Expert Engineer. Веду DevOps на антифрод-платформе Jet Detective («Инфосистемы Джет»). Построил с нуля CI/CD, мониторинг и систему управления 160+ ВМ.",
           "Опыт руководства командой из 7 человек, вывода релизов на прод в крупных гос. проектах, адаптации сервисов под Kubernetes.",
-          "Сейчас строю AI-часть платформы: агенты под рутину с eval-гейтом перед деплоем, MCP-серверы и документацию, которой пользуются и люди, и агенты. Отдельное направление — локальные модели для закрытого контура, где данные наружу не уходят.",
+          "Разрабатываю MCP-инструменты для инфраструктуры и документацию, которой пользуются и люди, и агенты. Исследовал агентские харнессы и локальные модели для диагностики в закрытом контуре: проверял качество на воспроизводимых сценариях и определял границы автоматизации.",
         ],
       },
 
@@ -361,7 +356,7 @@ const CONTENT = {
                   "Разработал JD-Gateway (Python) — единую точку правды для 160+ ВМ в vSphere: lifecycle management, TTL, REST API, dynamic inventory для Ansible и Prometheus, Web UI",
                   "Создал автоматический установщик продукта с поддержкой CentOS, RedOS и Astra Linux",
                   "Автоматизировал подготовку ВМ через Packer (4 ОС) и Ansible (10+ ролей)",
-                  "Построил систему бэкапов (PostgreSQL, Jenkins, OpenSearch, Kafka) на MinIO S3",
+                  "Построил систему резервного копирования PostgreSQL, Jenkins, OpenSearch и Kafka в MinIO S3: контроль целостности загрузки, проверка контрольных сумм файловых архивов, мониторинг давности бэкапов и незавершённых попыток копирования",
                   "Встроил Apache Superset в продукт для embedded BI-дашбордов",
                 ],
               },
@@ -371,6 +366,7 @@ const CONTENT = {
                   "Спроектировал и поддерживаю комплексные Jenkins-пайплайны для сборки и деплоя",
                   "Реализовал параллельные сборки, динамическое создание воркеров в vSphere",
                   "Встроил автотесты и SCA-проверку зависимостей в PR pipeline",
+                  "Автоматизировал проверки обновления и отката между версиями продукта на временных стендах: создание ВМ, установка, переход между версиями, автотесты и удаление стенда",
                   "Мигрировал репозитории из Bitbucket в GitLab с сохранением CI/CD интеграций",
                 ],
               },
@@ -393,8 +389,8 @@ const CONTENT = {
               {
                 title: "LLM и агенты",
                 items: [
-                  "Агентский харнесс для DevOps-рутины: выбор движка после сравнения пяти фреймворков, eval-гейт перед деплоем (grounding, security, выбор инструментов), трейсинг вызовов модели",
-                  "PoC диагностического агента на локальных моделях — расследование инцидентов без отправки данных контура в облако",
+                  "Исследовал агентский харнесс для DevOps-рутины: сравнил фреймворки, настроил eval-проверки (grounding, security, выбор инструментов) и трейсинг вызовов модели; эксперимент законсервирован",
+                  "Разработал PoC диагностического агента на локальных моделях; проверил на воспроизводимых сценариях, где модель полезна для расследования и объяснения, а где нужны детерминированные правила",
                   "MCP-серверы поверх документации и инфраструктуры — общий контекст для команды и LLM-агентов",
                   "MCP-сервер поверх JD-Gateway — агент заводит, гасит и снапшотит стенды сам, без кликов в vSphere",
                   "Vault MCP для агентов: секреты под deny-политиками, токен изолирован",
@@ -467,8 +463,8 @@ const CONTENT = {
             num: "01",
             title: "JD-Gateway — единая точка правды для 160+ ВМ",
             task: "160+ виртуальных машин на стендах. Информация размазана по Confluence, головам инженеров и vSphere-консолям.",
-            did: "Разработал JD-Gateway на Python — веб-приложение с REST API, интеграцией с vSphere, dynamic inventory для Ansible и Prometheus, TTL-системой и Web UI.",
-            result: "Создание хоста руками через vSphere занимало 30 минут — стало пара минут. 14 человек закрывают операции сами, обращений по ним больше нет. TTL не даёт стендам превращаться в зомби.",
+            did: "Разработал JD-Gateway на Python: REST API и Web UI, интеграция с vSphere, dynamic inventory для Ansible и Prometheus, TTL, сверка реестра для обнаружения неучтённых ВМ, оценка доступных ресурсов для создания стендов и учёт занятых IP между окружениями.",
+            result: "Создание хоста руками через vSphere занимало 30 минут — стало занимать пару минут. 14 человек закрывают операции сами, обращений по ним больше нет. TTL не даёт стендам превращаться в зомби.",
             lesson: "«Единая точка правды» — не архитектурный паттерн, а вопрос культуры. Техническая часть — 30%, остальное — убеждение и удобство.",
           },
           {
@@ -483,9 +479,9 @@ const CONTENT = {
             num: "03",
             title: "Диагностический агент на локальной модели",
             task: "Данные банковского контура в облако отправлять нельзя. Вопрос простой: потянет ли локальная модель роль дежурного — сама сходить в логи, метрики и runbook'и, собрать факты и поставить диагноз.",
-            did: "Собрал PoC: агент с набором инструментов, реестром найденных фактов и валидацией ответа. Прогнал Qwen3 (8B / 14B / 30B) против облачного DeepSeek как потолка качества. Добавил guard-правила против самого опасного режима — когда модель никуда не заглянула, но бодро отвечает «всё в порядке».",
-            result: "14B без reasoning дала тот же результат, что и облако, — на обычной ВМ без GPU. Архитектор согласовал конфигурацию, собираю демо-стенд с воспроизводимыми поломками.",
-            lesson: "Размер модели не чинит честность: 30B уверенно писала «healthy», не вызвав ни одного инструмента. Спасли скучные guard-правила, а не параметры.",
+            did: "Собрал PoC с инструментами для логов, метрик и runbook'ов, реестром найденных фактов и валидацией ответа. Сравнил локальные модели с облачной на воспроизводимых сценариях, затем проверил поведение на живом стенде.",
+            result: "Локальная модель помогала собирать и объяснять факты, но оценка состояния системы оказалась нестабильной: на одних и тех же данных вердикт менялся. Зафиксировал архитектурный вывод: статус и тяжесть должны определяться правилами, модель — помогать расследованию.",
+            lesson: "Уверенный ответ модели не заменяет проверку фактов.",
           },
           {
             num: "04",
@@ -581,7 +577,7 @@ const CONTENT = {
       start_it: "2013-03-01",
       start_devops: "2019-12-01",
       knowsAbout: ["DevOps", "CI/CD", "Infrastructure", "Monitoring", "LLM tooling", "MCP", "AI agents"],
-      last_updated: "2026-07-27",
+      last_updated: "2026-10-14",
     },
 
     // ── Navigation ──
@@ -634,7 +630,7 @@ const CONTENT = {
     },
 
     // ================================================================
-    // PERSONAL PAGE (index.html)
+    // PERSONAL PAGE (/life/)
     // ================================================================
     personal: {
 
@@ -745,7 +741,7 @@ const CONTENT = {
           },
           {
             t: "Personal assistant",
-            d: "I run my own agent on the Mac at home, but the center of gravity moved into the scaffolding around it long ago: skills tuned to specific tasks, advisor roles, a panel review before anything tricky. Wanted to free up time — at first I just lost it :D",
+            d: "An agent works great as an assistant for me: email, budget, journal, media library, and home computers. Scheduled jobs and proactive behavior mostly added extra work. Now I just bring it a task I actually need done right now =)",
             img: "/assets/kloya.webp",
           },
           {
@@ -755,7 +751,7 @@ const CONTENT = {
           },
           {
             t: "Anime, games",
-            d: "Anime — to turn off work mode. My Steam library is gathering dust, but I still keep an eye on releases — maybe I'll get to them in retirement :D",
+            d: "Anime gets me out of work mode. I like stories shaped by my choices: RimWorld, Project Zomboid. Sometimes a plain adventure hooks me too. My <a href=\"https://games.artfaal.ru/\" target=\"_blank\" rel=\"noopener\">gaming journal</a> records what grabbed me and why I quit. Memory lies anyway :D",
             img: "/assets/life.webp",
           },
         ],
@@ -820,7 +816,7 @@ const CONTENT = {
               {
                 name: "eater",
                 metric: "since July 2026 · me and my wife",
-                d: "A calorie tracker that doesn't get on my nerves. Say it out loud or snap the label — the model logs the calories and macros under the right meal. It gets \"I ate half\" and \"the whole pizza is 800, I had 4 slices of 10\". Ready-made apps want a subscription for a pile of features I never touch =)",
+                d: "A calorie tracker for my wife and me. I can snap a photo of the table, talk through what I ate and how much, then log it. It looks up calories and macros online and labels estimates separately. Regular meals get a button — even talking to the model every time feels like too much effort =)",
                 stack: ["Python", "OpenRouter", "ElevenLabs STT", "SQLite"],
               },
             ],
@@ -857,26 +853,21 @@ const CONTENT = {
         sub: "Stuff I'm genuinely hooked on right now.",
         items: [
           {
-            t: "Local models on my own hardware",
-            d: "The fun part is finding the ceiling, not picking \"the biggest one\": what a box with no GPU can actually handle, where it starts making things up. A bigger model will happily write \"all good\" without opening a single log :D",
+            t: "The limits of local models",
+            d: "I tested local models on diagnostic tasks: where they help make sense of things, and where they confidently reach the wrong verdict. What interests me now is how to divide the work — what code should decide and what a model can usefully handle.",
             status: "hot",
           },
           {
             t: "A harness for the grind",
-            d: "A pipeline of agents: skills tuned to specific tasks, per-project context, an eval gate before deploy — not green, not shipping. I'm not chasing the next model, I'm working on everything around it.",
+            d: "I build context, task-specific skills, and checks. After a Claude Code ban, I moved to Codex in half a day without losing quality or pace. The agents differ, but I had built the core myself — workflows and a skills repository. They moved with me.",
             status: "active",
-          },
-          {
-            t: "An agent that reviews its own screw-ups",
-            d: "Overnight it re-reads my sessions from the day and hunts for spots where something had to be redone. What comes out is not a patch to the code but a patch to the agent's instructions: where I explained badly, where it made things up. I check each one by hand, but a few have stuck.",
-            status: "hot",
           },
         ],
       },
     },
 
     // ================================================================
-    // CV PAGE (cv/index.html)
+    // CV PAGE (/)
     // ================================================================
     cv: {
 
@@ -887,7 +878,7 @@ const CONTENT = {
         body: [
           "DevOps Expert Engineer. Running DevOps for the Jet Detective anti-fraud platform (Jet Infosystems). Built CI/CD, monitoring, and a management system for 160+ VMs from scratch.",
           "Experience leading a team of 7, shipping releases to production on large government projects, and adapting services for Kubernetes.",
-          "Currently building the AI side of the platform: agents for routine work with an eval gate before deploy, MCP servers, and documentation used by both people and agents. A separate track — local models for the closed network, where data never leaves the perimeter.",
+          "I develop MCP tools for infrastructure and documentation used by both people and agents. I researched agent harnesses and local models for diagnostics in a closed network, testing quality on reproducible scenarios and identifying the limits of automation.",
         ],
       },
 
@@ -908,7 +899,7 @@ const CONTENT = {
                   "Developed JD-Gateway (Python) — a single source of truth for 160+ VMs in vSphere: lifecycle management, TTL, REST API, dynamic inventory for Ansible and Prometheus, Web UI",
                   "Created an automated product installer supporting CentOS, RedOS, and Astra Linux",
                   "Automated VM provisioning via Packer (4 OSes) and Ansible (10+ roles)",
-                  "Built a backup system (PostgreSQL, Jenkins, OpenSearch, Kafka) on MinIO S3",
+                  "Built a backup system for PostgreSQL, Jenkins, OpenSearch, and Kafka on MinIO S3, with upload integrity checks, file archive checksum verification, and monitoring for stale backups and incomplete backup attempts",
                   "Integrated Apache Superset into the product for embedded BI dashboards",
                 ],
               },
@@ -918,6 +909,7 @@ const CONTENT = {
                   "Designed and maintain complex Jenkins pipelines for build and deploy",
                   "Implemented parallel builds and dynamic worker creation in vSphere",
                   "Added auto-tests and SCA dependency scanning to the PR pipeline",
+                  "Automated product upgrade and rollback checks on temporary environments: VM creation, installation, version transitions, automated tests, and environment teardown",
                   "Migrated repositories from Bitbucket to GitLab while preserving CI/CD integrations",
                 ],
               },
@@ -940,8 +932,8 @@ const CONTENT = {
               {
                 title: "LLM & agents",
                 items: [
-                  "Agent harness for DevOps routine: engine picked after comparing five frameworks, eval gate before deploy (grounding, security, tool selection), tracing of model calls",
-                  "PoC of a diagnostic agent on local models — incident investigation without sending network data to the cloud",
+                  "Researched an agent harness for routine DevOps work: compared frameworks, set up evaluations for grounding, security, and tool selection, and traced model calls; the experiment is now on hold",
+                  "Developed a PoC diagnostic agent using local models; tested reproducible scenarios to establish where models help with investigation and explanation, and where deterministic rules are needed",
                   "MCP servers on top of documentation and infrastructure — shared context for the team and LLM agents",
                   "MCP server on top of JD-Gateway — the agent spins environments up, shuts them down, and snapshots them itself, with no clicking around vSphere",
                   "Vault MCP for agents: secrets served under deny policies, token isolated",
@@ -1014,7 +1006,7 @@ const CONTENT = {
             num: "01",
             title: "JD-Gateway — single source of truth for 160+ VMs",
             task: "160+ virtual machines across environments. Information scattered across Confluence, engineers' heads, and vSphere consoles.",
-            did: "Developed JD-Gateway in Python — a web app with REST API, vSphere integration, dynamic inventory for Ansible and Prometheus, TTL system, and Web UI.",
+            did: "Built JD-Gateway in Python: REST API and Web UI, vSphere integration, dynamic inventory for Ansible and Prometheus, TTL, registry checks to find untracked VMs, resource availability estimates for new environments, and tracking of IPs in use across environments.",
             result: "Creating a host used to take 30 minutes by hand through vSphere — now it's a couple of minutes. 14 people handle these operations themselves; the requests have stopped coming. TTL prevents environments from turning into zombies.",
             lesson: "\"Single source of truth\" is not an architectural pattern — it's a matter of culture. The technical part is 30%; the rest is persuasion and convenience.",
           },
@@ -1030,9 +1022,9 @@ const CONTENT = {
             num: "03",
             title: "Diagnostic agent on a local model",
             task: "Data from the bank's closed network can't go to the cloud. Simple question: can a local model handle the on-call role — go into the logs, metrics, and runbooks on its own, gather the facts, and reach a diagnosis.",
-            did: "Built a PoC: an agent with a toolset, a registry of gathered facts, and answer validation. Ran Qwen3 (8B / 14B / 30B) against cloud DeepSeek as the quality ceiling. Added guard rules against the worst failure mode — when the model hasn't looked at anything but cheerfully reports \"all clear\".",
-            result: "14B without reasoning matched the cloud result — on an ordinary VM with no GPU. The architect signed off on the configuration; I'm putting together a demo environment with reproducible failures.",
-            lesson: "Model size doesn't fix honesty: the 30B confidently wrote \"healthy\" without calling a single tool. What saved us were boring guard rules, not parameters.",
+            did: "Built a PoC with tools for logs, metrics, and runbooks, a registry of gathered facts, and answer validation. Compared local models with a cloud model on reproducible scenarios, then tested their behavior in a live environment.",
+            result: "The local model helped gather and explain facts, but its assessment of system health was inconsistent: the same data produced different verdicts. The architectural conclusion was that rules should determine status and severity, while the model should assist with investigation.",
+            lesson: "A confident model response is no substitute for checking the facts.",
           },
           {
             num: "04",
