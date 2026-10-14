@@ -26,7 +26,7 @@ sed -i '' "s|<lastmod>[^<]*</lastmod>|<lastmod>${TODAY}</lastmod>|g" sitemap.xml
 git add sitemap.xml
 
 # Cache-busting: обновляем ?v=<hash> для CSS/JS в HTML
-for f in src/styles/base.css src/styles/layout.css src/styles/components.css \
+for f in src/styles/fonts.css src/styles/base.css src/styles/layout.css src/styles/components.css \
          src/js/utils.js src/js/content.js src/js/icons.js src/js/shared.js \
          src/js/page-personal.js src/js/page-cv.js; do
   hash=$(md5 -q "$f" | cut -c1-8)

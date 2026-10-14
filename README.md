@@ -43,6 +43,16 @@ cwebp -q 82 -resize 800 0 photo.jpg -o /assets/photo.webp
 
 Only `.webp` files are tracked in git. Raw formats (jpg/png) are gitignored.
 
+## Fonts
+
+Fonts are served from this site. `src/styles/fonts.css` defines the font faces
+with `font-display: swap`; `src/fonts/` contains WOFF2 files, source URLs, and
+licenses. Pages do not request Google Fonts at runtime.
+
+When updating fonts, keep the source manifest and licenses together with the
+files. The pre-commit hook refreshes the stylesheet cache key. `node test.js`
+checks local font references and rejects external Google Fonts dependencies.
+
 ## Git hooks
 
 Hooks live in `.githooks/` and run automatically:

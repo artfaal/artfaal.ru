@@ -388,12 +388,29 @@ Object.entries(PAGES).forEach(([file, p]) => {
   });
 });
 
-// Шрифты EN-головы === RU-двойника: life-пара тянет Caveat, cv-пара — нет.
-// Кросс-копия головы (en/life ← index) молча теряет шрифт — ловится только сверкой пар.
-const fontOf = f => (fs.readFileSync(path.join(ROOT, f), 'utf8').match(/fonts\.googleapis\.com\/css2[^"]*/) || [''])[0];
+// Шрифты доставляются с самим сайтом: сбой внешнего CDN не задерживает загрузку.
+const fontPages = [...Object.keys(PAGES), '404.html'];
+const fontOf = f => {
+  const html = fs.readFileSync(path.join(ROOT, f), 'utf8');
+  const ref = (html.match(/href="([^" ]*src\/styles\/fonts\.css\?v=[a-f0-9]+)"/) || [])[1];
+  assert(f + ' has local font stylesheet', !!ref);
+  assert(f + ' has no Google Fonts dependency', !/https?:\/\/fonts\.(googleapis|gstatic)\.com/.test(html));
+  return ref && path.resolve(ROOT, ref.startsWith('/') ? '.' + ref.split('?')[0] : path.join(path.dirname(f), ref.split('?')[0]));
+};
+const fontRefs = new Map(fontPages.map(f => [f, fontOf(f)]));
 Object.entries(PAGES).filter(([, p]) => p.lang === 'en').forEach(([file, p]) => {
   const [twin] = Object.entries(PAGES).find(([, q]) => q.page === p.page && q.lang === 'ru');
-  assert(file + ' шрифты === ' + twin, fontOf(file) === fontOf(twin), 'головы копировались кросс?');
+  assert(file + ' шрифты === ' + twin, !!fontRefs.get(file) && fontRefs.get(file) === fontRefs.get(twin));
+});
+const fontCSS = fs.readFileSync(path.join(ROOT, 'src/styles/fonts.css'), 'utf8');
+const fontFaces = [...fontCSS.matchAll(/@font-face\s*\{([^}]+)\}/g)].map(m => m[1]);
+assert('local font faces exist', fontFaces.length > 0);
+fontFaces.forEach((face, i) => {
+  const ref = (face.match(/url\(([^)]+)\)/) || [])[1];
+  assert('font face ' + i + ' uses swap', /font-display:\s*swap/.test(face));
+  assert('font face ' + i + ' is served locally', !!ref && ref.startsWith('/src/fonts/'));
+  const f = ref && path.join(ROOT, ref);
+  assert('font face ' + i + ' valid WOFF2', !!f && fs.existsSync(f) && fs.readFileSync(f).subarray(0, 4).toString() === 'wOF2');
 });
 
 // /cv/ — стаб-редирект: в PAGES не входит (нет ни og, ни JSON-LD), но существовать обязан,

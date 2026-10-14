@@ -1,0 +1,134 @@
+[
+  {
+    "file": "caveat-cyrillic-ext.woff2",
+    "family": "Caveat",
+    "url": "https://fonts.gstatic.com/s/caveat/v23/Wnz6HAc5bAfYB2Q7azYYiAzcPDKo.woff2",
+    "sha256": "b959ec00d64ac7dcf5c3a17641f7d7704c1fedbfe2e8bb0a7e11bd3e9b67ca86"
+  },
+  {
+    "file": "caveat-cyrillic.woff2",
+    "family": "Caveat",
+    "url": "https://fonts.gstatic.com/s/caveat/v23/Wnz6HAc5bAfYB2Q7YjYYiAzcPDKo.woff2",
+    "sha256": "cb0aa78eef73dfb083068a56ba321a4a5cc9841721d261ea8ab5f549db8c7e18"
+  },
+  {
+    "file": "caveat-latin-ext.woff2",
+    "family": "Caveat",
+    "url": "https://fonts.gstatic.com/s/caveat/v23/Wnz6HAc5bAfYB2Q7aDYYiAzcPDKo.woff2",
+    "sha256": "93b3fdd6ded70837e67eb686a5ed3a896b03d0cd5f7e4be62f07a4efeaebfcfd"
+  },
+  {
+    "file": "caveat-latin.woff2",
+    "family": "Caveat",
+    "url": "https://fonts.gstatic.com/s/caveat/v23/Wnz6HAc5bAfYB2Q7ZjYYiAzcPA.woff2",
+    "sha256": "7a0049db01fdd8fc7af7ef36675862a72a5c76d0cb45ae63c9f5b6f1b769dac7"
+  },
+  {
+    "file": "ibm-plex-mono-cyrillic-ext.woff2",
+    "family": "IBM Plex Mono",
+    "url": "https://fonts.gstatic.com/s/ibmplexmono/v20/-F6qfjptAgt5VM-kVkqdyU8n3pQPwl1FgsAXHNlYzg.woff2",
+    "sha256": "c7fa87a1d7be5a6f94a1039b4c43d8ac2e8af035280dabcc5734d0da9f6afcf2"
+  },
+  {
+    "file": "ibm-plex-mono-cyrillic.woff2",
+    "family": "IBM Plex Mono",
+    "url": "https://fonts.gstatic.com/s/ibmplexmono/v20/-F6qfjptAgt5VM-kVkqdyU8n3pQPwlRFgsAXHNlYzg.woff2",
+    "sha256": "bb7642ad6085595ee4d28c89965450943c78e9772403e79e655d4e347a293d12"
+  },
+  {
+    "file": "ibm-plex-mono-vietnamese.woff2",
+    "family": "IBM Plex Mono",
+    "url": "https://fonts.gstatic.com/s/ibmplexmono/v20/-F6qfjptAgt5VM-kVkqdyU8n3pQPwl9FgsAXHNlYzg.woff2",
+    "sha256": "429a912c8121ee6755458dc215abed11c9e783d6ce0fea883f699823bdd0a62a"
+  },
+  {
+    "file": "ibm-plex-mono-latin-ext.woff2",
+    "family": "IBM Plex Mono",
+    "url": "https://fonts.gstatic.com/s/ibmplexmono/v20/-F6qfjptAgt5VM-kVkqdyU8n3pQPwl5FgsAXHNlYzg.woff2",
+    "sha256": "099842414ddad0cb366cf984641b14e75c01a2c6e3f42fa13a6e89d1f4c3fc20"
+  },
+  {
+    "file": "ibm-plex-mono-latin.woff2",
+    "family": "IBM Plex Mono",
+    "url": "https://fonts.gstatic.com/s/ibmplexmono/v20/-F6qfjptAgt5VM-kVkqdyU8n3pQPwlBFgsAXHNk.woff2",
+    "sha256": "9e1455e6e9c5866f607e464fffb7855486dcf575b7e69b83a3d234e587fce41b"
+  },
+  {
+    "file": "inter-tight-cyrillic-ext.woff2",
+    "family": "Inter Tight",
+    "url": "https://fonts.gstatic.com/s/intertight/v9/NGSwv5HMAFg6IuGlBNMjxLsK8ahuQ2e8Smg.woff2",
+    "sha256": "4a89b86d992e34430a1674dd4d300520b6bdbc60d12f3eadcb0075e3baa78be9"
+  },
+  {
+    "file": "inter-tight-cyrillic.woff2",
+    "family": "Inter Tight",
+    "url": "https://fonts.gstatic.com/s/intertight/v9/NGSwv5HMAFg6IuGlBNMjxLsD8ahuQ2e8Smg.woff2",
+    "sha256": "04e865409d6fd36dd9be4bb45a72c437f31f5904158a5609cce9721da0d9a615"
+  },
+  {
+    "file": "inter-tight-greek-ext.woff2",
+    "family": "Inter Tight",
+    "url": "https://fonts.gstatic.com/s/intertight/v9/NGSwv5HMAFg6IuGlBNMjxLsL8ahuQ2e8Smg.woff2",
+    "sha256": "0c930dc2267b2e8b7341715b8548be46cd61125570b4291cd152f60c61758130"
+  },
+  {
+    "file": "inter-tight-greek.woff2",
+    "family": "Inter Tight",
+    "url": "https://fonts.gstatic.com/s/intertight/v9/NGSwv5HMAFg6IuGlBNMjxLsE8ahuQ2e8Smg.woff2",
+    "sha256": "67b5c3cea0f66a940a37e39e5c4ce62ecd1491fbd735d6625f2dfa1545faa674"
+  },
+  {
+    "file": "inter-tight-vietnamese.woff2",
+    "family": "Inter Tight",
+    "url": "https://fonts.gstatic.com/s/intertight/v9/NGSwv5HMAFg6IuGlBNMjxLsI8ahuQ2e8Smg.woff2",
+    "sha256": "c753c7f9f2dc179be947a2d677c2db39da161449d2f3702c711774a9521e493a"
+  },
+  {
+    "file": "inter-tight-latin-ext.woff2",
+    "family": "Inter Tight",
+    "url": "https://fonts.gstatic.com/s/intertight/v9/NGSwv5HMAFg6IuGlBNMjxLsJ8ahuQ2e8Smg.woff2",
+    "sha256": "3c299662298bcf2cbf119996f900acce3782695a35e584bc22a566c5d6ea8b48"
+  },
+  {
+    "file": "inter-tight-latin.woff2",
+    "family": "Inter Tight",
+    "url": "https://fonts.gstatic.com/s/intertight/v9/NGSwv5HMAFg6IuGlBNMjxLsH8ahuQ2e8.woff2",
+    "sha256": "83d548cd73ef2e039167db3adb5ea9d7a7870466ffc8a162c9820bc348938aaf"
+  },
+  {
+    "file": "jetbrains-mono-cyrillic-ext.woff2",
+    "family": "JetBrains Mono",
+    "url": "https://fonts.gstatic.com/s/jetbrainsmono/v24/tDbv2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKwBNntkaToggR7BYRbKPx3cwgknk-6nFg.woff2",
+    "sha256": "9343de2ca5d9549f792e7962375af8efb0f320c7643bfd36c884b5a30e5c396f"
+  },
+  {
+    "file": "jetbrains-mono-cyrillic.woff2",
+    "family": "JetBrains Mono",
+    "url": "https://fonts.gstatic.com/s/jetbrainsmono/v24/tDbv2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKwBNntkaToggR7BYRbKPxTcwgknk-6nFg.woff2",
+    "sha256": "4995a9a43ac659ec32fcd8b463755cd6a07b31a6e6b3894a6a153b661cf490e2"
+  },
+  {
+    "file": "jetbrains-mono-greek.woff2",
+    "family": "JetBrains Mono",
+    "url": "https://fonts.gstatic.com/s/jetbrainsmono/v24/tDbv2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKwBNntkaToggR7BYRbKPxPcwgknk-6nFg.woff2",
+    "sha256": "49c3da6c9a2b279b0f1f860f5cfb1f5dc38d88a5c7be9c9b1837bbc4e3db6111"
+  },
+  {
+    "file": "jetbrains-mono-vietnamese.woff2",
+    "family": "JetBrains Mono",
+    "url": "https://fonts.gstatic.com/s/jetbrainsmono/v24/tDbv2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKwBNntkaToggR7BYRbKPx_cwgknk-6nFg.woff2",
+    "sha256": "d44eb1936043a56038eb02dd70b243f379bef65783f94ec12f277550720411f1"
+  },
+  {
+    "file": "jetbrains-mono-latin-ext.woff2",
+    "family": "JetBrains Mono",
+    "url": "https://fonts.gstatic.com/s/jetbrainsmono/v24/tDbv2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKwBNntkaToggR7BYRbKPx7cwgknk-6nFg.woff2",
+    "sha256": "9c38cb2d0d2d93c1ee6e21fa78db76f13ea7e15e15cc64214c7ca89b6aaa35c4"
+  },
+  {
+    "file": "jetbrains-mono-latin.woff2",
+    "family": "JetBrains Mono",
+    "url": "https://fonts.gstatic.com/s/jetbrainsmono/v24/tDbv2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKwBNntkaToggR7BYRbKPxDcwgknk-4.woff2",
+    "sha256": "2c32b9b3ee358c119e210f6f5195f9bd34894d78a785ff2e95d60e718e400af4"
+  }
+]
